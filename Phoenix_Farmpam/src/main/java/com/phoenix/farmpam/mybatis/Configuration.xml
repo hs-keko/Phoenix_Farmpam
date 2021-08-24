@@ -5,10 +5,13 @@
 <configuration>
 	<!-- 자주 사용하는 type 의 별칭을 등록 해 놓고  Mapper xml 에서 사용할수 있다. -->
 	<typeAliases>
-	
+		<typeAlias type="com.phoenix.farmpam.board.dto.LikesDto" alias="likesDto"/>
 	</typeAliases>
 	<!-- 필요한 Mapper xml 등록하기  -->
 	<mappers>
-	
+		<mapper resource="com/phoenix/farmpam/mybatis/LikesMapper.xml"></mapper>
+		<mapper resource="com/phoenix/farmpam/mybatis/CartMapper.xml"></mapper>
+		<mapper resource="com/phoenix/farmpam/mybatis/OrdersMapper.xml"></mapper>
+		<mapper resource="com/phoenix/farmpam/mybatis/FarmOrderMapper.xml"></mapper>
 	</mappers>
 </configuration>
