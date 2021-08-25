@@ -32,4 +32,9 @@ public class HomeController {
 		return "home";
 	}
 	
+	
+	@RequestMapping("/index")
+	public String test() {
+		return "index.html";
+	}
 }
