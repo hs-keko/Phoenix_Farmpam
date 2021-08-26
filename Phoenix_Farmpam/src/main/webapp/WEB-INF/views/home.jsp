@@ -6,11 +6,30 @@
 <head>
 <meta charset="UTF-8">
 <title>/views/home.jsp</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 <body>
-<h1>
-	공지사항 
-</h1>
-<h2>${notice }</h2>
+<div class="container">
+	<h1>인덱스 페이지 입니다.</h1>
+	<ul>
+		<li><a href="${pageContext.request.contextPath}/board/list.do">게시글 목록 보기</a></li>
+	</ul>
+	<h2>공지사항</h2>
+	<ul>
+		<c:forEach var="tmp" items="${notice }">
+			<li>${tmp }</li>
+		</c:forEach>
+	</ul>
+</div>
+	
+</div>
 </body>
 </html>
+
+
+
+
+
+
+
+

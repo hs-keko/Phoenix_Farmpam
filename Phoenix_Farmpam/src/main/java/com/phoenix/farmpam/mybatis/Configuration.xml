@@ -5,10 +5,17 @@
 <configuration>
 	<!-- 자주 사용하는 type 의 별칭을 등록 해 놓고  Mapper xml 에서 사용할수 있다. -->
 	<typeAliases>
-	
+		<typeAlias type="com.phoenix.farmpam.board.dto.BoardDto" alias="boardDto"/>
+		<typeAlias type="com.phoenix.farmpam.item.dto.ItemCommentsDto" alias="itemCommentsDto"/>
+		<typeAlias type="com.phoenix.farmpam.item.dto.ItemDto" alias="itemDto"/>
+		<typeAlias type="com.phoenix.farmpam.item.dto.ItemCategoryTopDto" alias="itemCategoryTopDto"/>
+		<typeAlias type="com.phoenix.farmpam.item.dto.ItemCategoryLowDto" alias="itemCategoryLowDto"/>
+		<typeAlias type="com.phoenix.farmpam.follow.dto.FollowDto" alias="followDto"/>
 	</typeAliases>
 	<!-- 필요한 Mapper xml 등록하기  -->
 	<mappers>
-	
+		<mapper resource="com/phoenix/farmpam/mybatis/BoardMapper.xml"/>
+		<mapper resource="com/phoenix/farmpam/mybatis/ItemMapper.xml"/>
+		<mapper resource="com/phoenix/farmpam/mybatis/FollowMapper.xml"/>
 	</mappers>
 </configuration>

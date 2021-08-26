@@ -1,0 +1,96 @@
+package com.phoenix.farmpam.board.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.phoenix.farmpam.board.dao.BoardDao;
+import com.phoenix.farmpam.board.dto.BoardDto;
+import com.phoenix.farmpam.board.service.BoardService;
+
+@Controller
+public class BoardController {
+	@Autowired
+	private BoardService service;
+	
+	@RequestMapping("/board/list")
+	public String getList(HttpServletRequest request) {
+		service.getList(request);
+		
+		return "board/list";
+	}
+	
+	@RequestMapping("/board/insertform")
+	public ModelAndView authInsertForm(HttpServletRequest request) {
+		
+		return new ModelAndView("board/insertform");
+	}
+	
+	//imagePath 구성 X -> dto 로 imagePath 를 받아서 DB 에 저장하기
+	@RequestMapping(value = "/board/insert")
+	public ModelAndView authInsert(BoardDto dto, HttpServletRequest request) {
+		//dto : caption, imagePath 가지고 있다.
+		//request : dto 에 writer(id) 추가
+		service.saveContent(dto, request);
+		
+		return new ModelAndView("board/insert");
+	}		
+	
+	//imagePath 구성 X -> dto 로 imagePath 를 받아서 DB 에 저장하기
+	@RequestMapping(value = "/board/ajax_insert")
+	@ResponseBody
+	public Map<String, Object> authAjaxInsert(BoardDto dto, HttpServletRequest request) {
+		//dto : caption, imagePath 가지고 있다.
+		//request : dto 에 writer(id) 추가
+		service.saveContent(dto, request);
+		Map<String, Object> map=new HashMap<>();
+		map.put("isSuccess", true);
+		return map;
+	}	
+	//게시글의 num 이 parameter get 방식으로 넘어온다.
+	//이미지, 글 자세히 보기 요청 처리 (detail 페이지)
+	@RequestMapping(value = "/board/detail", method = RequestMethod.GET)
+	public ModelAndView detail(ModelAndView mView, @RequestParam int num) {
+		//갤러리 detail 페이지에 필요한 data를 num 으로 가져와, ModelAndView 에 저장
+		service.getDetail(mView, num);
+		mView.setViewName("board/detail");
+		
+		return mView;
+	}
+	
+	//카페글 삭제 요청 처리 
+	@RequestMapping("/board/delete")
+	public ModelAndView authDelete(@RequestParam int num, HttpServletRequest request) {
+		
+		service.deleteContent(num, request);
+		
+		return new ModelAndView("redirect:/board/list.do");
+	}
+	
+	@RequestMapping("/board/updateform")
+	public ModelAndView authUpdateForm(HttpServletRequest request) {
+		
+		service.getData(request);
+		
+		return  new ModelAndView("board/updateform");
+	}
+	//카페글 수정 요청 처리 
+	@RequestMapping(value = "/board/update", method = RequestMethod.POST)
+	public ModelAndView authUpdate(BoardDto dto, HttpServletRequest request) {
+		service.updateContent(dto);
+		return new ModelAndView("board/update");
+	}
+}
+
+
+
