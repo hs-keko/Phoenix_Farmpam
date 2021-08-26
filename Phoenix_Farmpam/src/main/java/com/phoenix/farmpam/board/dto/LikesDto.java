@@ -1,27 +1,19 @@
 package com.phoenix.farmpam.board.dto;
 
 public class LikesDto {
-	private int likes_idx;
 	private int board_idx;
 	private String users_email;
 	private String likes_check;
+	private int count; //좋아요가 눌린 상태인지 아닌지
 	
 	public LikesDto() {}
 
-	public LikesDto(int likes_idx, int board_idx, String users_email, String likes_check) {
+	public LikesDto(int board_idx, String users_email, String likes_check, int count) {
 		super();
-		this.likes_idx = likes_idx;
 		this.board_idx = board_idx;
 		this.users_email = users_email;
 		this.likes_check = likes_check;
-	}
-
-	public int getLikes_idx() {
-		return likes_idx;
-	}
-
-	public void setLikes_idx(int likes_idx) {
-		this.likes_idx = likes_idx;
+		this.count = count;
 	}
 
 	public int getBoard_idx() {
@@ -47,6 +39,14 @@ public class LikesDto {
 	public void setLikes_check(String likes_check) {
 		this.likes_check = likes_check;
 	}
-	
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	
 }

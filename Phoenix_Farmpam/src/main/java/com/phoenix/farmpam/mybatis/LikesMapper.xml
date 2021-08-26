@@ -4,9 +4,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="likes">
-	<insert id="insert" parameterType="likesDto">
+	
+	<!-- 좋아요 추가 -->
+	<insert id="likesinsert" parameterType="likesDto">
 		INSERT INTO likes
-		(likes_idx, board_idx, users_email, likes_check)
-		VALUES(likes_seq.NEXTVAL, )
+		(likes_idx, board_idx, users_email)
+		VALUES(likes_seq.NEXTVAL,#{board_idx}, #{users_email})
 	</insert>
+	<update id="likesup" parameterType="boardDto">
+		UPDATE board
+		SET board_likes = board_likes+1
+		WHERE board_idx=#{board_idx}
+	</update>
+	
+	<!-- 좋아요 해제  -->
+	<delete id="likesdelete" parameterType="likesDto">
+		DELETE FROM likes
+		WHERE board_idx=#{board_idx} AND users_email=#{users_email}
+	</delete>
+	<update id="likesdown" parameterType="boardDto">
+		UPDATE board
+		SET board_likes = board_likes-1
+		WHERE board_idx=#{board_idx}
+	</update>
+	
+	<!-- 좋아요 추가/해제시 좋아요 갯수 가져오기 -->
+	<select id="likescount" parameterType="boardDto" resultType="boardDto">
+		SELECT board_likes
+		FROM board
+		WHERE board_idx=#{board_idx}
+	</select>
 </mapper>
