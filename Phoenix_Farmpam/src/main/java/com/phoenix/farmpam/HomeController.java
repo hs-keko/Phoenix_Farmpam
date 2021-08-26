@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HomeController {
-	
 	/*
 	 *  "/home.do" 요청이 왔을때 이 메소드로 요청으로 처리하기 
 	 *  
