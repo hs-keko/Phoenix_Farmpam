@@ -22,6 +22,13 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
+	// 좋아요 테스트 페이지 요청
+	@RequestMapping(value = "/board/test_likes")
+	public String testlikesform() {
+		
+		return "board/test_likes";
+	}
+	
 	// 좋아요 안된 상태에서 클릭시 좋아요 저장
 	@ResponseBody
 	@RequestMapping(value = "/board/saveLikes", method = RequestMethod.POST)
