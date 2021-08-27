@@ -11,9 +11,10 @@
 		(users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone)
 		VALUES(#{users_email}, #{users_pwd }, #{users_name }, #{users_addr }, #{users_addr_detail }, #{users_phone}) 
 	</insert>
-		<select id="getData" parameterType="string" resultType="usersDto">
-		SELECT users_email, users_pwd, users_name, users_addr, profile, regdate
-		FROM users
-		WHERE id=#{id }
+	<select id="getData" parameterType="string" 
+	 resultType="com.phoenix.farmpam.users.dto.UsersDto">
+		SELECT users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone, users_profile, users_ban
+		FROM new_users
+		WHERE users_email=#{users_email }
 	</select>
 </mapper>

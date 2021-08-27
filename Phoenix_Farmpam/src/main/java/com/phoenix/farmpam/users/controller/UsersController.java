@@ -1,7 +1,9 @@
 package com.phoenix.farmpam.users.controller;
 
+import java.net.URLEncoder;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +23,36 @@ public class UsersController {
 	@Autowired
 	private UsersService service;
 	
-	//로그인 폼 요청처리
+	//ID라는 키값으로 저장된 값 삭제 (로그아웃 기능)
+	@RequestMapping("/users/logout")
+	public String logout(HttpSession session) {
+		//세션에서 users_email이라는 키값으로 저장된 값 삭제
+		session.removeAttribute("users_email");
+		return "users/logout";
+	}
+	
+	//로그인 폼 요청 처리
 	@RequestMapping("/users/loginform")
 	public String loginform() {
+		
 		return "users/loginform";
 	}
 	
-	//로그인 요청처리
+	//로그인 요청 처리
 	@RequestMapping("/users/login")
 	public ModelAndView login(ModelAndView mView, UsersDto dto,
 			@RequestParam String url, HttpSession session) {
+		/*
+		 *  서비스에서 비즈니스 로직을 처리할때 필요로  하는 객체를 컨트롤러에서 직접 전달을 해 주어야 한다.
+		 *  주로, HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView
+		 *  등등의 객체 이다. 
+		 */
+		service.loginProcess(dto, session);
+		
+		String encodedUrl=URLEncoder.encode(url);
+		mView.addObject("url", url);
+		mView.addObject("encodedUrl", encodedUrl);
+		
 		mView.setViewName("users/login");
 		return mView;
 	}
@@ -42,13 +64,13 @@ public class UsersController {
 		mView.setViewName("users/signup");
 		return mView;	
 	}
-	
+
 	//before창 가입하기 전 분류하기
 	@RequestMapping(value = "/users/signup_before", method = RequestMethod.GET)
 	public String signupBefore() {
 		return "users/signup_before";
 	}
-	
+
 	//이메일 중복확인을 해서 json 문자열로 리턴해주는 메소드
 	@RequestMapping("/users/checkusersemail")
 	@ResponseBody
@@ -56,7 +78,7 @@ public class UsersController {
 		//usersService가 리턴해주는 map을 리턴해서 json 문자열을 응답함
 		return service.isExistEmail(inputUsersEmail);
 	}
-	
+
 	//회원가입폼 요청처리
 	@RequestMapping(value = "/users/signup_form", method = RequestMethod.GET)
 	public String signupForm() {

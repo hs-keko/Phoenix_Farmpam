@@ -30,8 +30,9 @@ public class UsersDaoImpl implements UsersDao {
 
 	@Override
 	public UsersDto getData(String users_email) {
-		
+
 		return session.selectOne("users.getData", users_email);
 	}
+
 
 }

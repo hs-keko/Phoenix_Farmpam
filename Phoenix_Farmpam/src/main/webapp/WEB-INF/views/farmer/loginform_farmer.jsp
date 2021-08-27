@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/users/loginform.jsp</title>
+<title>/farmer/loginform_farmer.jsp</title>
 </head>
 <body>
 <div class="container">
 	<h1> 일반유저 로그인 </h1>
-	<form action="${pageContext.request.contextPath}/users/login.do" method="post">
+	<form action="${pageContext.request.contextPath}/farmer/login_farmer.do" method="post">
 		<c:choose>
 			<c:when test="${ empty param.url }">
 				<input type="hidden" name="url" value="${pageContext.request.contextPath}/"/>
@@ -20,12 +20,12 @@
 			</c:otherwise>
 		</c:choose>
 		<div>
-			<label for="users_email">아이디</label>
-			<input type="text" name="users_email" id="users_email"/>
+			<label for="farmer_email">아이디</label>
+			<input type="text" name="farmer_email" id="farmer_email"/>
 		</div>
 		<div>
-			<label for="users_pwd">비밀번호</label>
-			<input type="password" name="users_pwd" id="users_pwd"/>
+			<label for="farmer_pwd">비밀번호</label>
+			<input type="password" name="farmer_pwd" id="farmer_pwd"/>
 		</div>
 		<button type="submit">로그인</button>
 	</form>

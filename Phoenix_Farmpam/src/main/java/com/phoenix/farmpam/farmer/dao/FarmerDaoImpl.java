@@ -26,6 +26,12 @@ public class FarmerDaoImpl implements FarmerDao {
 	@Override
 	public void insert(FarmerDto dto) {
 		session.insert("farmer.insert", dto);
-		
+
+	}
+
+	@Override
+	public FarmerDto getData(String farmer_email) {
+
+		return session.selectOne("farmer.getData", farmer_email);
 	}
 }
