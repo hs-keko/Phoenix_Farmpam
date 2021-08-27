@@ -34,5 +34,4 @@ public class UsersDaoImpl implements UsersDao {
 		return session.selectOne("users.getData", users_email);
 	}
 
-
 }

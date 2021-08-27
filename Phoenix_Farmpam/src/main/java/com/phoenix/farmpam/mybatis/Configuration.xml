@@ -9,11 +9,13 @@
 		<typeAlias type="com.phoenix.farmpam.board.dto.BoardDto" alias="boardDto"/>
 		<typeAlias type="com.phoenix.farmpam.users.dto.UsersDto" alias="usersDto"/>
 		<typeAlias type="com.phoenix.farmpam.farmer.dto.FarmerDto" alias="FarmerDto"/>
+		<typeAlias type="com.phoenix.farmpam.farmer.dto.FollowDto" alias="followDto"/>
 	</typeAliases>
 	<!-- 필요한 Mapper xml 등록하기  -->
 	<mappers>
 		<mapper resource="com/phoenix/farmpam/mybatis/LikesMapper.xml"></mapper>
 		<mapper resource="com/phoenix/farmpam/mybatis/UsersMapper.xml"/>
 		<mapper resource="com/phoenix/farmpam/mybatis/FarmerMapper.xml"/>
+		<mapper resource="com/phoenix/farmpam/mybatis/FollowMapper.xml"/>
 	</mappers>
 </configuration>

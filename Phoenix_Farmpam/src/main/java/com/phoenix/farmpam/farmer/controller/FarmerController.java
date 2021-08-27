@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.farmer.Service.FarmerService;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
+import com.phoenix.farmpam.farmer.dto.FollowDto;
 import com.phoenix.farmpam.users.dto.UsersDto;
 import com.phoenix.farmpam.users.service.UsersService;
 
@@ -23,6 +24,46 @@ public class FarmerController {
 	
 	@Autowired
 	private FarmerService service;
+
+	// 농장주 팔로우하기 테스트 페이지 요청
+	@RequestMapping(value = "/farmer/test_follow")
+	public String testFollow() {
+		
+		return "farmer/test_follow";
+	}
+	
+	
+	// 농장주 된 상태에서 클릭시 팔로우 해제
+	@ResponseBody
+	@RequestMapping(value = "/farmer/removeFollow")
+	public FarmerDto removeFollow(@RequestParam String farmer_email, HttpSession session) {
+			
+		FollowDto followDto = new FollowDto();
+		// 팔로우할 농장주의 이메일 셋팅
+		followDto.setFarmer_email(farmer_email);
+		// 팔로우 누른 유저의 이메일을 세션에서 얻어내기
+		String users_email=(String)session.getAttribute("email");
+		// FollowDto 객체에 유저 이메일 담기
+		followDto.setUsers_email(users_email);
+		// +1된 팔로우 수를 담아오기 위함
+		return service.followDelete(followDto);
+	}
+	
+	// 농장주 팔로우 안된 상태에서 클릭시 팔로우 추가
+	@ResponseBody
+	@RequestMapping(value = "/farmer/saveFollow")
+	public FarmerDto saveFollow(@RequestParam String farmer_email, HttpSession session) {
+		
+		FollowDto followDto = new FollowDto();
+		// 팔로우할 농장주의 이메일 셋팅
+		followDto.setFarmer_email(farmer_email);
+		// 팔로우 누른 유저의 이메일을 세션에서 얻어내기
+		String users_email=(String)session.getAttribute("email");
+		// FollowDto 객체에 유저 이메일 담기
+		followDto.setUsers_email(users_email);
+		// +1된 팔로우 수를 담아오기 위함
+		return service.followInsert(followDto);
+	}
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/farmer/loginform_farmer")

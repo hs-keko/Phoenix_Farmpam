@@ -20,7 +20,8 @@
 			<p>
 				<a href="${pageContext.request.contextPath}/farmer/info.do">${sessionScope.farmer_email }</a> 로그인중... 
 				<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
-				<a href="${pageContext.request.contextPath}/board/test_likes.do"">좋아요 테스트</a>
+				<a href="${pageContext.request.contextPath}/board/test_likes.do">좋아요 테스트</a>
+				<a href="${pageContext.request.contextPath}/farmer/test_follow.do">팔로우 테스트</a>
 			</p>
 		</c:otherwise>
 	</c:choose>

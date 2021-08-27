@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.phoenix.farmpam.farmer.dao.FarmerDao;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
-import com.phoenix.farmpam.users.dto.UsersDto;
+import com.phoenix.farmpam.farmer.dto.FollowDto;
 
 @Service
 public class FarmerServiceImpl implements FarmerService {
@@ -62,6 +62,26 @@ public class FarmerServiceImpl implements FarmerService {
 			//로그인 처리를 한다.
 			session.setAttribute("email", dto.getFarmer_email());
 		}
+	}
+	
+	// 팔로우 추가
+	@Override
+	public FarmerDto followInsert(FollowDto followDto) {
+		// farmer 테이블에 해당 농장주의 팔로우 수를 +1 하기 위한 FarmerDto 셋팅
+		FarmerDto farmerDto = new FarmerDto();
+		farmerDto.setFarmer_email(followDto.getFarmer_email());
+		// DB에서 팔로우 추가 작업을 하고 FarmerDto 리턴
+		return dao.followInsert(farmerDto, followDto);
+	}
+
+	// 팔로우 해제
+	@Override
+	public FarmerDto followDelete(FollowDto followDto) {
+		// farmer 테이블에 해당 농장주의 팔로우 수를 -1 하기 위한 FarmerDto 셋팅
+		FarmerDto farmerDto = new FarmerDto();
+		farmerDto.setFarmer_email(followDto.getFarmer_email());
+		// DB에서 팔로우 해제 작업을 하고 FarmerDto 리턴
+		return dao.followDelete(farmerDto, followDto);
 	}
 
 }

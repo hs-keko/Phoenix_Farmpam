@@ -24,7 +24,7 @@ public class BoardController {
 	
 	// 좋아요 테스트 페이지 요청
 	@RequestMapping(value = "/board/test_likes")
-	public String testlikesform() {
+	public String testLikes() {
 		
 		return "board/test_likes";
 	}
@@ -33,6 +33,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/board/saveLikes", method = RequestMethod.POST)
 	public BoardDto saveLikes(@RequestParam int board_idx, HttpSession session) {
+		
 		LikesDto likesDto = new LikesDto();
 		// 게시물 번호 세팅
 		likesDto.setBoard_idx(board_idx);
