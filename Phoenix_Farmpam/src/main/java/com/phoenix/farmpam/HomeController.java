@@ -30,7 +30,5 @@ public class HomeController {
 	public String vue() {
 		return "index";
 	}
-	
-	
-	
+
 }
