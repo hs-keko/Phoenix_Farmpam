@@ -17,7 +17,7 @@
 .ionide
 
 ### Eclipse ###
-.metadata
+
 bin/
 tmp/
 *.tmp
