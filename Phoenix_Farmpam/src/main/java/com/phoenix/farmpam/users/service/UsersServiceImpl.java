@@ -61,7 +61,18 @@ public class UsersServiceImpl implements UsersService {
 		
 		if(isValid) {//만일 유효한 정보이면 
 			//로그인 처리를 한다.
-			session.setAttribute("users_email", dto.getUsers_email());
+			session.setAttribute("email", dto.getUsers_email());
 		}
+	}
+
+	@Override
+	public void getInfo(HttpSession session, ModelAndView mView) {
+		// 로그인된 이메일을 읽어온다.
+		String users_email=(String)session.getAttribute("email");
+		// DB에서 회원 정보를 얻어와서
+		UsersDto dto = dao.getData(users_email);
+		// ModelAndView 객체에 담아준다.
+		mView.addObject("dto", dto);
+		
 	}
 }

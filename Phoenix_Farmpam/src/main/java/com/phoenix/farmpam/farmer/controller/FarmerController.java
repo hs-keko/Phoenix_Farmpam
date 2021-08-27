@@ -24,6 +24,14 @@ public class FarmerController {
 	@Autowired
 	private FarmerService service;
 	
+	//로그아웃 요청 처리
+	@RequestMapping("/farmer/logout")
+	public String logout(HttpSession session) {
+		//세션에서 users_email 키값으로 저장된 값을 삭제
+		session.removeAttribute("farmer_email");
+		return "farmer/logout";
+	}
+	
 	//로그인 폼 요청 처리
 	@RequestMapping("/farmer/loginform_farmer")
 	public String loginform() {

@@ -23,11 +23,20 @@ public class UsersController {
 	@Autowired
 	private UsersService service;
 	
+	@RequestMapping("/users/private/info")
+	public ModelAndView info(HttpSession session, ModelAndView mView) {
+		
+		service.getInfo(session, mView);
+		
+		mView.setViewName("users/info");
+		return mView;
+	}
+	
 	//ID라는 키값으로 저장된 값 삭제 (로그아웃 기능)
 	@RequestMapping("/users/logout")
 	public String logout(HttpSession session) {
 		//세션에서 users_email이라는 키값으로 저장된 값 삭제
-		session.removeAttribute("users_email");
+		session.removeAttribute("email");
 		return "users/logout";
 	}
 	

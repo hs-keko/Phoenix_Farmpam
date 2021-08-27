@@ -60,7 +60,7 @@ public class FarmerServiceImpl implements FarmerService {
 		
 		if(isValid) {//만일 유효한 정보이면 
 			//로그인 처리를 한다.
-			session.setAttribute("farmer_email", dto.getFarmer_email());
+			session.setAttribute("email", dto.getFarmer_email());
 		}
 	}
 
