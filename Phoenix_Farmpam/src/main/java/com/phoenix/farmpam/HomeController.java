@@ -26,6 +26,7 @@ public class HomeController {
 		return "home";
 	}
 	
+	
 	@RequestMapping("/index")
 	public String vue() {
 		return "index";
