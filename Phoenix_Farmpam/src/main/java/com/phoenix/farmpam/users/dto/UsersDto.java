@@ -9,11 +9,13 @@ public class UsersDto {
 	private String users_phone;
 	private String users_profile;
 	private String users_ban;
+	private String users_regdate;
 	
 	public UsersDto() {}
 
 	public UsersDto(String users_email, String users_pwd, String users_name, String users_addr,
-			String users_addr_detail, String users_phone, String users_profile, String users_ban) {
+			String users_addr_detail, String users_phone, String users_profile, String users_ban,
+			String users_regdate) {
 		super();
 		this.users_email = users_email;
 		this.users_pwd = users_pwd;
@@ -23,6 +25,7 @@ public class UsersDto {
 		this.users_phone = users_phone;
 		this.users_profile = users_profile;
 		this.users_ban = users_ban;
+		this.users_regdate = users_regdate;
 	}
 
 	public String getUsers_email() {
@@ -89,5 +92,12 @@ public class UsersDto {
 		this.users_ban = users_ban;
 	}
 
-	
+	public String getUsers_regdate() {
+		return users_regdate;
+	}
+
+	public void setUsers_regdate(String users_regdate) {
+		this.users_regdate = users_regdate;
+	}
+
 }

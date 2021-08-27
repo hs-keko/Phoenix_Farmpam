@@ -11,4 +11,10 @@
 		(farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone)
 		VALUES(#{farmer_email}, #{farmer_pwd }, #{farmer_name }, #{farmer_addr }, #{farmer_addr_detail }, #{farmer_phone}) 
 	</insert>
+	<select id="getData" parameterType="string" 
+	 resultType="com.phoenix.farmpam.farmer.dto.FarmerDto">
+		SELECT farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_profile, farmer_follow, farmer_intro, farmer_ban
+		FROM farmer
+		WHERE farmer_email=#{farmer_email }
+	</select>
 </mapper>

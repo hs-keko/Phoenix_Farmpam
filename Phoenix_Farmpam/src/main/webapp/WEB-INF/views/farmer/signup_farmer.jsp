@@ -11,7 +11,7 @@
 <div id="container">
 	<p>
 		<strong>${param.farmer_email }</strong> 회원님, 가입을 진심으로 환영합니다!
-		<a href="${pageContext.request.contextPath }/users/loginform.do">로그인 하러 바로가기</a>
+		<a href="${pageContext.request.contextPath }/farmer/loginform_farmer.do">로그인 하러 바로가기</a>
 	</p>
 </div>
 </body>
