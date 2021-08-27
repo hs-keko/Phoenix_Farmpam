@@ -14,6 +14,7 @@ public class UsersDaoImpl implements UsersDao {
 	
 	@Override
 	public boolean isExist(String inputUsersEmail) {
+		System.out.println(inputUsersEmail);
 		//이메일이 존재하는지 여부
 		String users_email=session.selectOne("users.isExist", inputUsersEmail);
 		if(users_email==null) {

@@ -1,5 +1,6 @@
 package com.phoenix.farmpam.users.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -41,6 +42,17 @@ public class UsersController {
 		service.addUser(dto);
 		mView.setViewName("users/signup");
 		return mView;	
+	}
+	
+	// VUE axios test
+	@RequestMapping(value="/users/vue/signup", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> Apisignup(ModelAndView mView, UsersDto dto) {
+		System.out.println(dto);
+		service.addUser(dto);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("isSuccess",true);
+		return map;
 	}
 	
 	//before창 가입하기 전 분류하기
