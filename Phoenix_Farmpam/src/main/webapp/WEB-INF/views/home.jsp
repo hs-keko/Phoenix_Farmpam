@@ -10,6 +10,8 @@
 </head>
 <body>
 <div class="container">
+<h1><a href="${pageContext.request.contextPath}/index.do">Vue 페이지로</a></h1>
+
 	<c:choose>
 		<c:when test="${empty sessionScope.email}">
 			<a href="${pageContext.request.contextPath}/users/loginform.do">유저 로그인</a>
