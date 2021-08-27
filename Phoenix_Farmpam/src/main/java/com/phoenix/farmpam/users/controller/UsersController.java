@@ -75,17 +75,6 @@ public class UsersController {
 		return mView;	
 	}
 
-	// VUE axios test
-	@RequestMapping(value="/users/vue/signup", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> Apisignup(ModelAndView mView, UsersDto dto) {
-		System.out.println(dto);
-		service.addUser(dto);
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("isSuccess",true);
-		return map;
-	}
-
 	//before창 가입하기 전 분류하기
 	@RequestMapping(value = "/users/signup_before", method = RequestMethod.GET)
 	public String signupBefore() {
