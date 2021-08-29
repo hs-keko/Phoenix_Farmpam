@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.board.dto.BoardDto;
+import com.phoenix.farmpam.board.dto.LikesDto;
 
 public interface BoardService {
 	public void getList(HttpServletRequest request);

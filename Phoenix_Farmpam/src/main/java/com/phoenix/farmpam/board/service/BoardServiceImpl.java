@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import org.apache.ibatis.session.SqlSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.phoenix.farmpam.board.dao.BoardDao;
 import com.phoenix.farmpam.board.dto.BoardDto;
 import com.phoenix.farmpam.exception.NotDeleteException;
+import com.phoenix.farmpam.board.dao.LikesDao;
+import com.phoenix.farmpam.board.dto.LikesDto;
 
 @Service 
 public class BoardServiceImpl implements BoardService{
@@ -269,6 +272,4 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	
-	
-
 }
