@@ -142,11 +142,11 @@ public class BoardController {
 		
 		service.saveComment(request);
 	
-		return new ModelAndView("redirect:/board/detail.do?comments_idx="+comments_ref_group);
+		return new ModelAndView("redirect:/board/detail.do?board_idx="+comments_ref_group);
 	}
 	//댓글 더보기 요청 처리
 	@RequestMapping("/board/ajax_comment_list")
-	public String ajaxCommentList(HttpServletRequest request) {
+	public String authajaxCommentList(HttpServletRequest request) {
 		
 		service.moreCommentList(request);
 		
