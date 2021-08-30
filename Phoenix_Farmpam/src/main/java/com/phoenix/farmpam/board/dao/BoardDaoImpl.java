@@ -32,8 +32,8 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public BoardDto getData(int num) {
-		return session.selectOne("board.getData", num);
+	public BoardDto getData(int board_idx) {
+		return session.selectOne("board.getData", board_idx);
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public void delete(int num) {
-		session.delete("board.delete", num);
+	public void delete(int board_idx) {
+		session.delete("board.delete", board_idx);
 		
 	}
 

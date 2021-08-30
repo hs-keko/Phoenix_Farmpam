@@ -12,11 +12,11 @@ public interface BoardDao {
 	//글 추가
 	public void insert(BoardDto dto);
 	//글정보 얻어오기
-	public BoardDto getData(int num);
+	public BoardDto getData(int board_idx);
 	//키워드를 활용한 글정보 얻어오기
 	public BoardDto getData2(BoardDto dto);
 	//글 삭제
-	public void delete(int num);
+	public void delete(int board_idx);
 	//글 수정
 	public void update(BoardDto dto);
 	

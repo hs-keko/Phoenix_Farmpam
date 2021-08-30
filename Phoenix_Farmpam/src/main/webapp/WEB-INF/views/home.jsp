@@ -22,6 +22,7 @@
 			<p>
 				<a href="${pageContext.request.contextPath}/users/private/info.do">${sessionScope.email }</a> 유저 로그인중...
 				<a href="${pageContext.request.contextPath}/farmer/private/info.do">${sessionScope.email }</a> 농장주 로그인중...  
+				<a href="${pageContext.request.contextPath}/board/list.do">카페글 목록 보기</a>
 				<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 			</p>
 		</c:otherwise>

@@ -97,12 +97,12 @@ public class BoardController {
 		map.put("isSuccess", true);
 		return map;
 	}	
-	//게시글의 num 이 parameter get 방식으로 넘어온다.
+	//게시글의 board_idx 이 parameter get 방식으로 넘어온다.
 	//이미지, 글 자세히 보기 요청 처리 (detail 페이지)
 	@RequestMapping(value = "/board/detail", method = RequestMethod.GET)
-	public ModelAndView detail(ModelAndView mView, @RequestParam int num) {
-		//갤러리 detail 페이지에 필요한 data를 num 으로 가져와, ModelAndView 에 저장
-		service.getDetail(mView, num);
+	public ModelAndView detail(ModelAndView mView, @RequestParam int board_idx) {
+		//게시판 detail 페이지에 필요한 data를 board_idx 으로 가져와, ModelAndView 에 저장
+		service.getDetail(mView, board_idx);
 		mView.setViewName("board/detail");
 		
 		return mView;
@@ -110,9 +110,9 @@ public class BoardController {
 	
 	//카페글 삭제 요청 처리 
 	@RequestMapping("/board/delete")
-	public ModelAndView authDelete(@RequestParam int num, HttpServletRequest request) {
+	public ModelAndView authDelete(@RequestParam int board_idx, HttpServletRequest request) {
 		
-		service.deleteContent(num, request);
+		service.deleteContent(board_idx, request);
 		
 		return new ModelAndView("redirect:/board/list.do");
 	}

@@ -3,15 +3,15 @@
 <mapper namespace="board">
 	<sql id="searchCondition">
 		<choose>
-			<when test="title != null and content != null">
-				WHERE title LIKE '%'||#{title}||'%' 
-				OR content LIKE '%'||#{content}||'%'
+			<when test="board_title != null and board_content != null">
+				WHERE board_title LIKE '%'||#{board_title}||'%' 
+				OR board_content LIKE '%'||#{board_content}||'%'
 			</when>
-			<when test="title != null">
-				WHERE title LIKE '%'||#{title}||'%'
+			<when test="board_title != null">
+				WHERE board_title LIKE '%'||#{board_title}||'%'
 			</when>
-			<when test="writer != null">
-				WHERE writer LIKE '%'||#{writer}||'%'
+			<when test="board_writer != null">
+				WHERE board_writer LIKE '%'||#{board_writer}||'%'
 			</when>
 		</choose>
 	</sql>
