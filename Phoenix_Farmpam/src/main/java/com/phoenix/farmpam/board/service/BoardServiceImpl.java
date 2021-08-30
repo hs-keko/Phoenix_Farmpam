@@ -256,6 +256,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		//댓글 작성자는 session 영역에서 얻어내기
 		String comments_writer=(String)request.getSession().getAttribute("email");
+	
 		//댓글의 시퀀스 번호 미리 얻어내기
 		int seq=boardCommentsDao.getSequence();
 		//저장할 댓글의 정보를 dto 에 담기

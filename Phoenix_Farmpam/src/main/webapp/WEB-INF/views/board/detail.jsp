@@ -185,17 +185,17 @@
 										<pre id="pre${tmp.comments_idx }">${tmp.comments_content }</pre>						
 									</dd>
 								</dl>
-								<form id="reForm${tmp.comments_idx }" class="animate__animated comment-form re-insert-form" action="private/comment_insert.do" method="post">
-									<input type="hidden" name="comments_ref_group" value="${tmp.comments_idx }"/>
+								<form id="reForm${tmp.comments_idx }" class="animate__animated comment-form re-insert-form" action="comment_insert.do" method="post">
+									<input type="hidden" name="comments_ref_group" value="${dto.board_idx }"/>
 									<input type="hidden" name="comments_target_id" value="${tmp.comments_writer }"/>
 									<input type="hidden" name="comments_group" value="${tmp.comments_group }"/>
 									<textarea name="content"></textarea>
 									<button type="submit">등록</button>
 								</form>
 							<c:if test="${tmp.comments_writer eq users_email }">
-								<form id="updateForm${tmp.comments_idx }" class="comment-form update-form" action="private/comment_update.do" method="post">
+								<form id="updateForm${tmp.comments_idx }" class="comment-form update-form" action="comment_update.do" method="post">
 									<input type="hidden" name="comments_idx" value="${tmp.comments_idx }" />
-									<textarea name="comments_content">${tmp.comments_content }</textarea>
+									<textarea name="content">${tmp.comments_content }</textarea>
 									<button type="submit">수정</button>
 								</form>
 							</c:if>
@@ -213,7 +213,7 @@
 	</div>
 	
 	<!-- 원글에 댓글을 작성할 폼 -->
-	<form class="comment-form insert-form" action="private/comment_insert.do" method="post">
+	<form class="comment-form insert-form" action="comment_insert.do" method="post">
 		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
 		<input type="hidden" name="comments_ref_group" value="${dto.board_idx }"/>
 		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
@@ -336,7 +336,7 @@
 				const isDelete=confirm("댓글을 삭제 하시겠습니까?");
 				if(isDelete){
 					// gura_util.js 에 있는 함수들 이용해서 ajax 요청
-					ajaxPromise("private/comment_delete.do", "post", "num="+num)
+					ajaxPromise("comment_delete.do", "post", "num="+num)
 					.then(function(response){
 						return response.json();
 					})
@@ -362,7 +362,7 @@
 					const isMove=confirm("로그인이 필요 합니다. 로그인 페이지로 이동 하시겠습니까?");
 					if(isMove){
 						location.href=
-							"${pageContext.request.contextPath}/users/loginform.do?url=${pageContext.request.contextPath}/board/detail.jsp?board_idx=${dto.board_idx}";
+							"${pageContext.request.contextPath}/users/loginform.do?url=${pageContext.request.contextPath}/board/detail.do?board_idx=${dto.board_idx}";
 					}
 					return;
 				}
@@ -428,15 +428,7 @@
 				});
 			});
 		}
-
 	}
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
