@@ -18,12 +18,12 @@
 	<h1>새글 작성 폼</h1>
 	<form action="insert.do" method="post" id="insertForm">
 		<div class="mb-3">
-			<label class="form-label" for="title">제목</label>
-			<input class="form-control" type="text" name="title" id="title"/>
+			<label class="form-label" for="board_title">제목</label>
+			<input class="form-control" type="text" name="board_title" id="board_title"/>
 		</div>
 		<div class="mb-3">
-			<label class="form-label" for="content">내용</label>
-			<textarea class="form-control"  name="content" id="content"></textarea>
+			<label class="form-label" for="board_content">내용</label>
+			<textarea class="form-control"  name="board_content" id="board_content"></textarea>
 		</div>
 		<button class="btn btn-primary" type="submit">저장</button>
 	</form>
@@ -52,7 +52,7 @@
 	
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
-		elPlaceHolder: "content",
+		elPlaceHolder: "board_content",
 		sSkinURI: "${pageContext.request.contextPath}/SmartEditor/SmartEditor2Skin.html",	
 		htParams : {
 			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -72,11 +72,11 @@
 	
 	function pasteHTML() {
 		var sHTML = "<span style='color:#FF0000;'>이미지도 같은 방식으로 삽입합니다.<\/span>";
-		oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
+		oEditors.getById["board_content"].exec("PASTE_HTML", [sHTML]);
 	}
 	
 	function showHTML() {
-		var sHTML = oEditors.getById["content"].getIR();
+		var sHTML = oEditors.getById["board_content"].getIR();
 		alert(sHTML);
 	}
 
@@ -84,21 +84,21 @@
 	function setDefaultFont() {
 		var sDefaultFont = '궁서';
 		var nFontSize = 24;
-		oEditors.getById["content"].setDefaultFont(sDefaultFont, nFontSize);
+		oEditors.getById["board_content"].setDefaultFont(sDefaultFont, nFontSize);
 	}
 	
 	//폼에 submit 이벤트가 일어났을때 실행할 함수 등록
 	document.querySelector("#insertForm")
 		.addEventListener("submit", function(e){
 			//에디터에 입력한 내용이 textarea 의 value 값이 될수 있도록 변환한다. 
-			oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+			oEditors.getById["board_content"].exec("UPDATE_CONTENTS_FIELD", []);
 			//textarea 이외에 입력한 내용을 여기서 검증하고 
-			const title=document.querySelector("#title").value;
+			const board_title=document.querySelector("#board_title").value;
 			
 			//만일 폼 제출을 막고 싶으면  
 			//e.preventDefault();
 			//을 수행하게 해서 폼 제출을 막아준다.
-			if(title.length < 5){
+			if(board_title.length < 5){
 				alert("제목을 5글자 이상 입력하세요!");
 				e.preventDefault();
 			}

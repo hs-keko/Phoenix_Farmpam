@@ -9,11 +9,13 @@
 			(SELECT result1.*, ROWNUM AS rnum
 			FROM
 				(SELECT comments_idx, comments_writer, comments_content, comments_target_id, comments_ref_group,
-					comments_group, comments_deleted, comments_ban, comments_regdate, profile
+					comments_group, comments_deleted, comments_ban, comments_regdate, users_profile, farmer_profile
 				FROM comments 
 				INNER JOIN new_users
 				ON comments.comments_writer=new_users.users_email
-				WHERE ref_group=#{ref_group}
+				INNER JOIN farmer
+				ON comments.comments_writer=farmer.farmer_email
+				WHERE comments_ref_group=#{comments_ref_group}
 				ORDER BY comments_group ASC, comments_idx ASC) result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}	
 	</select>
@@ -46,8 +48,12 @@
 	<!-- join문 추가해야 함 -->
 	<select id="getData" parameterType="int" resultType="boardCommentsDto">
 		SELECT comments_idx, comments_writer, comments_content, comments_target_id, comments_ref_group,
-					comments_group, comments_deleted, comments_ban, comments_regdate, profile
+					comments_group, comments_deleted, comments_ban, comments_regdate, users_profile, farmer_profile
 		FROM comments
+		INNER JOIN new_users
+		ON comments.comments_writer=new_users.users_email
+		INNER JOIN farmer
+		ON comments.comments_writer=farmer.farmer_email
 		WHERE comments_idx=#{comments_idx}
 	</select>
 	

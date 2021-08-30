@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +24,7 @@ public interface BoardService {
 	//갤러리에 사진 저장하기 - ajax
 	public Map<String, Object> uploadAjaxImage(BoardDto dto, HttpServletRequest request);
 	//board에 사진이랑 게시글  upload & DB 저장하기
-	public void saveContent(BoardDto dto, HttpServletRequest request);
+	public void saveContent(BoardDto dto);
 	//갤러리에 사진 저장하기 - db에만 저장(upload 작업은 이미 완료)
 	public void insertImage(BoardDto dto, HttpServletRequest request);
 	public void saveComment(HttpServletRequest request);//댓글 저장 

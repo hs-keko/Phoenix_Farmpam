@@ -24,7 +24,7 @@ public class AuthAspect {
 				//찾았으면 원래 type 으로 casting
 				HttpServletRequest request=(HttpServletRequest)tmp;
 				//HttpSession 객체의 참조값 얻어와서 로그인 여부를 알아낸다.
-				String users_email=(String)request.getSession().getAttribute("users_email");
+				String users_email=(String)request.getSession().getAttribute("email");
 				if(users_email == null) {//만일 로그인을 하지 않았으면
 					
 					//원래 가려던 url 정보 읽어오기
@@ -65,7 +65,7 @@ public class AuthAspect {
 				//찾았으면 원래 type 으로 casting
 				HttpServletRequest request=(HttpServletRequest)tmp;
 				//HttpSession 객체의 참조값 얻어와서 로그인 여부를 알아낸다.
-				String users_email=(String)request.getSession().getAttribute("users_email");
+				String users_email=(String)request.getSession().getAttribute("email");
 				if(users_email == null) {//만일 로그인을 하지 않았으면
 					//예외를 발생 시켜서 정상적인 응답을 받을수 없도록 한다.
 					throw new RuntimeException("로그인이 필요 합니다.");
@@ -78,6 +78,7 @@ public class AuthAspect {
 		
 		return obj;
 	}
+	
 }
 
 

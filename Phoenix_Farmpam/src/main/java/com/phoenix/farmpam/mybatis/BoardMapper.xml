@@ -38,8 +38,9 @@
 	
 	<insert id="insert" parameterType="boardDto">
 		INSERT INTO board
-		(board_idx, board_writer, board_title, board_content, board_image, board_regdate, board_likes, item_idx)
-		VALUES(board_seq.NEXTVAL, #{board_writer}, #{board_image}, SYSDATE)
+		(board_idx, board_writer, board_title, board_content, board_regdate)
+		VALUES(board_seq.NEXTVAL, #{board_writer}, #{board_title}, 
+			#{board_content}, SYSDATE)
 	</insert>
 	
 	<select id="getData" parameterType="int" resultType="boardDto">

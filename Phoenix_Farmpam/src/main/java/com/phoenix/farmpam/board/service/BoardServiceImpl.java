@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +126,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void deleteContent(int board_idx, HttpServletRequest request) {
 		//세션에서 로그인된 아이디를 읽어와서
-		String users_email=(String)request.getSession().getAttribute("users_email");
+		String users_email=(String)request.getSession().getAttribute("email");
 		//삭제할 글의 작성자
 		String board_writer=boardDao.getData(board_idx).getBoard_writer();
 		//만일 글의 작성자가 로그인된 아이디와 다르다면 
@@ -224,7 +226,7 @@ public class BoardServiceImpl implements BoardService{
 	public void insertImage(BoardDto dto, HttpServletRequest request) {
 		//dto : caption, imagePath 가지고 있다.
 		//dto 에 writer(id) 추가
-		dto.setBoard_writer((String)request.getSession().getAttribute("users_email"));
+		dto.setBoard_writer((String)request.getSession().getAttribute("email"));
 		
 		//GalleryDao 를 이용해서 DB 에 저장하기
 		boardDao.insert(dto);
@@ -233,45 +235,7 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public void saveContent(BoardDto dto, HttpServletRequest request) {
-		//업로드된 파일의 정보를 가지고 있는 MultipartFile 객체의 참조값을 얻어오기
-		MultipartFile image = dto.getImage();
-		//원본 파일명 -> 저장할 파일 이름 만들기위해서 사용됨
-		String orgFileName = image.getOriginalFilename();
-		//파일 크기 -> 다운로드가 없으므로, 여기서는 필요 없다.
-		long fileSize = image.getSize();
-		
-		// webapp/upload 폴더 까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
-		String realPath = request.getServletContext().getRealPath("/upload");
-		//db 에 저장할 저장할 파일의 상세 경로
-		String filePath = realPath + File.separator;
-		//디렉토리를 만들 파일 객체 생성
-		File upload = new File(filePath);
-		if(!upload.exists()) {
-			//만약 디렉토리가 존재하지X
-			upload.mkdir();//폴더 생성
-		}
-		//저장할 파일의 이름을 구성한다. -> 우리가 직접 구성해줘야한다.
-		String saveFileName = System.currentTimeMillis() + orgFileName;
-		
-		try {
-			//upload 폴더에 파일을 저장한다.
-			image.transferTo(new File(filePath + saveFileName));
-			System.out.println();	//임시 출력
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		//dto 에 업로드된 파일의 정보를 담는다.
-		//-> parameer 로 넘어온 dto 에는 caption, image 가 들어 있었다.
-		//-> 추가할 것 : writer(id), imagePath 만 추가로 담아주면 된다.
-		//-> num, regdate : db 에 추가하면서 자동으로 들어감
-		String users_email=(String)request.getSession().getAttribute("users_email");
-		dto.setBoard_writer(users_email);
-		//gallery 는 사진 다운 기능이 없다. -> orgFileName, saveFileName, fileSize 저장할 필요X
-		//imagePath 만 저장해주면 됨
-		dto.setBoard_image("/upload/" + saveFileName);
-		
+	public void saveContent(BoardDto dto) {
 		//GalleryDao 를 이용해서 DB 에 저장하기
 		boardDao.insert(dto);
 		
@@ -291,7 +255,7 @@ public class BoardServiceImpl implements BoardService{
 		String comments_group=request.getParameter("comments_group");
 		
 		//댓글 작성자는 session 영역에서 얻어내기
-		String comments_writer=(String)request.getSession().getAttribute("users_email");
+		String comments_writer=(String)request.getSession().getAttribute("email");
 		//댓글의 시퀀스 번호 미리 얻어내기
 		int seq=boardCommentsDao.getSequence();
 		//저장할 댓글의 정보를 dto 에 담기
@@ -319,7 +283,7 @@ public class BoardServiceImpl implements BoardService{
 		int board_idx=Integer.parseInt(request.getParameter("board_idx"));
 		
 		BoardCommentsDto dto=boardCommentsDao.getData(board_idx);
-		String users_email=(String)request.getSession().getAttribute("users_email");
+		String users_email=(String)request.getSession().getAttribute("email");
 		if(!dto.getComments_writer().equals(users_email)) {
 			throw new NotDeleteException("남의 댓글 지우면 혼난당!");
 		}
@@ -336,7 +300,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void moreCommentList(HttpServletRequest request) {
 		//로그인된 아이디
-		String users_email=(String)request.getSession().getAttribute("users_email");
+		String users_email=(String)request.getSession().getAttribute("email");
 		//ajax 요청 파라미터로 넘어오는 댓글의 페이지 번호를 읽어낸다
 		int pageNum=Integer.parseInt(request.getParameter("pageNum"));
 		//ajax 요청 파라미터로 넘어오는 원글의 글 번호를 읽어낸다
