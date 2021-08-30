@@ -8,13 +8,18 @@
 	</select>
 	<insert id="insert" parameterType="com.phoenix.farmpam.farmer.dto.FarmerDto">
 		INSERT INTO farmer
-		(farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone)
-		VALUES(#{farmer_email}, #{farmer_pwd }, #{farmer_name }, #{farmer_addr }, #{farmer_addr_detail }, #{farmer_phone}) 
+		(farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_regdate, farmer_chk)
+		VALUES(#{farmer_email}, #{farmer_pwd }, #{farmer_name }, #{farmer_addr }, #{farmer_addr_detail }, #{farmer_phone}, SYSDATE, #{farmer_chk}) 
 	</insert>
 	<select id="getData" parameterType="string" 
 	 resultType="com.phoenix.farmpam.farmer.dto.FarmerDto">
-		SELECT farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_profile, farmer_follow, farmer_intro, farmer_ban
+		SELECT farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_profile, farmer_follow, farmer_intro, farmer_ban, farmer_regdate, farmer_chk
 		FROM farmer
 		WHERE farmer_email=#{farmer_email }
 	</select>
+	<update id="pwdUpdate" parameterType="com.phoenix.farmpam.farmer.dto.FarmerDto">
+		UPDATE farmer
+		SET farmer_pwd=#{farmer_newPwd}
+		WHERE farmer_email=#{farmer_email}
+	</update>
 </mapper>

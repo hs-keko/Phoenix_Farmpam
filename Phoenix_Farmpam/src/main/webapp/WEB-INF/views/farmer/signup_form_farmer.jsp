@@ -44,6 +44,12 @@
 			<input type="text" name="farmer_phone" id="farmer_phone" placeholder="핸드폰번호 입력" maxlength="13" required/>
 		</div>
 		<br/>
+		<div>
+			 농장주로 가입하는 것이 맞습니까? <input type="checkbox" checked="checked" name="farmer_chk" value="1" onclick="return false">
+			<br/>
+			<small class="form-text text-muted"> 만일 아니시라면 일반 유저 회원가입 폼에서 가입을 완료해주세요. </small>
+		</div>
+		<br/>
 		<button class="btn btn-primary" type="submit">가입</button>
 	</form>
 </div>

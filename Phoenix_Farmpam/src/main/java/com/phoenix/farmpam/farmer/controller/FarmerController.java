@@ -24,6 +24,36 @@ public class FarmerController {
 	@Autowired
 	private FarmerService service;
 	
+	//비밀번호 수정요청
+	@RequestMapping("/farmer/private/pwd_update_farmer")
+	public ModelAndView pwdUpdate(FarmerDto dto,
+			ModelAndView mView, HttpSession session) {
+		
+		//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
+		service.updateFarmerPwd(session, dto, mView);
+		
+		//view page로 forward 이동해서 작업 결과를 응답한다.
+		mView.setViewName("farmer/pwd_update_farmer");
+		return mView;
+	}
+	
+	
+	//비밀번호 수정폼 요청
+	@RequestMapping("/farmer/private/pwd_updateform_farmer")
+	public String pwdUpdateForm() {
+		return "farmer/pwd_updateform_farmer";
+	}
+	
+	//회원 정보 페이지 요청
+	@RequestMapping("/farmer/private/info_farmer")
+	public ModelAndView info(HttpSession session, ModelAndView mView) {
+		
+		service.getInfo(session, mView);
+		
+		mView.setViewName("farmer/info_farmer");
+		return mView;
+	}
+	
 	//로그아웃 요청 처리
 	@RequestMapping("/farmer/logout")
 	public String logout(HttpSession session) {

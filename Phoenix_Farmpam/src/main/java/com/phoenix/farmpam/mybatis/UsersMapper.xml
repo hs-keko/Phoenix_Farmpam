@@ -8,13 +8,18 @@
 	</select>
 	<insert id="insert" parameterType="com.phoenix.farmpam.users.dto.UsersDto">
 		INSERT INTO new_users
-		(users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone, users_regdate)
-		VALUES(#{users_email}, #{users_pwd }, #{users_name }, #{users_addr }, #{users_addr_detail }, #{users_phone}, SYSDATE) 
+		(users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone, users_regdate, users_chk)
+		VALUES(#{users_email}, #{users_pwd }, #{users_name }, #{users_addr }, #{users_addr_detail }, #{users_phone}, SYSDATE, #{users_chk})
 	</insert>
 	<select id="getData" parameterType="string" 
 	 resultType="com.phoenix.farmpam.users.dto.UsersDto">
-		SELECT users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone, users_profile, users_ban, users_regdate
+		SELECT users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone, users_profile, users_ban, users_regdate, users_chk
 		FROM new_users
 		WHERE users_email=#{users_email }
 	</select>
+	<update id="pwdUpdate" parameterType="com.phoenix.farmpam.users.dto.UsersDto">
+		UPDATE new_users
+		SET users_pwd=#{users_newPwd}
+		WHERE users_email=#{users_email}
+	</update>
 </mapper>
