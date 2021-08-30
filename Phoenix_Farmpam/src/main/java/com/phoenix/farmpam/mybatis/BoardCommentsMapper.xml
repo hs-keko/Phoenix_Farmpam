@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardComments">
+
+	<!-- join문 추가해야 함 -->
+	<select id="getList" parameterType="boardCommentsDto" resultType="boardCommentsDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT comments_idx, comments_writer, comments_content, comments_target_id, comments_ref_group,
+					comments_group, comments_deleted, comments_ban, comments_regdate, profile
+				FROM comments 
+				INNER JOIN new_users
+				ON comments.comments_writer=new_users.users_email
+				WHERE ref_group=#{ref_group}
+				ORDER BY comments_group ASC, comments_idx ASC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}	
+	</select>
+	
+	<update id="delete" parameterType="int">
+		UPDATE comments
+		SET deleted='yes'
+		WHERE comments_idx=#{comments_idx}
+	</update>
+	
+	<insert id="insert" parameterType="boardCommentsDto">
+		INSERT INTO comments
+		(comments_idx, comments_writer, comments_content, comments_target_id, comments_ref_group,
+					comments_group, comments_regdate)
+		VALUES(#{comments_idx}, #{comments_writer}, #{comments_content}, #{comments_target_id}, #{comments_ref_group},
+			#{comments_group}, SYSDATE)
+	</insert>
+	
+	<select id="getSequence" resultType="int">
+		SELECT comments_seq.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<update id="update" parameterType="boardCommentsDto">
+		UPDATE comments
+		SET comments_content=#{comments_content}
+		WHERE comments_idx=#{comments_idx}
+	</update>
+	
+	<!-- join문 추가해야 함 -->
+	<select id="getData" parameterType="int" resultType="boardCommentsDto">
+		SELECT comments_idx, comments_writer, comments_content, comments_target_id, comments_ref_group,
+					comments_group, comments_deleted, comments_ban, comments_regdate, profile
+		FROM comments
+		WHERE comments_idx=#{comments_idx}
+	</select>
+	
+	<select id="getCount" parameterType="int" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM comments
+		WHERE comments_ref_group=#{comments_ref_group}
+	</select>	
+</mapper>
