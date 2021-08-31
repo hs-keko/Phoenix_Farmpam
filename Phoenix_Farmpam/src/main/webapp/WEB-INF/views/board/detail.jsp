@@ -136,7 +136,7 @@
 	</table>
 	<ul>
 		<li><a href="list.do">목록보기</a></li>
-		<c:if test="${dto.board_writer eq users_email }">
+		<c:if test="${dto.board_writer eq email }">
 			<li><a href="updateform.do?board_idx=${dto.board_idx }">수정</a></li>
 			<li><a href="delete.do?board_idx=${dto.board_idx }">삭제</a></li>
 		</c:if>
@@ -176,7 +176,7 @@
 										</c:if>
 										<span>${tmp.comments_regdate }</span>
 										<a data-num="${tmp.comments_idx }" href="javascript:" class="reply-link">답글</a>
-										<c:if test="${ (users_email ne null) and (tmp.comments_writer eq users_email) }">
+										<c:if test="${ (users_email ne null) and (tmp.comments_writer eq email) }">
 											<a data-num="${tmp.comments_idx }" class="update-link" href="javascript:">수정</a>
 											<a data-num="${tmp.comments_idx }" class="delete-link" href="javascript:">삭제</a>
 										</c:if>
@@ -192,7 +192,7 @@
 									<textarea name="content"></textarea>
 									<button type="submit">등록</button>
 								</form>
-							<c:if test="${tmp.comments_writer eq users_email }">
+							<c:if test="${tmp.comments_writer eq email }">
 								<form id="updateForm${tmp.comments_idx }" class="comment-form update-form" action="comment_update.do" method="post">
 									<input type="hidden" name="comments_idx" value="${tmp.comments_idx }" />
 									<textarea name="content">${tmp.comments_content }</textarea>
@@ -219,7 +219,7 @@
 		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
 		<input type="hidden" name="comments_target_id" value="${dto.board_writer }"/>
 		
-		<textarea name="comments_content">${empty users_email ? '댓글 작성을 위해 로그인이 필요 합니다.' : '' }</textarea>
+		<textarea name="comments_content">${empty email ? '댓글 작성을 위해 로그인이 필요 합니다.' : '' }</textarea>
 		<button type="submit">등록</button>
 	</form>
 </div>
@@ -227,7 +227,7 @@
 <script>
 	
 	//클라이언트가 로그인 했는지 여부
-	let isLogin=${ not empty users_email };
+	let isLogin=${ not empty email };
 	
 	document.querySelector(".insert-form")
 		.addEventListener("submit", function(e){
