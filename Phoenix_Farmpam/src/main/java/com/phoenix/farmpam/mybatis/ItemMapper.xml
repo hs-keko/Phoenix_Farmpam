@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="item">
+	<!-- 상품 가격 가져오기 -->
+	<select id="getPrice" parameterType="int" resultType="int">
+		SELECT item_price
+		FROM item
+		WHERE item_idx=#{item_idx}
+	</select>
+	
+	<!-- 계좌 잔고 줄이기 -->
+	<update id="minusMoney" parameterType="itemDto">
+		UPDATE new_users
+		SET users_account=users_account-#{item_price}
+		WHERE users_email=#{users_email}
+	</update>
+	
+	<!-- 상품 재고 1 감소시키기 -->
+	<update id="minusStock" parameterType="itemDto">
+		UPDATE item
+		SET item_stock=item_stock-#{orders_item_total}
+		WHERE item_idx=#{item_idx}
+	</update>
+	
+	<!-- 주문 테이블에 주문 정보 추가 -->
+	<insert id="addOrders" parameterType="ordersDto">
+		INSERT INTO orders
+		(orders_idx, users_email, orders_price, orders_regdate, orders_item_total, orders_addr, item_idx, item_price)
+		VALUES(orders_seq.NEXTVAL, #{users_email}, #{orders_price}, SYSDATE, #{orders_item_total}, #{orders_addr}, #{item_idx}, #{item_price})
+	</insert>
+</mapper>

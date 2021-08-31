@@ -12,6 +12,9 @@ public class OrdersDto {
 	private int item_price; //상품 개당 가격
 	private int orders_item_total; //주문 수량
 	private String orders_addr; //배송지 주소
+	
+	public OrdersDto() {}
+	
 	public OrdersDto(int orders_idx, String users_email, int orders_price, String orders_check, String orders_regdate,
 			int orders_detail_idx, int item_idx, int item_price, int orders_item_total, String orders_addr) {
 		super();
