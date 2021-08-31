@@ -82,10 +82,9 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public void checkbox(UsersDto dto, HttpSession session) {
-		
 		UsersDto check=dao.getData(dto.getUsers_chk());
 		if(check != null) {
-			session.setAttribute("chk", "session_chk");
+			session.setAttribute("check", "session_chk");
 		}
 	}
 
