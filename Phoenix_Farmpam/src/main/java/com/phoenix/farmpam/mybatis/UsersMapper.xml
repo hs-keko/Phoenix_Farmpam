@@ -22,4 +22,9 @@
 		SET users_pwd=#{users_newPwd}
 		WHERE users_email=#{users_email}
 	</update>
+	<update id="update" parameterType="com.phoenix.farmpam.users.dto.UsersDto">
+		UPDATE new_users
+		SET users_profile=#{users_profile}, users_name=#{users_name}, users_addr=#{users_addr }, users_addr_detail=#{users_addr_detail }, users_phone=#{users_phone}
+		WHERE users_email=#{users_email}
+	</update>
 </mapper>

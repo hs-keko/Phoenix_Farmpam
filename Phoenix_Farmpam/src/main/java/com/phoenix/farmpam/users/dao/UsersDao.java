@@ -11,4 +11,6 @@ public interface UsersDao {
 	public UsersDto getData(String users_email);
 	//비밀번호를 수정하는 메소드
 	public void updateUsersPwd(UsersDto dto);
+	//개인정보를 수정하는 메소드
+	public void update(UsersDto dto);
 }

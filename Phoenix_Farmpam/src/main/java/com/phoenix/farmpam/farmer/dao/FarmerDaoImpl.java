@@ -41,5 +41,11 @@ public class FarmerDaoImpl implements FarmerDao {
 		
 	}
 
+	@Override
+	public void update(FarmerDto dto) {
+		session.update("farmer.update", dto);
+		
+	}
+
 
 }

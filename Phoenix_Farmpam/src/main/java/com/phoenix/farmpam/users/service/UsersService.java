@@ -2,11 +2,12 @@ package com.phoenix.farmpam.users.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.users.dto.UsersDto;
 
 public interface UsersService {
@@ -19,4 +20,7 @@ public interface UsersService {
 	//chk박스 선택에 따라 session에 setatrribute해서 chk 정보 담기
 	public void checkbox(UsersDto dto, HttpSession session);
 	public void updateUsersPwd(HttpSession session, UsersDto dto, ModelAndView mView);
+	public Map<String, Object> saveProfileImage(HttpServletRequest request,
+			MultipartFile mFile);
+	public void updateUser(UsersDto dto, HttpSession session);
 }

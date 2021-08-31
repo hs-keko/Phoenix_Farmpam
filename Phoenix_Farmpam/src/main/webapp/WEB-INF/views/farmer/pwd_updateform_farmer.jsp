@@ -33,6 +33,7 @@
 		e.preventDefault();//폼 전송 막기 
 		let pwd1=document.querySelector("#farmer_newPwd").value;
 		let pwd2=document.querySelector("#farmer_newPwd2").value;
+		let pwd3=document.querySelector("#farmer_pwd").value;
 		//새 비밀번호와 비밀번호 확인이 일치하지 않으면 폼 전송을 막는다.
 		    //비밀번호 일치여부 확인 
 		let check = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
@@ -42,6 +43,9 @@
 			return false;
 			}else if(!check.test(pwd1)) { 
 				alert("비밀번호는 숫자, 영문, 특수문자를 포함하여 8글자 이상 16글자 이하로 작성해주세요.")
+				return false;
+			}else if(pwd1 == pwd3){
+				alert("기존의 비밀번호와 같습니다.");
 				return false;
 			}else{
 				document.querySelector("#myForm").submit();

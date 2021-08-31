@@ -22,4 +22,9 @@
 		SET farmer_pwd=#{farmer_newPwd}
 		WHERE farmer_email=#{farmer_email}
 	</update>
+		<update id="update" parameterType="com.phoenix.farmpam.farmer.dto.FarmerDto">
+		UPDATE farmer
+		SET farmer_profile=#{farmer_profile}, farmer_name=#{farmer_name}, farmer_addr=#{farmer_addr }, farmer_addr_detail=#{farmer_addr_detail }, farmer_phone=#{farmer_phone}
+		WHERE farmer_email=#{farmer_email}
+	</update>
 </mapper>
