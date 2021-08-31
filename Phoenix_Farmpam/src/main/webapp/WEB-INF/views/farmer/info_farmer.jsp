@@ -64,6 +64,10 @@
 			<th>가입일자</th>
 			<td>${dto.farmer_regdate }</td>
 		</tr>
+		<tr>
+			<th>농장 소개글</th>
+			<td>${dto.farmer_intro }</td>
+		</tr>
 	</table>
 	<a href="${pageContext.request.contextPath}/farmer/private/updateform_farmer.do">개인정보 수정</a>
 	<a href="javascript:deleteConfirm()">탈퇴</a>

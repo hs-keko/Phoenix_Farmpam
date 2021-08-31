@@ -26,6 +26,16 @@ public class FarmerController {
 	@Autowired
 	private FarmerService service;
 	
+	//회원 탈퇴 요청 처리
+	@RequestMapping("/farmer/private/delete_farmer")
+	public ModelAndView delete(HttpSession session, ModelAndView mView) {
+		
+		service.deleteUser(session, mView);
+		
+		mView.setViewName("farmer/delete_farmer");
+		return mView;
+	}
+	
 	//개인 정보 수정 반영 요청 처리 메소드
 	@RequestMapping(value = "/farmer/private/update_farmer", method=RequestMethod.POST)
 	public String update(FarmerDto dto, HttpSession session) {

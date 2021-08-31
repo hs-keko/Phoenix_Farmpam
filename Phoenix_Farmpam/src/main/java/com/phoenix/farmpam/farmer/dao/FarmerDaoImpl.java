@@ -47,5 +47,11 @@ public class FarmerDaoImpl implements FarmerDao {
 		
 	}
 
+	@Override
+	public void delete(String farmer_email) {
+		session.delete("farmer.delete", farmer_email);
+		
+	}
+
 
 }

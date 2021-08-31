@@ -60,7 +60,10 @@
 			<label for="farmer_phone">핸드폰 번호</label>
 			<input type="text" name="farmer_phone" id="farmer_phone" value="${dto.farmer_phone }" maxlength="13" />
 		</div>
-
+		<div>
+			<label for="farmer_intro">농장 소개글</label>
+			<input type="text" name="farmer_intro" id="farmer_intro" value="${dto.farmer_intro }" />
+		</div>
 		<button type="submit">수정반영</button>
 	</form>
 	

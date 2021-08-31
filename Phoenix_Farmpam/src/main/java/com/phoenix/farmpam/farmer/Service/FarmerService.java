@@ -24,4 +24,5 @@ public interface FarmerService {
 	public Map<String, Object> saveProfileImage(HttpServletRequest request,
 			MultipartFile mFile);
 	public void updateUser(FarmerDto dto, HttpSession session);
+	public void deleteUser(HttpSession session, ModelAndView mView);
 }

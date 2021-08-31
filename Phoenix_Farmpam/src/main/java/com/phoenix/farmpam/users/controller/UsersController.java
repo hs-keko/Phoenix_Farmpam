@@ -25,6 +25,15 @@ public class UsersController {
 	@Autowired
 	private UsersService service;
 	
+	//회원 탈퇴 요청
+	@RequestMapping("/users/private/delete")
+	public ModelAndView delete(HttpSession session, ModelAndView mView) {
+		
+		service.deleteUser(session, mView);
+		
+		mView.setViewName("users/delete");
+		return mView;
+	}
 
 	//개인정보 수정반영 요청처리 메소드
 	@RequestMapping(value = "/users/private/update", method=RequestMethod.POST)

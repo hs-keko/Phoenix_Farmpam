@@ -13,4 +13,6 @@ public interface FarmerDao {
 	public void updateFarmerPwd(FarmerDto dto);
 	//개인정보를 수정하는 메소드
 	public void update(FarmerDto dto);
+	//회원정보를 삭제하는 메소드
+	public void delete(String farmer_email);
 }
