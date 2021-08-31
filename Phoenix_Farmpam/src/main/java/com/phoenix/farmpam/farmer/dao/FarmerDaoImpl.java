@@ -34,4 +34,24 @@ public class FarmerDaoImpl implements FarmerDao {
 
 		return session.selectOne("farmer.getData", farmer_email);
 	}
+
+	@Override
+	public void updateFarmerPwd(FarmerDto dto) {
+		session.update("farmer.pwdUpdate", dto);
+		
+	}
+
+	@Override
+	public void update(FarmerDto dto) {
+		session.update("farmer.update", dto);
+		
+	}
+
+	@Override
+	public void delete(String farmer_email) {
+		session.delete("farmer.delete", farmer_email);
+		
+	}
+
+
 }

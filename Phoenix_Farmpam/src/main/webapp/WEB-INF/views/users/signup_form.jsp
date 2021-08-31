@@ -43,6 +43,12 @@
 			<label for="users_phone">핸드폰 번호</label>
 			<input type="text" name="users_phone" id="users_phone" placeholder="핸드폰번호 입력" maxlength="13" required/>
 		</div>
+		<br>
+		<div>
+			 일반유저로 가입하는 것이 맞습니까? <input type="checkbox" checked="checked" name="users_chk" value="0" onclick="return false">
+			<br/>
+			<small class="form-text text-muted"> 만일 아니시라면 농장주 회원가입 폼에서 가입을 완료해주세요. </small>
+		</div>
 		<br/>
 		<button class="btn btn-primary" type="submit">가입</button>
 	</form>
@@ -133,7 +139,7 @@
     });
    }
 	
-    //비밀번호 일치여부 확인 
+    //비밀번호, 이메일 형식 및 일치하는지 여부 확인 
 	document.querySelector("#myForm").addEventListener("submit", function(e){
 		e.preventDefault();//폼 전송 막기 
 		let users_pwd=document.querySelector("#users_pwd").value;

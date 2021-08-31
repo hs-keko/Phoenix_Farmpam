@@ -11,12 +11,15 @@ public class FarmerDto {
 	private int farmer_follow;
 	private String farmer_intro;
 	private String farmer_ban;
+	private String farmer_regdate;
+	private String farmer_chk;
+	private String farmer_newPwd;
 	
 	public FarmerDto() {}
 
 	public FarmerDto(String farmer_email, String farmer_pwd, String farmer_name, String farmer_addr,
 			String farmer_addr_detail, String farmer_phone, String farmer_profile, int farmer_follow,
-			String farmer_intro, String farmer_ban) {
+			String farmer_intro, String farmer_ban, String farmer_regdate, String farmer_chk, String farmer_newPwd) {
 		super();
 		this.farmer_email = farmer_email;
 		this.farmer_pwd = farmer_pwd;
@@ -28,6 +31,9 @@ public class FarmerDto {
 		this.farmer_follow = farmer_follow;
 		this.farmer_intro = farmer_intro;
 		this.farmer_ban = farmer_ban;
+		this.farmer_regdate = farmer_regdate;
+		this.farmer_chk = farmer_chk;
+		this.farmer_newPwd = farmer_newPwd;
 	}
 
 	public String getFarmer_email() {
@@ -109,5 +115,29 @@ public class FarmerDto {
 	public void setFarmer_ban(String farmer_ban) {
 		this.farmer_ban = farmer_ban;
 	}
-	
+
+	public String getFarmer_regdate() {
+		return farmer_regdate;
+	}
+
+	public void setFarmer_regdate(String farmer_regdate) {
+		this.farmer_regdate = farmer_regdate;
+	}
+
+	public String getFarmer_chk() {
+		return farmer_chk;
+	}
+
+	public void setFarmer_chk(String farmer_chk) {
+		this.farmer_chk = farmer_chk;
+	}
+
+	public String getFarmer_newPwd() {
+		return farmer_newPwd;
+	}
+
+	public void setFarmer_newPwd(String farmer_newPwd) {
+		this.farmer_newPwd = farmer_newPwd;
+	}
+
 }
