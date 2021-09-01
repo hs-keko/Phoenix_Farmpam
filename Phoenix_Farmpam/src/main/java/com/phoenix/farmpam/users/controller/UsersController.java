@@ -94,6 +94,7 @@ public class UsersController {
 	public String logout(HttpSession session) {
 		//세션에서 users_email이라는 키값으로 저장된 값 삭제
 		session.removeAttribute("email");
+		session.removeAttribute("check");
 		return "users/logout";
 	}
 	
@@ -114,6 +115,7 @@ public class UsersController {
 		 *  등등의 객체 이다. 
 		 */
 		service.loginProcess(dto, session);
+		service.checkbox(dto, session);
 		
 		String encodedUrl=URLEncoder.encode(url);
 		mView.addObject("url", url);

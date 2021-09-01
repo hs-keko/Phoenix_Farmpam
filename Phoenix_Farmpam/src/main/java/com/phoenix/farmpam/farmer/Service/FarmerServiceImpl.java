@@ -81,13 +81,9 @@ public class FarmerServiceImpl implements FarmerService {
 
 	@Override
 	public void checkbox(FarmerDto dto, HttpSession session) {
-		// 입력한 정보에서 true인지 false 값인지 확인
-		boolean ischecked=false;
-		
-		FarmerDto check=dao.getData(dto.getFarmer_chk());
-		if(check != null) {
-			session.setAttribute("check", dto.getFarmer_chk());
-		}
+		if(!dao.getData(dto.getFarmer_email()).getFarmer_chk().equals("0")) {
+		session.setAttribute("check", "chk_farmer");
+	}
 
 	}
 

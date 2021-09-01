@@ -28,6 +28,7 @@ public class UsersDaoImpl implements UsersDao {
 		session.insert("users.insert",dto);
 	}
 
+	
 	@Override
 	public UsersDto getData(String users_email) {
 
