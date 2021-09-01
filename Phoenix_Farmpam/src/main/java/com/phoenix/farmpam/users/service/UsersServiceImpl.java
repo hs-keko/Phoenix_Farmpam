@@ -82,10 +82,12 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public void checkbox(UsersDto dto, HttpSession session) {
+		UsersDto result=dao.getData(dto.getUsers_email());
+		if(result != null) {//만일 존재하는 아이디 라면
 		System.out.println(dao.getData(dto.getUsers_email()).getUsers_chk());
 			if(dao.getData(dto.getUsers_email()).getUsers_chk().equals("0")) {
 			session.setAttribute("check", "chk_common");
-		}
+		}}
 	}
 
 	@Override

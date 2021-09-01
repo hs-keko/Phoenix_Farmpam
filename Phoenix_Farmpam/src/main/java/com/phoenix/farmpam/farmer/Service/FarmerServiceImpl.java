@@ -81,9 +81,11 @@ public class FarmerServiceImpl implements FarmerService {
 
 	@Override
 	public void checkbox(FarmerDto dto, HttpSession session) {
+	FarmerDto result=dao.getData(dto.getFarmer_email());
+	if(result != null) {//만일 존재하는 아이디 라면
 		if(!dao.getData(dto.getFarmer_email()).getFarmer_chk().equals("0")) {
 		session.setAttribute("check", "chk_farmer");
-	}
+	}}
 
 	}
 

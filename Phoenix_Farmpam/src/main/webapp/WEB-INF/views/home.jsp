@@ -24,15 +24,10 @@
 		<a href="${pageContext.request.contextPath}/users/private/info.do">${sessionScope.email }</a> 유저 로그인중... 
 		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 	</c:if>
-
 <h1>
 	공지사항 
 </h1>
 <h2>${notice }</h2>
-
-<h1>
-${ sessionScope.check}
-</h1>
 </div>
 </body>
 
