@@ -35,7 +35,7 @@ public class UsersController {
 		mView.setViewName("users/delete");
 		return mView;
 	}
-
+		
 	//개인정보 수정반영 요청처리 메소드
 	@RequestMapping(value = "/users/private/update", method=RequestMethod.POST)
 	public String update(UsersDto dto, HttpSession session) {
