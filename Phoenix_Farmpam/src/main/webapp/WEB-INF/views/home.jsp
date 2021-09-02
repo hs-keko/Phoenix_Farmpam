@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 <body>
+<h1><a href="${pageContext.request.contextPath}/index.do">Vue 페이지로 가기</a></h1>
 
 <div class="container">
 	<c:if test="${empty sessionScope.email}">

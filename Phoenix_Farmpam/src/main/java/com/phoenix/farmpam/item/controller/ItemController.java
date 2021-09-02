@@ -12,8 +12,6 @@ import com.phoenix.farmpam.item.service.ItemService;
 @Controller
 public class ItemController {
 
-	@Autowired
-	private ItemService service;
 	
 	@RequestMapping("/itme/private/sale")
 	public ModelAndView sale(HttpSession session, ModelAndView mView) {

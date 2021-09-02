@@ -126,6 +126,29 @@ public class UsersController {
 		return mView;
 	}
 	
+	//vue 로그인 요청
+	@RequestMapping("/users/vue/login")
+	@ResponseBody
+	public Map<String,Object> vuelogin(UsersDto dto, HttpSession session) {
+		System.out.println("vue에서 요청");
+		/*
+		 *  서비스에서 비즈니스 로직을 처리할때 필요로  하는 객체를 컨트롤러에서 직접 전달을 해 주어야 한다.
+		 *  주로, HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView
+		 *  등등의 객체 이다. 
+		 */
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(service.loginpro(dto, session)) {
+			service.checkbox(dto, session);		
+			map.put("email",(String)session.getAttribute("email"));
+			map.put("chk",(String)session.getAttribute("check"));
+		}else {
+			map.put("failed",false);
+		}
+	
+		
+		return map;
+	}
+	
 	//회원가입 요청처리
 	@RequestMapping(value="/users/signup", method = RequestMethod.POST)
 	public ModelAndView signup(ModelAndView mView, UsersDto dto) {
