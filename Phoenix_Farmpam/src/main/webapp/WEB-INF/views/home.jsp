@@ -9,26 +9,27 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 <body>
-<div class="container">
-<h1><a href="${pageContext.request.contextPath}/index.do">Vue 페이지로</a></h1>
 
-	<c:choose>
-		<c:when test="${empty sessionScope.email}">
-			<a href="${pageContext.request.contextPath}/users/loginform.do">유저 로그인</a>
-			<a href="${pageContext.request.contextPath}/farmer/loginform_farmer.do">농장주 로그인</a>
-			<a href="${pageContext.request.contextPath}/users/signup_before.do">회원가입</a>
-		</c:when>
-		<c:otherwise>
-			<p>
-				<a href="${pageContext.request.contextPath}/users/private/info.do">${sessionScope.email }</a> 유저 로그인중...
-				<a href="${pageContext.request.contextPath}/farmer/private/info.do">${sessionScope.email }</a> 농장주 로그인중...  
-				<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
-			</p>
-		</c:otherwise>
-	</c:choose>
+<div class="container">
+	<c:if test="${empty sessionScope.email}">
+		<a href="${pageContext.request.contextPath}/users/loginform.do">유저 로그인</a>
+		<a href="${pageContext.request.contextPath}/farmer/loginform_farmer.do">농장주 로그인</a>
+		<a href="${pageContext.request.contextPath}/users/signup_before.do">회원가입</a>
+	</c:if>
+	<c:if test="${sessionScope.check eq 'chk_farmer'}">
+		<a href="${pageContext.request.contextPath}/farmer/private/info_farmer.do">${sessionScope.email }</a> 농장주 로그인중... 
+		<a href="${pageContext.request.contextPath}/item/private/sale.do">내 상점</a>
+		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
+	</c:if>
+	<c:if test="${sessionScope.check eq 'chk_common'}">
+		<a href="${pageContext.request.contextPath}/users/private/info.do">${sessionScope.email }</a> 유저 로그인중... 
+		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
+	</c:if>
 <h1>
 	공지사항 
 </h1>
 <h2>${notice }</h2>
+</div>
 </body>
+
 </html>
