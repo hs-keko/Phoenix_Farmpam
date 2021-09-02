@@ -11,7 +11,7 @@
 <body>
 <div class="container">
 	<h1>상품 구매 결과 페이지</h1>
-	<p><strong>${email }</strong> 님 상품을 정상적으로 주문 했습니다.</p>
+	<p><strong>${users_email }</strong> 님 상품을 정상적으로 주문 했습니다.</p>
 </div>
 </body>
 </html>

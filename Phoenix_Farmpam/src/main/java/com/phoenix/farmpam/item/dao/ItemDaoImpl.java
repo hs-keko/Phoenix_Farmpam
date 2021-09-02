@@ -30,5 +30,4 @@ public class ItemDaoImpl implements ItemDao {
 	public void minusStock(ItemDto itemDto) {
 		session.update("item.minusStock", itemDto);
 	}
-
 }
