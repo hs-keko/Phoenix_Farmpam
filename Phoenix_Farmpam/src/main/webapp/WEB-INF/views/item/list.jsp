@@ -10,7 +10,8 @@
 <body>
 <h2> ${sessionScope.email }님의 상품 목록 확인하기 </h2>
 	<button>등록하기</button>
-	<br/>
+	<br />
+	<div id="continer">
 	<table border="1">
 		<tr>
 			<th>상품 번호</th>
@@ -24,33 +25,17 @@
 		</tr>
 		<c:forEach var="tmp" items="${list }">
 		<tr>
-			<td>
-				${tmp.item_idx }
-			</td>
-			<td>
-				${tmp.item_image }
-			</td>
-			<td>
-				${tmp.item_title }
-			</td>
-			<td>
-				${tmp.item_content }
-			</td>
-			<td>
-				<!-- fmt:formatNumber은 숫자 포맷 변경 ###,###,### -->
-				<fmt:formatNumber value="${row.item_price }" parttern="###,###,###"/>
-			</td>
-			<td>
-				${tmp.item_stock }
-			</td>
-			<td>
-				수정
-			</td>
-			<td>
-				삭제
-			</td>
+			<td>${tmp.item_idx }</td>
+			<td>${tmp.item_image }</td>
+			<td>${tmp.item_title }</td>
+			<td>${tmp.item_content }</td>
+			<td>${tmp.item_price }</td>
+			<td>${tmp.item_stock }</td>
+			<td><a href="update.do">수정</a></td>
+			<td><a href="delete.do">삭제</a></td>
 		</tr>
 		</c:forEach>
 	</table>
+	</div>
 </body>
 </html>

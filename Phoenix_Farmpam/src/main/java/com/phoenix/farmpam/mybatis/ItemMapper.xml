@@ -4,22 +4,21 @@
 
 	<!-- 상품 목록 -->
 	<select id="getList" resultType="itemDto" parameterType="itemDto">
-		SELECT reult1.*, ROWNUM AS rnum
-		FROM
-		(SELECT item_idx, item_image, item_title, item_content, item_price, item_stock
-		FROM item
-		<choose>
-			<when test="item_title != null">
-				WHERE item_title LIKE '%'||#{item_title}||'%'
-			</when>
-		</choose>
-		OREDE BY item_idx) result1
+			SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT item_idx, item_image, item_title, item_content, item_price, item_stock
+				FROM item
+				<choose>
+					<when test="item_title != null">
+						WHERE item_title LIKE '%'||#{item_title}||'%'
+					</when>
+				</choose>
+			ORDER BY item_idx) result1
 	</select>
 
 	<select id="getCount" parameterType="itemDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM),0)
 		FROM item
-			(SELECT result1.*, ROWNUM AS rnum
 		<choose>
 			<when test="item_title != null">
 				WHERE item_title LIKE '%'||#{item_title}||'%'
