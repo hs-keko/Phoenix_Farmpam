@@ -32,11 +32,12 @@ public class ItemController {
 	
 	// 구매 요청 처리
 	@RequestMapping(value = "/item/buy", method = RequestMethod.POST)
-	public ModelAndView authBuy(HttpServletRequest request, 
+	public ModelAndView authBuy(HttpServletRequest request,
 								@ModelAttribute OrdersDto ordersDto,
-								ModelAndView mView) 
+								ModelAndView mView)
 	{
-		service.buy(request, ordersDto, mView);
+		mView.addObject("users_email",(String)request.getSession().getAttribute("email"));
+		service.buy(ordersDto, mView);
 		mView.setViewName("item/buy");
 		return mView;
 	}

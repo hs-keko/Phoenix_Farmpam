@@ -24,13 +24,10 @@ public class ItemServiceImpl implements ItemService {
 	private OrdersDao ordersDao;
 
 	@Override
-	public void buy(HttpServletRequest request,
-					OrdersDto ordersDto,
-					ModelAndView mView) 
+	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView) 
 	{
-		
 		//구입자의 이메일
-		String users_email=(String)request.getSession().getAttribute("email");
+		String users_email=(String)mView.getModel().get("users_email");
 		//1. 파라미터로 전달되는 구입할 상품 번호
 		int item_idx=ordersDto.getItem_idx();
 		//2. 파라미터로 전달되는 구입할 상품의 수량
@@ -53,5 +50,6 @@ public class ItemServiceImpl implements ItemService {
 		ordersDto.setOrders_price(orders_price);
 		ordersDto.setUsers_email(users_email);
 		ordersDao.addOrders(ordersDto);
+		return mView;
 	}
 }

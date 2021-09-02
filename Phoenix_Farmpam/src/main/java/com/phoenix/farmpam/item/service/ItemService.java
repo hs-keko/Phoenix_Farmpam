@@ -11,7 +11,5 @@ import com.phoenix.farmpam.item.dto.OrdersDto;
 
 public interface ItemService {
 	//상품 주문 처리를 하는 메소드
-	public void buy(HttpServletRequest request,
-			OrdersDto ordersDto,
-			ModelAndView mView);
+	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView);
 }
