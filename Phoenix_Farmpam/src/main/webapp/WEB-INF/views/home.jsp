@@ -18,7 +18,7 @@
 	</c:if>
 	<c:if test="${sessionScope.check eq 'chk_farmer'}">
 		<a href="${pageContext.request.contextPath}/farmer/private/info_farmer.do">${sessionScope.email }</a> 농장주 로그인중... 
-		<a href="${pageContext.request.contextPath}/item/private/list_farmer.do">내 상점 관리</a>
+		<a href="${pageContext.request.contextPath}/item/private/list.do">내 상점 관리</a>
 		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 	</c:if>
 	<c:if test="${sessionScope.check eq 'chk_common'}">

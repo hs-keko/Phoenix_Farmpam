@@ -22,26 +22,26 @@
 			<th>수정<th>
 			<th>삭제<th>
 		</tr>
-		<c:forEach var="row" items="${list }">
+		<c:forEach var="tmp" items="${list }">
 		<tr>
 			<td>
-				${row.item_idx }
+				${tmp.item_idx }
 			</td>
 			<td>
-				${row.item_image }
+				${tmp.item_image }
 			</td>
 			<td>
-				${row.item_title }
+				${tmp.item_title }
 			</td>
 			<td>
-				${row.item_content }
+				${tmp.item_content }
 			</td>
 			<td>
 				<!-- fmt:formatNumber은 숫자 포맷 변경 ###,###,### -->
 				<fmt:formatNumber value="${row.item_price }" parttern="###,###,###"/>
 			</td>
 			<td>
-				${row.item_stock }
+				${tmp.item_stock }
 			</td>
 			<td>
 				수정

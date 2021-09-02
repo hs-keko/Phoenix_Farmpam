@@ -1,10 +1,7 @@
 package com.phoenix.farmpam.item.service;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
 
 public interface ItemService {
-
-	public void getList(HttpSession session, ModelAndView mView);
+	public void getList(HttpServletRequest request);
 }
