@@ -132,21 +132,20 @@ public class UsersController {
 	public Map<String,Object> vuelogin(UsersDto dto, HttpSession session) {
 		System.out.println("login 요청");
 		System.out.println(dto.getUsers_email());
-		/*
-		 *  서비스에서 비즈니스 로직을 처리할때 필요로  하는 객체를 컨트롤러에서 직접 전달을 해 주어야 한다.
-		 *  주로, HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView
-		 *  등등의 객체 이다. 
-		 */
+		
 		Map<String, Object> map = new HashMap<String, Object>();
+		// response => { email: String, name: String, chk: String ,token: boolean } 
 		if(service.loginpro(dto, session)) {
 			service.checkbox(dto, session);		
 			map.put("email",(String)session.getAttribute("email"));
+			map.put("name",(String)session.getAttribute("name"));
 			map.put("chk",(String)session.getAttribute("check"));
+			// 나중에 JWT 토큰API 사용해보기.
+			map.put("token",true);
 		}else {
-			map.put("failed",false);
+			map.put("token",false);
 		}
 	
-		
 		return map;
 	}
 	

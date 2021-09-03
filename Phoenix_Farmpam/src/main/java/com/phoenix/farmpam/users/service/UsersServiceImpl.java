@@ -85,6 +85,7 @@ public class UsersServiceImpl implements UsersService {
 		if(isValid) {//만일 유효한 정보이면 
 			//로그인 처리를 한다.
 			session.setAttribute("email", dto.getUsers_email());
+			session.setAttribute("name",result.getUsers_name());
 		}
 		return isValid;
 		
