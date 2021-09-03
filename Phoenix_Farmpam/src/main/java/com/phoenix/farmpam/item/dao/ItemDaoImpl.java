@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.phoenix.farmpam.item.dto.ItemDto;
+import com.phoenix.farmpam.users.dto.UsersDto;
 
 @Repository
 public class ItemDaoImpl implements ItemDao {
@@ -40,6 +41,16 @@ public class ItemDaoImpl implements ItemDao {
 	public void update(ItemDto dto) {
 		session.update("item.update", dto);
 		
+	}
+
+	@Override
+	public ItemDto getData(String farmer_email) {
+		return session.selectOne("item.getData", farmer_email);
+	}
+
+	@Override
+	public ItemDto getData2(int item_idx) {
+		return session.selectOne("item.getData2", item_idx);
 	}
 
 
