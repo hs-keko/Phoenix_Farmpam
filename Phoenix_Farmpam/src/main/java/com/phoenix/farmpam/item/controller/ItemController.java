@@ -47,7 +47,7 @@ public class ItemController {
 	@RequestMapping("/item/private/insert")
 	public String insert(ItemDto dto, HttpSession session) {
 		//글 번호는 세션에서 얻어낸다. 
-		int item_idx=(int)session.getAttribute("item_idx");
+		int item_idx=(Integer)session.getAttribute("item_idx");
 		dto.setItem_idx(item_idx);
 		service.insertItem(dto);
 		return "item/insert";
@@ -80,7 +80,7 @@ public class ItemController {
 	@RequestMapping("/item/private/delete")
 	public String delete(@RequestParam int item_idx, HttpServletRequest request) {
 		service.deleteItem(item_idx, request);
-		return "redirect:/item/list.do";
+		return "redirect:/item/private/list.do";
 	}
 	
 }

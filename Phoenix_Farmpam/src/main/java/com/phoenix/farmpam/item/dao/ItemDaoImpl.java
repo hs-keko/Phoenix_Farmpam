@@ -49,8 +49,8 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public ItemDto getData2(int item_idx) {
-		return session.selectOne("item.getData2", item_idx);
+	public ItemDto getData2(int num) {
+		return session.selectOne("item.getData2", num);
 	}
 
 

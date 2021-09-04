@@ -32,7 +32,7 @@
 			</c:when>
 			<c:otherwise>
 				<img id="itemImage" 
-					src="${pageContext.request.contextPath}${dto.item_image}"/>
+					src="${pageContext.request.contextPath}&{dto.item_image}"/>
 			</c:otherwise>
 		</c:choose>
 	</a>

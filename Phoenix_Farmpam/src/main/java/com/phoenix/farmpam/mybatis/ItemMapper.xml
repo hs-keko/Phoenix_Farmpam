@@ -40,8 +40,8 @@
 	
 	<insert id="insert" parameterType="itemDto">
 		INSERT INTO item
-		(item_idx, item_image, item_title, item_content, item_price, item_stock, farmer_email)
-		VALUES(#{item_idx}, #{item_image}, #{item_title}, #{item_content}, #{item_price}, #{item_stock}, #{farmer_email})
+		(farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image)
+		VALUES(#{farmer_email}, #{item_idx}, #{item_title}, #{item_price}, #{item_stock}, #{item_category_top_idx}, #{item_content}, #{item_image})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -51,7 +51,7 @@
 	
 	<update id="update" parameterType="itemDto">
 		UPDATE item
-		SET item_image=#{item_image}, item_title=#{item_title}, item_content=#{item_content}, item_price=#{item_price}, item_stock=#{item_stock}, farmer_eamil=#{farmer_email}
+		SET item_image=#{item_image}, item_title=#{item_title}, item_content=#{item_content}, item_price=#{item_price}, item_stock=#{item_stock}
 		WHERE item_idx=#{item_idx}
 	</update>
 </mapper>
