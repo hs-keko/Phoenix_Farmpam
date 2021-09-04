@@ -15,7 +15,7 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 public interface ItemService {
 	//아이템 목록 얻어오기
 	public void getList(HttpServletRequest request);
-	public void insertItem(ItemDto dto, HttpServletRequest request);
+	public void insertItem(ItemDto dto);
 	public void getInfo(HttpSession session, ModelAndView mView);
 	public Map<String, Object> saveImage(HttpServletRequest request,
 			MultipartFile mFile);

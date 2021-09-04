@@ -85,14 +85,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void insertItem(ItemDto dto, HttpServletRequest request) {
-		//dto 에 업로드된 파일의 정보를 담는다.
-		//-> parameer 로 넘어온 dto 에는 caption, image 가 들어 있었다.
-		//-> 추가할 것 : writer(id), imagePath 만 추가로 담아주면 된다.
-		//-> num, regdate : db 에 추가하면서 자동으로 들어감
-		String farmer_eamil = (String)request.getSession().getAttribute("email");
-		dto.setFarmer_email(farmer_eamil);
-		
+	public void insertItem(ItemDto dto) {
 		itemDao.insert(dto);	
 	}
 

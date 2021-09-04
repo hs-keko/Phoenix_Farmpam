@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.service.ItemService;
+import com.phoenix.farmpam.users.dto.UsersDto;
 
 @Controller
 public class ItemController {
@@ -36,19 +37,19 @@ public class ItemController {
 		return "/item/list";
 	}
 	
-	//새글 저장 요청 처리
-	@RequestMapping("/item/private/insertform")
+	//새글 저장 폼
+	@RequestMapping(value = "/item/private/insertform", method=RequestMethod.GET)
 	public String insertForm() {
 		return "item/insertform";
 	}
 	
-	//새글 저장 요청 처리 2
+	//새글 저장 요청 처리 
 	@RequestMapping("/item/private/insert")
-	public ModelAndView authInsert(ItemDto dto, HttpSession session, HttpServletRequest request) {
-
-		service.insertItem(dto, request);
-		
-		return new ModelAndView("item/insert");
+	public ModelAndView insert(ModelAndView mView, ItemDto dto) {
+		//글 작성자는 세션에서 얻어낸다. 
+		service.insertItem(dto);
+		mView.setViewName("item/insert");
+		return mView;
 	}
 	
 	//ajax 사진 업로드 요청처리
