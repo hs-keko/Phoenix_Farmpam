@@ -41,27 +41,27 @@
 			value="${ empty dto.item_image ? 'empty' : dto.item_image}"/>
 		<div>
 			<label for="item_idx">번호</label>
-			<input type="text" name="item_idx" value="${item_idx }" id="item_idx" disabled/>
+			<input type="text" name="item_idx" value="${dto.item_idx }" id="item_idx" disabled/>
 		</div>
 		<div>
 			<label for="item_title">상품명</label>
-			<input type="text" name="item_title" value="${item_title }" id="item_title"/>
+			<input type="text" name="item_title" value="${dto.item_title }" id="item_title"/>
 		</div>
 		<div>
 			<label for="item_content">설명</label>
-			<input type="text" name="item_content" value="${item_content }" id="item_content"/>
+			<input type="text" name="item_content" value="${dto.item_content }" id="item_content"/>
 		</div>
 		<div>
 			<label for="item_price">가격</label>
-			<input type="text" name="item_price" value="${item_price }" id="item_price"/>
+			<input type="text" name="item_price" value="${dto.item_price }" id="item_price"/>
 		</div>
 		<div>
 			<label for="item_stock">재고</label>
-			<input type="text" name="item_stock" value="${item_stock }" id="item_stock"/>
+			<input type="text" name="item_stock" value="${dto.item_stock }" id="item_stock"/>
 		</div>
 		<div>
 			<label for="farmer_email">판매자</label>
-			<input type="text" name="farmer_email" value="${farmer_email }" id="farmer_email" disabled/>
+			<input type="text" name="farmer_email" value="${dto.farmer_email }" id="farmer_email" disabled/>
 		</div>
 		<button type="submit">업로드</button>
 	</form>

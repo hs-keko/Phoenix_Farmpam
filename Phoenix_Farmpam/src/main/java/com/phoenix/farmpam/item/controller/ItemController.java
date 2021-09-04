@@ -63,17 +63,16 @@ public class ItemController {
 	
 	//수정폼
 	@RequestMapping("/item/private/updateform")
-	public ModelAndView updateForm(ModelAndView mView, HttpSession session) {
-		service.getInfo(session, mView);
-		mView.setViewName("item/updateform");
-		return mView;
+	public ModelAndView updateForm(HttpServletRequest request, HttpSession session) {
+		service.getInfo(request, session);
+		return new ModelAndView("item/updateform");
 	}
 
 	//수정반영 요청처리
 	@RequestMapping(value = "/item/private/update", method=RequestMethod.POST)
 	public String update(ItemDto dto, HttpSession session) {
 		service.updateItem(dto, session);
-		return "redirect:/item/private/info.do";
+		return "redirect:/item/private/list.do";
 	}
 	
 }

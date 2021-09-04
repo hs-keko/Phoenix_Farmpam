@@ -16,7 +16,7 @@ public interface ItemService {
 	//아이템 목록 얻어오기
 	public void getList(HttpServletRequest request);
 	public void insertItem(ItemDto dto);
-	public void getInfo(HttpSession session, ModelAndView mView);
+	public void getInfo(HttpServletRequest request, HttpSession session);
 	public Map<String, Object> saveImage(HttpServletRequest request,
 			MultipartFile mFile);
 	public void updateItem(ItemDto dto, HttpSession session);

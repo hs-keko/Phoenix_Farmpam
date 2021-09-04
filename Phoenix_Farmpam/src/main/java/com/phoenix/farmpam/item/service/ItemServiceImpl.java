@@ -121,14 +121,14 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void getInfo(HttpSession session, ModelAndView mView) {
+	public void getInfo(HttpServletRequest request, HttpSession session) {
 		// TODO Auto-generated method stub
 		// 아이템 번호를 읽어온다.
-		String farmer_email=(String)session.getAttribute("email");
+		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
-		ItemDto dto = itemDao.getData(farmer_email);
-		// modelAndView에 담기
-		mView.addObject("dto", dto);
+		ItemDto dto = itemDao.getData2(item_idx);
+		
+		request.setAttribute("dto", dto);
 		
 	}
 

@@ -53,7 +53,7 @@
 	
 	<update id="update" parameterType="itemDto">
 		UPDATE item
-		SET item_image=#{item_image}, item_title=#{item_title}, item_content=#{item_content}, item_price=#{item_price}, item_stock=#{item_stock0}, farmer_eamil=#{farmer_email}
+		SET item_image=#{item_image}, item_title=#{item_title}, item_content=#{item_content}, item_price=#{item_price}, item_stock=#{item_stock}, farmer_eamil=#{farmer_email}
 		WHERE item_idx=#{item_idx}
 	</update>
 </mapper>
