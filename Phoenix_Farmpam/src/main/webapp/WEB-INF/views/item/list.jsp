@@ -55,7 +55,7 @@
 				<td>${tmp.item_stock }</td>
 				<td>${tmp.farmer_email }</td>
 				<td><a href="${pageContext.request.contextPath}/item/private/updateform.do?item_idx=${tmp.item_idx }">수정</a></td>
-				<td><a href="delete.do">삭제</a></td>
+				<td><a href="${pageContext.request.contextPath}/item/private/delete.do?item_idx=${tmp.item_idx }">삭제</a></td>
 			</tr>
 			</c:forEach>
 		</table>

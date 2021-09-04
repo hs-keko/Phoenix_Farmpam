@@ -65,25 +65,17 @@ public class ItemServiceImpl implements ItemService {
 	}
 			
 	@Override
-	public void updateItem(ItemDto dto, HttpSession session) {
-		// 수정할 item에 아이템 번호를 적어주고
-		int item_idx=(int)session.getAttribute("item_idx");
-		//itemDto에 번호 담아주기
-		dto.setItem_idx(item_idx);
-		//만일 사진을 수정하지 않았으면
-		if(dto.getItem_image().equals("empty")) {
-			dto.setItem_image("");
-		}
-		//ItemDao를 이용해 수정 반영한다.
+	public void updateItem(ItemDto dto) {
 		itemDao.update(dto);
 	}
 
 	@Override
-	public void deleteItem(int num, HttpServletRequest request) {
-		// TODO Auto-generated method stub 
+	public void deleteItem(int item_idx, HttpServletRequest request) {
+		itemDao.delete(item_idx); 
 		
 	}
-
+	
+	//새글저장
 	@Override
 	public void insertItem(ItemDto dto) {
 		itemDao.insert(dto);	

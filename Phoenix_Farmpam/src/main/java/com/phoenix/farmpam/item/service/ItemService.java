@@ -19,6 +19,6 @@ public interface ItemService {
 	public void getInfo(HttpServletRequest request, HttpSession session);
 	public Map<String, Object> saveImage(HttpServletRequest request,
 			MultipartFile mFile);
-	public void updateItem(ItemDto dto, HttpSession session);
+	public void updateItem(ItemDto dto);
 	public void deleteItem(int num, HttpServletRequest request);
 }

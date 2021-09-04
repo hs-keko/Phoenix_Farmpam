@@ -7,7 +7,7 @@
 	<typeAliases>
 		<typeAlias type="com.phoenix.farmpam.users.dto.UsersDto" alias="usersDto"/>
 		<typeAlias type="com.phoenix.farmpam.farmer.dto.FarmerDto" alias="FarmerDto"/>
-		<typeAlias type="com.phoenix.farmpam.item.dto.ItemDto" alias="ItemDto"/>
+		<typeAlias type="com.phoenix.farmpam.item.dto.ItemDto" alias="itemDto"/>
 	</typeAliases>
 	<!-- 필요한 Mapper xml 등록하기  -->
 	<mappers>

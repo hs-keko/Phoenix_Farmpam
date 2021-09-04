@@ -55,6 +55,10 @@
 			<label for="item_stock">재고</label>
 			<input type="text" name="item_stock" id="item_stock"/>
 		</div>
+		<div>
+			<label for="farmer_email">판매자</label>
+			<input type="text" name="farmer_email" id="farmer_email" value="${email }" disabled/>
+		</div>
 		<button type="submit">업로드</button>
 	</form>
 	

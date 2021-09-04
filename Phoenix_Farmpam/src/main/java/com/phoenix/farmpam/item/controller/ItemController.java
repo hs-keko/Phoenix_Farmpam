@@ -38,18 +38,19 @@ public class ItemController {
 	}
 	
 	//새글 저장 폼
-	@RequestMapping(value = "/item/private/insertform", method=RequestMethod.GET)
+	@RequestMapping("/item/private/insertform")
 	public String insertForm() {
 		return "item/insertform";
 	}
 	
 	//새글 저장 요청 처리 
 	@RequestMapping("/item/private/insert")
-	public ModelAndView insert(ModelAndView mView, ItemDto dto) {
-		//글 작성자는 세션에서 얻어낸다. 
+	public String insert(ItemDto dto, HttpSession session) {
+		//글 번호는 세션에서 얻어낸다. 
+		int item_idx=(int)session.getAttribute("item_idx");
+		dto.setItem_idx(item_idx);
 		service.insertItem(dto);
-		mView.setViewName("item/insert");
-		return mView;
+		return "item/insert";
 	}
 	
 	//ajax 사진 업로드 요청처리
@@ -70,9 +71,16 @@ public class ItemController {
 
 	//수정반영 요청처리
 	@RequestMapping(value = "/item/private/update", method=RequestMethod.POST)
-	public String update(ItemDto dto, HttpSession session) {
-		service.updateItem(dto, session);
-		return "redirect:/item/private/list.do";
+	public String update(ItemDto dto) {
+		service.updateItem(dto);
+		return "item/update";
+	}
+	
+	//삭제하기
+	@RequestMapping("/item/private/delete")
+	public String delete(@RequestParam int item_idx, HttpServletRequest request) {
+		service.deleteItem(item_idx, request);
+		return "redirect:/item/list.do";
 	}
 	
 }

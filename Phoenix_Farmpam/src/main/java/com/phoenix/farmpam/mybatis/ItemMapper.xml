@@ -26,15 +26,13 @@
 		</choose>
 	</select>
 	
-	<select id="getData" parameterType="string" 
-	 resultType="com.phoenix.farmpam.item.dto.ItemDto">
+	<select id="getData" parameterType="itemDto">
 		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
 		FROM item
 		WHERE farmer_email=#{farmer_email }
 	</select>
 	
-	<select id="getData2" parameterType="int" 
-	 resultType="com.phoenix.farmpam.item.dto.ItemDto">
+	<select id="getData2" parameterType="int" resultType="itemDto">
 		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
 		FROM item
 		WHERE item_idx=#{item_idx }
@@ -42,8 +40,8 @@
 	
 	<insert id="insert" parameterType="itemDto">
 		INSERT INTO item
-		(item_idx, item_image, item_title, item_content, item_price, item_stock)
-		VALUES(#{item_idx}, #{item_image}, #{item_title}, #{item_content}, #{item_price}, #{item_stock})
+		(item_idx, item_image, item_title, item_content, item_price, item_stock, farmer_email)
+		VALUES(#{item_idx}, #{item_image}, #{item_title}, #{item_content}, #{item_price}, #{item_stock}, #{farmer_email})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
