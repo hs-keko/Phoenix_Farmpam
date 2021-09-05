@@ -1,5 +1,7 @@
 package com.phoenix.farmpam.item.service;
 
-public interface ItemService {
+import com.phoenix.farmpam.item.dto.ItemDto;
 
+public interface ItemService {
+	public void saveContent(ItemDto dto);
 }

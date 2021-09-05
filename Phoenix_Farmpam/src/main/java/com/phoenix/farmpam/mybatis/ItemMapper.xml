@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
+	<sql id="searchCondition">
+		<choose>
+			<when test="item_title != null and item_content != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%' 
+				OR item_content LIKE '%'||#{item_content}||'%'
+			</when>
+			<when test="item_title != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
+	</sql>
 	
+	<select id="getList" parameterType="itemDto" resultType="itemDto">
+		SELECT item_idx, item_title, item_price, item_content, item_image
+		FROM item i
+		<include refid="searchCondition"/>
+		INNER JOIN item_category_top t
+		ON i.item_category_top_idx=t.item_category_top_idx
+		<choose>
+			<when test="item_category_top_idx lt 11">
+				WHERE i.item_category_top_idx = #{i.item_category_top_idx}
+			</when>
+			<when test="item_category_top_idx == 111"> 
+				<![CDATA[ 
+				WHERE #{i.item_category_top_idx} < 11
+				]]>
+			</when>
+			<when test="11 lt item_category_top_idx lt 24">
+				WHERE i.item_category_top_idx = #{i.item_category_top_idx}
+			</when>
+			<when test="item_category_top_idx == 222">
+				WHERE i.item_category_top_idx between 12 and 23
+			</when>
+			<when test="24 lt item_category_top_idx lt 33">
+				WHERE i.item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_idx == 333">
+				WHERE i.item_category_top_idx between 25 and 32
+			</when>
+			<when test="33 lt item_category_top_idx lt 39">
+				WHERE i.item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_idx == 444">
+				WHERE i.item_category_top_idx between 33 and 38
+			</when>
+		</choose>
+	</select>
+	
+	<update id="minusCount" parameterType="int">
+		UPDATE item
+		SET item_stock=item_stock-1
+		where item_idx=#{item_idx}
+	</update>
+	
+	<select id="getPrice" parameterType="int" resultType="int">
+		SELECT item_price
+		FROM item
+		WHERE item_idx=#{item_idx}
+	</select>
 
+	<insert id="insert" parameterType="itemDto">
+		INSERT INTO item 
+		(item_idx, item_title, item_price, item_stock, item_content, item_image, farmer_email, 
+					item_category_top_idx, item_category_top_name, item_category_low_idx, item_category_low_name)
+		VALUES(item_seq.NEXTVAL, #{item_title}, #{item_price}, #{item_stock}, #item_content}, #{item_image}, #{farmer_email}, 
+					#{item_category_top_idx}, #{item_category_top_name}, #{item_category_low_idx}, #{item_category_low_name})			
+	</insert>
+	
+	<select id="getData" parameterType="int" resultType="itemDto"> 
+		SELECT *
+		FROM item
+		WHERE item_idx=#{item_idx}
+	</select>
+	
+	
 </mapper>

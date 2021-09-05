@@ -125,7 +125,7 @@ public class BoardController {
 		
 		service.getData(request);
 		
-		return  new ModelAndView("board/updateform");
+		return new ModelAndView("board/updateform");
 	}
 	
 	//카페글 수정 요청 처리 
