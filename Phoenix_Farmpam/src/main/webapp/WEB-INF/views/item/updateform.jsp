@@ -32,11 +32,11 @@
 			</c:when>
 			<c:otherwise>
 				<img id="itemImage" 
-					src="${pageContext.request.contextPath}&{dto.item_image}"/>
+					src="${pageContext.request.contextPath}${dto.item_image}"/>
 			</c:otherwise>
 		</c:choose>
 	</a>
-	<form action="${pageContext.request.contextPath}/item/private/update.do" method="post">
+	<form action="${pageContext.request.contextPath}/item/update.do" method="post">
 		<input type="hidden" name="item_image" 
 			value="${ empty dto.item_image ? 'empty' : dto.item_image}"/>
 		<div>

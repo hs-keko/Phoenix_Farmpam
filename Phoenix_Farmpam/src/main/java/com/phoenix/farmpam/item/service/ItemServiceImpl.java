@@ -21,7 +21,7 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 public class ItemServiceImpl implements ItemService {
 
 	@Autowired 
-	private ItemDao itemDao;
+	private ItemDao dao;
 
 	@Override
 	public void getList(HttpServletRequest request) {
@@ -55,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
 		}
 	}
 	//목록 얻어오기 
-	List<ItemDto> list=itemDao.getList(dto);
+	List<ItemDto> list=dao.getList(dto);
 	
 	//EL + JSTL 에서 사용할 데이터를 request 영역에 담아두기
 	request.setAttribute("list", list);
@@ -66,19 +66,19 @@ public class ItemServiceImpl implements ItemService {
 			
 	@Override
 	public void updateItem(ItemDto dto) {
-		itemDao.update(dto);
+		dao.update(dto);
 	}
 
 	@Override
 	public void deleteItem(int item_idx, HttpServletRequest request) {
-		itemDao.delete(item_idx); 
+		dao.delete(item_idx); 
 		
 	}
 	
 	//새글저장
 	@Override
 	public void insertItem(ItemDto dto) {
-		itemDao.insert(dto);	
+		dao.insert(dto);	
 	}
 
 	@Override
@@ -118,8 +118,7 @@ public class ItemServiceImpl implements ItemService {
 		// 아이템 번호를 읽어온다.
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
-		ItemDto dto = itemDao.getData2(item_idx);
-		
+		ItemDto dto = dao.getData2(item_idx);
 		request.setAttribute("dto", dto);
 		
 	}

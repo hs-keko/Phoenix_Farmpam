@@ -44,14 +44,16 @@ public class ItemController {
 	}
 	
 	//새글 저장 요청 처리 
-	@RequestMapping("/item/private/insert")
-	public String insert(ItemDto dto, HttpSession session) {
-		//글 번호는 세션에서 얻어낸다. 
-		int item_idx=(Integer)session.getAttribute("item_idx");
-		dto.setItem_idx(item_idx);
+	@RequestMapping("/item/insert")
+	public ModelAndView authInsert(ItemDto dto, HttpSession session, HttpServletRequest request) {
+		//글 작성자는 세션에서 얻어낸다. 
+		String farmer_email=(String)session.getAttribute("email");
+		//CafeDto 객체에 글 작성자도 담기
+		dto.setFarmer_email(farmer_email);
 		service.insertItem(dto);
-		return "item/insert";
-	}
+		
+		return new ModelAndView("item/insert");
+	}	
 	
 	//ajax 사진 업로드 요청처리
 	@RequestMapping(value = "/item/private/ajax_image_upload",
@@ -70,10 +72,10 @@ public class ItemController {
 	}
 
 	//수정반영 요청처리
-	@RequestMapping(value = "/item/private/update", method=RequestMethod.POST)
-	public String update(ItemDto dto) {
+	@RequestMapping(value = "/item/update", method = RequestMethod.POST)
+	public ModelAndView authUpdate(ItemDto dto, HttpServletRequest request) {
 		service.updateItem(dto);
-		return "item/update";
+		return new ModelAndView("item/update");
 	}
 	
 	//삭제하기

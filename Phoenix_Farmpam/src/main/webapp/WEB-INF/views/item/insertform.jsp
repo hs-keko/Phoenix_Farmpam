@@ -32,11 +32,11 @@
 			</c:when>
 			<c:otherwise>
 				<img id="itemImage" 
-					src="${pageContext.request.contextPath}&{dto.item_image}"/>
+					src="${pageContext.request.contextPath}${dto.item_image}"/>
 			</c:otherwise>
 		</c:choose>
 	</a>
-	<form action="${pageContext.request.contextPath}/item/private/insert.do" method="post">
+	<form action="${pageContext.request.contextPath}/item/insert.do" method="post">
 		<input type="hidden" name="item_image" 
 			value="${ empty dto.item_image ? 'empty' : dto.item_image}"/>
 		<div>
@@ -49,11 +49,11 @@
 		</div>
 		<div>
 			<label for="item_price">가격</label>
-			<input type="text" name="item_price" id="item_price"/>
+			<input type="number" name="item_price" id="item_price"/>
 		</div>
 		<div>
 			<label for="item_stock">재고</label>
-			<input type="text" name="item_stock" id="item_stock"/>
+			<input type="number" name="item_stock" id="item_stock"/>
 		</div>
 		<div>
 			<label for="farmer_email">판매자</label>

@@ -38,10 +38,10 @@
 		WHERE item_idx=#{item_idx }
 	</select>
 	
-	<insert id="insert" parameterType="itemDto">
+	<insert id="insert" parameterType="com.phoenix.farmpam.item.dto.ItemDto">
 		INSERT INTO item
-		(farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image)
-		VALUES(#{farmer_email}, #{item_idx}, #{item_title}, #{item_price}, #{item_stock}, #{item_category_top_idx}, #{item_content}, #{item_image})
+		(item_idx, farmer_email, item_title, item_price, item_stock, item_content, item_image)
+		VALUES(item_seq.NEXTVAL, #{farmer_email}, #{item_title}, #{item_price}, #{item_stock}, #{item_content}, #{item_image})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -49,9 +49,15 @@
 		WHERE item_idx=#{item_idx}
 	</delete>
 	
-	<update id="update" parameterType="itemDto">
+	<update id="update" parameterType="com.phoenix.farmpam.item.dto.ItemDto">
 		UPDATE item
 		SET item_image=#{item_image}, item_title=#{item_title}, item_content=#{item_content}, item_price=#{item_price}, item_stock=#{item_stock}
 		WHERE item_idx=#{item_idx}
 	</update>
 </mapper>
+
+
+
+
+
+
