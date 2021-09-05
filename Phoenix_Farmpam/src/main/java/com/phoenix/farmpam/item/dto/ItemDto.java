@@ -181,7 +181,4 @@ public class ItemDto {
 		this.nextNum = nextNum;
 	}
 
-   
-   
-   
 }

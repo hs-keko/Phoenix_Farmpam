@@ -95,6 +95,7 @@ public class UsersController {
 	public String logout(HttpSession session) {
 		//세션에서 users_email이라는 키값으로 저장된 값 삭제
 		session.removeAttribute("email");
+		session.removeAttribute("check");
 		return "users/logout";
 	}
 	
@@ -115,6 +116,7 @@ public class UsersController {
 		 *  등등의 객체 이다. 
 		 */
 		service.loginProcess(dto, session);
+		service.checkbox(dto, session);
 		
 		String encodedUrl=URLEncoder.encode(url);
 		mView.addObject("url", url);
@@ -124,12 +126,48 @@ public class UsersController {
 		return mView;
 	}
 	
+	//vue 로그인 요청
+	@RequestMapping("/users/vue/login")
+	@ResponseBody
+	public Map<String,Object> vuelogin(UsersDto dto, HttpSession session) {
+		System.out.println("login 요청");
+		System.out.println(dto.getUsers_email());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		// response => { email: String, name: String, chk: String ,token: boolean } 
+		if(service.loginpro(dto, session)) {
+			service.checkbox(dto, session);		
+			map.put("email",(String)session.getAttribute("email"));
+			map.put("name",(String)session.getAttribute("name"));
+			map.put("chk",(String)session.getAttribute("check"));
+			// 나중에 JWT 토큰API 사용해보기.
+			map.put("token",true);
+		}else {
+			map.put("token",false);
+		}
+	
+		return map;
+	}
+	
 	//회원가입 요청처리
 	@RequestMapping(value="/users/signup", method = RequestMethod.POST)
 	public ModelAndView signup(ModelAndView mView, UsersDto dto) {
 		service.addUser(dto);
 		mView.setViewName("users/signup");
 		return mView;	
+	}
+	
+	// vue 회원가입 요청처리
+	@RequestMapping(value="/users/vue/signup", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> vuesignup( UsersDto dto) {
+		System.out.println("vue 회원가입 요청");
+		System.out.println(dto.getUsers_email());
+		dto.setUsers_chk("0");
+		service.addUser(dto);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isSuccess",true );
+		return map;
 	}
 
 	//before창 가입하기 전 분류하기
