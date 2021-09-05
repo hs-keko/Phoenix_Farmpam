@@ -36,6 +36,7 @@
 			</c:otherwise>
 		</c:choose>
 	</a>
+	
 	<form action="${pageContext.request.contextPath}/item/update.do" method="post">
 		<input type="hidden" name="item_image" 
 			value="${ empty dto.item_image ? 'empty' : dto.item_image}"/>
