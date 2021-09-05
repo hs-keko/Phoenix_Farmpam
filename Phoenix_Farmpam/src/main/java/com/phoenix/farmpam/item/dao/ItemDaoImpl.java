@@ -42,13 +42,13 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public ItemDto getData(int item_idx) {
-		return session.selectOne("item.getData", item_idx);
+	public ItemDto getData(ItemDto dto) {
+		return session.selectOne("item.getData", dto);
 	}
 
 	@Override
-	public ItemDto getData2(ItemDto dto) {
-		return session.selectOne("item.getData2", dto);
+	public ItemDto getData2(int item_idx) {
+		return session.selectOne("item.getData2", item_idx);
 	}
 
 	@Override

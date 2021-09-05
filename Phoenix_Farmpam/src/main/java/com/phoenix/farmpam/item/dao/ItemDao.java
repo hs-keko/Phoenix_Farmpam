@@ -16,9 +16,9 @@ public interface ItemDao {
 	//글 추가
 	public void insert(ItemDto dto);
 	//글정보 얻어오기
-	public ItemDto getData(int item_idx);
+	public ItemDto getData2(int item_idx);
 	//키워드를 활용한 글정보 얻어오기
-	public ItemDto getData2(ItemDto dto);
+	public ItemDto getData(ItemDto dto);
 	//글 삭제
 	public void delete(int item_idx);
 	//글 수정
