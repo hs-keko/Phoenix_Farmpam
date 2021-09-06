@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container">
-	<h1> 일반유저 로그인 </h1>
+	<h1> 농장주 로그인 </h1>
 	<form action="${pageContext.request.contextPath}/farmer/login_farmer.do" method="post">
 		<c:choose>
 			<c:when test="${ empty param.url }">

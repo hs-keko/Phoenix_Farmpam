@@ -11,9 +11,9 @@
 <div class="container">
 	<h1>알림</h1>
 	<c:choose>
-		<c:when test="${not empty sessionScope.farmer_email }">
+		<c:when test="${not empty sessionScope.email }">
 			<p>
-				<strong>${sessionScope.farmer_email }</strong>님 로그인 되었습니다.
+				<strong>${sessionScope.email }</strong>님 로그인 되었습니다.
 				<a href="${requestScope.url }">확인</a>
 			</p>
 		</c:when>
@@ -27,7 +27,6 @@
 </div>	
 </body>
 </html>
-
 
 
 

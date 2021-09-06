@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
+	<!-- 상품 목록 -->
+	<select id="getList" resultType="itemDto" parameterType="itemDto">
+			SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT item_idx, item_image, item_title, item_content, item_price, item_stock, farmer_email
+				FROM item
+				<choose>
+					<when test="item_title != null">
+						WHERE item_title LIKE '%'||#{item_title}||'%'
+					</when>
+				</choose>
+			ORDER BY item_idx) result1
+	</select>
+
+	<select id="getCount" parameterType="itemDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM item
+		<choose>
+			<when test="item_title != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
+	</select>
+	
+	<select id="getData" parameterType="itemDto">
+		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
+		FROM item
+		WHERE farmer_email=#{farmer_email }
+	</select>
+	
+	<select id="getData2" parameterType="int" resultType="itemDto">
+		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
+		FROM item
+		WHERE item_idx=#{item_idx }
+	</select>
+	
+	<insert id="insert" parameterType="itemDto">
+		INSERT INTO item
+		(item_idx, farmer_email, item_title, item_price, item_stock, item_content, item_image)
+		VALUES(item_seq.NEXTVAL, #{farmer_email}, #{item_title}, #{item_price}, #{item_stock}, #{item_content}, #{item_image})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM item
+		WHERE item_idx=#{item_idx}
+	</delete>
+	
+	<update id="update" parameterType="itemDto">
+		UPDATE item
+		SET item_image=#{item_image}, item_title=#{item_title}, item_content=#{item_content}, item_price=#{item_price}, item_stock=#{item_stock}
+		WHERE item_idx=#{item_idx}
+	</update>
+	
 	<!-- 상품 가격 가져오기 -->
 	<select id="getPrice" parameterType="int" resultType="int">
 		SELECT item_price

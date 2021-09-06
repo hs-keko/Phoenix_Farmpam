@@ -44,6 +44,12 @@
 			<input type="text" name="farmer_phone" id="farmer_phone" placeholder="핸드폰번호 입력" maxlength="13" required/>
 		</div>
 		<br/>
+		<div>
+			 농장주로 가입하는 것이 맞습니까? <input type="checkbox" checked="checked" name="farmer_chk" value="1" onclick="return false">
+			<br/>
+			<small class="form-text text-muted"> 만일 아니시라면 일반 유저 회원가입 폼에서 가입을 완료해주세요. </small>
+		</div>
+		<br/>
 		<button class="btn btn-primary" type="submit">가입</button>
 	</form>
 </div>
@@ -53,7 +59,6 @@
 <script>
 	// 이메일, 비밀번호, 약관동의의 유효성 여부를 관리한 변수 만들고 초기값 대입
 	let isEmailValid=false;
-
 	//아이디를 입력했을때(input) 실행할 함수 등록 
 	document.querySelector("#farmer_email").addEventListener("input", function(){
 	//일단 is-valid,  is-invalid 클래스를 제거한다.
@@ -82,7 +87,6 @@
 	      }
 	   });
 	});
-
 	// 핸드폰 하이픈 넣기
 	function autoHypenPhone(str){
 	    str = str.replace(/[^0-9]/g, '');
@@ -111,7 +115,6 @@
 	    }
 	    return str;
 	}
-
 	var farmer_phone = document.getElementById('farmer_phone');
 		farmer_phone.onkeyup = function(event){
 		event = event || window.event;
@@ -163,11 +166,9 @@
 				document.querySelector("#myForm").submit();
 			}
 	});
-
 </script>
 </body>
 </html>
-
 
 
 

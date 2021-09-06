@@ -82,6 +82,7 @@ public class FarmerController {
 		 *  등등의 객체 이다. 
 		 */
 		service.loginProcess(dto, session);
+		service.checkbox(dto, session);
 		
 		String encodedUrl=URLEncoder.encode(url);
 		mView.addObject("url", url);

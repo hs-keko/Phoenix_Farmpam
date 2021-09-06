@@ -6,15 +6,29 @@
 		FROM farmer
 		WHERE farmer_email=#{farmer_email}
 	</select>
-	<insert id="insert" parameterType="com.phoenix.farmpam.farmer.dto.FarmerDto">
+	<insert id="insert" parameterType="farmerDto">
 		INSERT INTO farmer
-		(farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone)
-		VALUES(#{farmer_email}, #{farmer_pwd }, #{farmer_name }, #{farmer_addr }, #{farmer_addr_detail }, #{farmer_phone}) 
+		(farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_regdate, farmer_chk)
+		VALUES(#{farmer_email}, #{farmer_pwd }, #{farmer_name }, #{farmer_addr }, #{farmer_addr_detail }, #{farmer_phone}, SYSDATE, #{farmer_chk}) 
 	</insert>
 	<select id="getData" parameterType="string" 
-	 resultType="com.phoenix.farmpam.farmer.dto.FarmerDto">
-		SELECT farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_profile, farmer_follow, farmer_intro, farmer_ban
+	 resultType="farmerDto">
+		SELECT farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_profile, farmer_follow, farmer_intro, farmer_ban, farmer_regdate, farmer_chk
 		FROM farmer
 		WHERE farmer_email=#{farmer_email }
 	</select>
+	<update id="pwdUpdate" parameterType="farmerDto">
+		UPDATE farmer
+		SET farmer_pwd=#{farmer_newPwd}
+		WHERE farmer_email=#{farmer_email}
+	</update>
+		<update id="update" parameterType="farmerDto">
+		UPDATE farmer
+		SET farmer_profile=#{farmer_profile}, farmer_name=#{farmer_name}, farmer_addr=#{farmer_addr }, farmer_addr_detail=#{farmer_addr_detail }, farmer_phone=#{farmer_phone}, farmer_intro=#{farmer_intro}
+		WHERE farmer_email=#{farmer_email}
+	</update>
+		<delete id="delete" parameterType="string">
+		DELETE FROM farmer
+		WHERE farmer_email=#{farmer_email}
+	</delete>
 </mapper>
