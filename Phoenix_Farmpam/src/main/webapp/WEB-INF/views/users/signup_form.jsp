@@ -88,7 +88,6 @@
 	      }
 	   });
 	});
-
 	// 핸드폰 하이픈 넣기
 	function autoHypenPhone(str){
 	    str = str.replace(/[^0-9]/g, '');
@@ -117,7 +116,6 @@
 	    }
 	    return str;
 	}
-
 	var users_phone = document.getElementById('users_phone');
 		users_phone.onkeyup = function(event){
 		event = event || window.event;
@@ -173,7 +171,6 @@
 </script>
 </body>
 </html>
-
 
 
 

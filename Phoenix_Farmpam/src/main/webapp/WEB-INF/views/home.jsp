@@ -19,11 +19,12 @@
 	</c:if>
 	<c:if test="${sessionScope.check eq 'chk_farmer'}">
 		<a href="${pageContext.request.contextPath}/farmer/private/info_farmer.do">${sessionScope.email }</a> 농장주 로그인중... 
-		<a href="${pageContext.request.contextPath}/item/private/sale.do">내 상점</a>
+		<a href="${pageContext.request.contextPath}/item/private/list.do">내 상점 관리</a>
 		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 	</c:if>
 	<c:if test="${sessionScope.check eq 'chk_common'}">
 		<a href="${pageContext.request.contextPath}/users/private/info.do">${sessionScope.email }</a> 유저 로그인중... 
+		<a href="${pageContext.request.contextPath}/item/test_buy.do">상품 구매 테스트</a>
 		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 	</c:if>
 <h1>

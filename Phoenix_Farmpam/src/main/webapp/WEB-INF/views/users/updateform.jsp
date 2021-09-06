@@ -127,7 +127,6 @@
 	    }
 	    return str;
 	}
-
 	var users_phone = document.getElementById('users_phone');
 		users_phone.onkeyup = function(event){
 		event = event || window.event;

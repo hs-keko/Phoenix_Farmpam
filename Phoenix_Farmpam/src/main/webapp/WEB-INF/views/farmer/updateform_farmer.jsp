@@ -130,7 +130,6 @@
 	    }
 	    return str;
 	}
-
 	var farmer_phone = document.getElementById('farmer_phone');
 	farmer_phone.onkeyup = function(event){
 		event = event || window.event;

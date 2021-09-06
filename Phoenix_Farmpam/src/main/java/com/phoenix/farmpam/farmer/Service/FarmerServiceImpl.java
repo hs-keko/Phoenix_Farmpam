@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.farmer.dao.FarmerDao;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
-import com.phoenix.farmpam.users.dto.UsersDto;
+import com.phoenix.farmpam.farmer.dto.FollowDto;
 
 @Service
 public class FarmerServiceImpl implements FarmerService {
@@ -154,6 +154,43 @@ public class FarmerServiceImpl implements FarmerService {
 		return map;
 	}
 
+
+	@Override
+	public void deleteUser(HttpSession session, ModelAndView mView) {
+		// 로그인된 이메일을 얻어와서
+		String email=(String)session.getAttribute("email");
+		//해당 정보를 DB에서 삭제하고
+		dao.delete(email);
+		//로그아웃 처리도 한다.
+		session.removeAttribute("email");
+		//ModelAndView 객체에 탈퇴한 회원의 이메일을 담아준다.
+		mView.addObject("email", email);
+
+	}
+	
+	// 팔로우 추가
+	@Override
+	public FarmerDto followInsert(FollowDto followDto) {
+		// farmer 테이블에 해당 농장주의 팔로우 수를 +1 하기 위한 FarmerDto 셋팅
+		FarmerDto farmerDto = new FarmerDto();
+		farmerDto.setFarmer_email(followDto.getFarmer_email());
+		// DB에서 팔로우 추가 작업을 하고 FarmerDto 리턴
+		return dao.followInsert(farmerDto, followDto);
+	}
+
+	// 팔로우 해제
+	@Override
+	public FarmerDto followDelete(FollowDto followDto) {
+		// farmer 테이블에 해당 농장주의 팔로우 수를 -1 하기 위한 FarmerDto 셋팅
+		FarmerDto farmerDto = new FarmerDto();
+		farmerDto.setFarmer_email(followDto.getFarmer_email());
+		// DB에서 팔로우 해제 작업을 하고 FarmerDto 리턴
+		return dao.followDelete(farmerDto, followDto);
+	}
+
+
+
+
 	@Override
 	public void updateUser(FarmerDto dto, HttpSession session) {
 		// 수정할 회원의 아이디
@@ -169,18 +206,6 @@ public class FarmerServiceImpl implements FarmerService {
 		dao.update(dto);
 	}
 
-	@Override
-	public void deleteUser(HttpSession session, ModelAndView mView) {
-		// 로그인된 이메일을 얻어와서
-		String email=(String)session.getAttribute("email");
-		//해당 정보를 DB에서 삭제하고
-		dao.delete(email);
-		//로그아웃 처리도 한다.
-		session.removeAttribute("email");
-		//ModelAndView 객체에 탈퇴한 회원의 이메일을 담아준다.
-		mView.addObject("email", email);
-
-	}
 		
 }
 

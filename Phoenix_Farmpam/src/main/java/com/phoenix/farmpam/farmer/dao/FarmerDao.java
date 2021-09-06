@@ -1,6 +1,7 @@
 package com.phoenix.farmpam.farmer.dao;
 
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
+import com.phoenix.farmpam.farmer.dto.FollowDto;
 
 public interface FarmerDao {
 	//인자로 전달된 이메일이 존재하는지 여부를 리턴하는 메소드
@@ -15,4 +16,8 @@ public interface FarmerDao {
 	public void update(FarmerDto dto);
 	//회원정보를 삭제하는 메소드
 	public void delete(String farmer_email);
+	// 팔로우 추가
+	public FarmerDto followInsert(FarmerDto farmerDto, FollowDto followDto);
+	// 팔로우 해제
+	public FarmerDto followDelete(FarmerDto farmerDto, FollowDto followDto);
 }

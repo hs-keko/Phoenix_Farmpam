@@ -51,7 +51,6 @@
 			document.querySelector("#myForm").submit();
 		}
 	});
-
 </script>
 </body>
 </html>

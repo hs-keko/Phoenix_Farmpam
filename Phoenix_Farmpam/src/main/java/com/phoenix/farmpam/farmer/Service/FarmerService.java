@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
-import com.phoenix.farmpam.users.dto.UsersDto;
+import com.phoenix.farmpam.farmer.dto.FollowDto;
 
 public interface FarmerService {
 	
@@ -25,4 +25,8 @@ public interface FarmerService {
 			MultipartFile mFile);
 	public void updateUser(FarmerDto dto, HttpSession session);
 	public void deleteUser(HttpSession session, ModelAndView mView);
+	// 팔로우 추가
+	public FarmerDto followInsert(FollowDto followDto);
+	// 팔로우 해제
+	public FarmerDto followDelete(FollowDto followDto);
 }
