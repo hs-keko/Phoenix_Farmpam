@@ -20,7 +20,7 @@
 	<br />
 	
 	<form action="${pageContext.request.contextPath}/item/private/addcart.do" method="post">
-		<input type="hidden" name="item_idx" value="${item.idx }"></input>
+		<input type="hidden" name="item_idx" value="${item_idx }"></input>
 		<p>담을 상품 갯수 : <input type="number" name="cart_amount" /> 개 </p>
 		<button class="btn btn-primary"type="submit">장바구니에 담기</button>
 	</form>

@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.phoenix.farmpam.item.dao.CartDao;
 import com.phoenix.farmpam.item.dao.ItemDao;
 import com.phoenix.farmpam.item.dao.OrdersDao;
+import com.phoenix.farmpam.item.dto.CartDto;
 import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.dto.OrdersDto;
 
@@ -27,6 +29,9 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private OrdersDao ordersDao;
+	
+	@Autowired
+	private CartDao cartDao;
 	
 	@Override
 	public void getList(HttpServletRequest request) {
@@ -184,8 +189,13 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public ModelAndView insertCart(HttpServletRequest request, ModelAndView mView) {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertCart(HttpServletRequest request, HttpSession session) {
+		// 파라미터로 전송된 정보들을 CartDto 에 저장
+		CartDto cartDto = new CartDto();
+		cartDto.setItem_idx(Integer.parseInt(request.getParameter("item_idx")));
+		cartDto.setUsers_email((String)session.getAttribute("email"));
+		cartDto.setCart_amount(Integer.parseInt(request.getParameter("cart_amount")));
+		// 장바구니 테이블에 저장
+		cartDao.insertCart(cartDto);
 	}
 }

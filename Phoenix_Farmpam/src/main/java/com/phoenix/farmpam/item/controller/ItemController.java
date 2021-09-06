@@ -28,9 +28,9 @@ public class ItemController {
 	
 	//장바구니 담기
 	@RequestMapping(value = "/item/private/addcart", method = RequestMethod.POST)
-	public ModelAndView addCart(HttpServletRequest request, ModelAndView mView) {
-		service.insertCart(request, mView);
-		
+	public ModelAndView addCart(HttpServletRequest request, HttpSession session, ModelAndView mView) {
+		service.insertCart(request, session);
+		mView.setViewName("item/addcart");
 		return mView;
 	}
 	
