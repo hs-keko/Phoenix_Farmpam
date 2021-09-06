@@ -167,4 +167,25 @@ public class ItemServiceImpl implements ItemService {
 		ordersDao.addOrders(ordersDto);
 		return mView;
 	}
+
+	@Override
+	public ModelAndView getDetail(HttpServletRequest request, ModelAndView mView) {
+		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
+		ItemDto itemDto = itemDao.getData2(item_idx);
+		mView.addObject("farmer_email", itemDto.getFarmer_email());
+		mView.addObject("item_idx", itemDto.getItem_idx());
+		mView.addObject("item_title", itemDto.getItem_title());
+		mView.addObject("item_price", itemDto.getItem_price());
+		mView.addObject("item_stock", itemDto.getItem_stock());
+		mView.addObject("item_category_top_idx", itemDto.getItem_category_top_idx());
+		mView.addObject("item_content", itemDto.getItem_content());
+		mView.addObject("item_image", itemDto.getItem_image());
+		return mView;
+	}
+
+	@Override
+	public ModelAndView insertCart(HttpServletRequest request, ModelAndView mView) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

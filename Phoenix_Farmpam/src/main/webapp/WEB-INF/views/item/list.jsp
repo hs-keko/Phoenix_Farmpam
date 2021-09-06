@@ -49,7 +49,7 @@
 			<tr>
 				<td>${tmp.item_idx }</td>
 				<td>${tmp.item_image }</td>
-				<td>${tmp.item_title }</td>
+				<td><a href="${pageContext.request.contextPath}/item/detail.do?item_idx=${tmp.item_idx}">${tmp.item_title }</a></td>
 				<td>${tmp.item_content }</td>
 				<td>${tmp.item_price }</td>
 				<td>${tmp.item_stock }</td>
