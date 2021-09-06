@@ -17,12 +17,35 @@ import org.springframework.web.servlet.ModelAndView;
 import com.phoenix.farmpam.farmer.dao.FarmerDao;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.farmer.dto.FollowDto;
+import com.phoenix.farmpam.users.dto.UsersDto;
 
 @Service
 public class FarmerServiceImpl implements FarmerService {
 
 	@Autowired
 	private FarmerDao dao;
+	
+	@Override
+	public boolean vuelogin(FarmerDto dto, HttpSession session) {
+		//입력한 정보가 맞는여부
+		boolean isValid=false;
+		
+		//1. 로그인 폼에 입력한 아이디를 이용해서 해당 정보를 select 해 본다. 
+		FarmerDto result=dao.getData(dto.getFarmer_email());
+		if(result != null) {//만일 존재하는 아이디 라면
+			//비밀번호가 일치하는지 확인한다.
+			String encodedPwd=result.getFarmer_pwd(); //DB 에 저장된 암호화된 비밀번호 
+			String inputUsersPwd=dto.getFarmer_pwd(); //로그인폼에 입력한 비밀번호
+			//Bcrypt 클래스의 static 메소드를 이용해서 일치 여부를 얻어낸다.
+			isValid=BCrypt.checkpw(inputUsersPwd, encodedPwd);
+		}
+		if(isValid) {//만일 유효한 정보이면 
+			//로그인 처리를 한다.
+			session.setAttribute("email", dto.getFarmer_email());
+			session.setAttribute("name",result.getFarmer_name());
+		}
+		return isValid;
+	}
 	
 	@Override
 	public Map<String, Object> isExistEmail(String inputFarmerEmail) {

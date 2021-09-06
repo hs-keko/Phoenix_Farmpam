@@ -29,4 +29,7 @@ public interface FarmerService {
 	public FarmerDto followInsert(FollowDto followDto);
 	// 팔로우 해제
 	public FarmerDto followDelete(FollowDto followDto);
+	
+	// vue 처리
+	public boolean vuelogin(FarmerDto dto, HttpSession session);
 }

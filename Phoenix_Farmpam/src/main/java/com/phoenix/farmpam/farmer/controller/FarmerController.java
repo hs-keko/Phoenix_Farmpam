@@ -1,6 +1,7 @@
 package com.phoenix.farmpam.farmer.controller;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -168,6 +169,28 @@ public class FarmerController {
 		
 		mView.setViewName("farmer/login_farmer");
 		return mView;
+	}
+	
+	//vue 로그인 요청 처리
+	@RequestMapping("/farmer/vue/login")
+	@ResponseBody
+	public Map<String,Object> vuelogin( FarmerDto dto,HttpSession session) {
+		System.out.println(dto.getFarmer_email());
+		Map<String,Object> map = new HashMap<String, Object>();
+		// response => { email: String, name: String, chk: String ,token: boolean } 
+				if(service.vuelogin(dto, session)) {
+					service.checkbox(dto, session);		
+					map.put("email",(String)session.getAttribute("email"));
+					map.put("name",(String)session.getAttribute("name"));
+					map.put("chk",(String)session.getAttribute("check"));
+					System.out.println(map);
+					// 나중에 JWT 토큰API 사용해보기.
+					map.put("token",true);
+				}else {
+					map.put("token",false);
+				}
+	
+		return map;
 	}
 	
 	//회원가입 요청처리
