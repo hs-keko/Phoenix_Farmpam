@@ -45,13 +45,10 @@ public class ItemController {
 	//목록
 	@RequestMapping("/item/private/list")
 	public String getList(HttpServletRequest request) {
-		//글 작성자는 세션에서 얻어낸다. 
-		String farmer_email=(String)request.getSession().getAttribute("email");
-		//Dto 객체에 글 작성자도 담기
-		ItemDto itemDto = new ItemDto();
-		itemDto.setFarmer_email(farmer_email);
+		
 		service.getList(request);
-		return "/item/list";
+		
+		return "item/list";
 	}
 	
 	//새글 저장 폼
