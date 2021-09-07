@@ -13,6 +13,8 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.dto.OrdersDto;
 
 public interface ItemService {
+	//장바구니 목록 불러오기
+	public void getCartList(HttpSession session, ModelAndView mView);
 	//장바구니 담기
 	public void insertCart(HttpServletRequest request, HttpSession session);
 	//디테일

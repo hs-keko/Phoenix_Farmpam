@@ -8,11 +8,12 @@ public class CartDto {
 	private String item_title;
 	private int item_price;
 	private String item_image;
+	private int cart_price;
 	
 	public CartDto() {}
 
 	public CartDto(int cart_idx, int item_idx, String users_email, int cart_amount, String item_title, int item_price,
-			String item_image) {
+			String item_image, int cart_price) {
 		super();
 		this.cart_idx = cart_idx;
 		this.item_idx = item_idx;
@@ -21,6 +22,7 @@ public class CartDto {
 		this.item_title = item_title;
 		this.item_price = item_price;
 		this.item_image = item_image;
+		this.cart_price = cart_price;
 	}
 
 	public int getCart_idx() {
@@ -78,4 +80,14 @@ public class CartDto {
 	public void setItem_image(String item_image) {
 		this.item_image = item_image;
 	}
+
+	public int getCart_price() {
+		return cart_price;
+	}
+
+	public void setCart_price(int cart_price) {
+		this.cart_price = cart_price;
+	}
+
+	
 }

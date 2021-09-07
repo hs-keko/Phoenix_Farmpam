@@ -188,14 +188,35 @@ public class ItemServiceImpl implements ItemService {
 		return mView;
 	}
 
+	//장바구니 담기
 	@Override
 	public void insertCart(HttpServletRequest request, HttpSession session) {
-		// 파라미터로 전송된 정보들을 CartDto 에 저장
+		//파라미터로 전송된 정보들을 가져오기
 		CartDto cartDto = new CartDto();
-		cartDto.setItem_idx(Integer.parseInt(request.getParameter("item_idx")));
-		cartDto.setUsers_email((String)session.getAttribute("email"));
-		cartDto.setCart_amount(Integer.parseInt(request.getParameter("cart_amount")));
+		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
+		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
+		String users_email=(String)session.getAttribute("email");
+		// item_price 가져와서 cart_amount * item_price 값을 cart_price 에 저장
+		int item_price=itemDao.getData2(item_idx).getItem_price();
+		int cart_price = cart_amount * item_price ;
+		//CartDto 에 저장
+		cartDto.setItem_idx(item_idx);
+		cartDto.setUsers_email(users_email);
+		cartDto.setCart_amount(cart_amount);
+		cartDto.setCart_price(cart_price);
 		// 장바구니 테이블에 저장
 		cartDao.insertCart(cartDto);
+	}
+
+	//장바구니 목록 불러오기
+	@Override
+	public void getCartList(HttpSession session, ModelAndView mView) {
+		//세션에서 로그인된 유저 이메일 불러오기
+		String users_email = (String)session.getAttribute("email");
+		//장바구니 상품 목록을 담을 List
+		List<CartDto> list = cartDao.getCartList(users_email);
+		//ModelAndView 객체에 list 라는 키값으로 담는다.
+		mView.addObject("list", list);
+		
 	}
 }

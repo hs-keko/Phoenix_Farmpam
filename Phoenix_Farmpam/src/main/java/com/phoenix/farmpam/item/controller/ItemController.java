@@ -26,6 +26,14 @@ public class ItemController {
 	@Autowired
 	private ItemService service;
 	
+	//장바구니 목록
+	@RequestMapping("/item/private/cart")
+	public ModelAndView cartList(HttpSession session, ModelAndView mView) {
+		service.getCartList(session, mView);
+		mView.setViewName("item/cart");
+		return mView;
+	}
+	
 	//장바구니 담기
 	@RequestMapping(value = "/item/private/addcart", method = RequestMethod.POST)
 	public ModelAndView addCart(HttpServletRequest request, HttpSession session, ModelAndView mView) {
