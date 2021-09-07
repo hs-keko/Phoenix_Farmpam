@@ -131,7 +131,7 @@ public class UsersController {
 	@ResponseBody
 	public Map<String,Object> vuelogin(UsersDto dto, HttpSession session) {
 		System.out.println("login 요청");
-		System.out.println(dto.getUsers_email());
+		System.out.println("users_email : "+dto.getUsers_email());
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		// response => { email: String, name: String, chk: String ,token: boolean } 

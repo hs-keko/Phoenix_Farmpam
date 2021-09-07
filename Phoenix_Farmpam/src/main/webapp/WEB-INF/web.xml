@@ -27,6 +27,12 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
+		<!-- cors 문제  -->
+<!--		<init-param>
+          <param-name>dispatchOptionsRequest</param-name>
+          <param-value>true</param-value>
+        </init-param> -->
+       
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 		
@@ -76,13 +82,26 @@
         </init-param>
         <init-param>
             <param-name>cors.preflight.maxage</param-name>
-            <param-value>10</param-value>
+            <param-value>3600</param-value>
         </init-param>
     </filter>
     <filter-mapping>
         <filter-name>CorsFilter</filter-name>
         <url-pattern>/</url-pattern>
-    </filter-mapping>	
+    </filter-mapping>
+    
+        <!-- 
+    <filter>
+    	<filter-name>mycors</filter-name>
+    	<filter-class>com.phoenix.farmpam.vue.CorsFilter</filter-class>
+    	<async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+    	<filter-name>mycors</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+         -->
+
 	
 	<!-- html 파일을 불러오기위한  -->
 	<servlet>
