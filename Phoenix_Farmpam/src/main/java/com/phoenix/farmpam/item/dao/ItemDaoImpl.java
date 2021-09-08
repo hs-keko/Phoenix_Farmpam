@@ -15,8 +15,8 @@ public class ItemDaoImpl implements ItemDao {
 	private SqlSession session;
 	
 	@Override
-	public List<ItemDto> getList(ItemDto dto) {
-		return session.selectList("item.getList", dto);
+	public List<ItemDto> getList(ItemDto itemDto) {
+		return session.selectList("item.getList", itemDto);
 	}
 
 	@Override
@@ -31,19 +31,19 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public int getCount(ItemDto dto) {
-		return session.selectOne("item.getCount", dto);
+	public int getCount(ItemDto itemDto) {
+		return session.selectOne("item.getCount", itemDto);
 	}
 
 	@Override
-	public void insert(ItemDto dto) {
-		session.insert("item.insert", dto);
+	public void insert(ItemDto itemDto) {
+		session.insert("item.insert", itemDto);
 		
 	}
 
 	@Override
-	public ItemDto getData(ItemDto dto) {
-		return session.selectOne("item.getData", dto);
+	public ItemDto getData(ItemDto itemDto) {
+		return session.selectOne("item.getData", itemDto);
 	}
 
 	@Override
@@ -58,8 +58,8 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public void update(ItemDto dto) {
-		session.update("item.update", dto);
+	public void update(ItemDto itemDto) {
+		session.update("item.update", itemDto);
 		
 	}
 	

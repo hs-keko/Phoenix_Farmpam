@@ -4,6 +4,8 @@ public class ItemCategoryLowDto {
 	private int item_category_low_idx;
 	private String item_category_low_name;
 	
+	public ItemCategoryLowDto() {}
+	
 	public ItemCategoryLowDto(int item_category_low_idx, String item_category_low_name) {
 		super();
 		this.item_category_low_idx = item_category_low_idx;

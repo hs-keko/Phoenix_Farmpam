@@ -22,54 +22,18 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 public class ItemServiceImpl implements ItemService {
 
 	@Autowired
-	private ItemDao dao;
-
-	@Override
-	public void getList(HttpServletRequest request) {
-		String farmer_eamil = (String)request.getSession().getAttribute("email");
-		ItemDto itemDto = new ItemDto();
-		itemDto.setFarmer_email(farmer_eamil);
-		/*
-		[ 검색 키워드에 관련된 처리 ]
-		-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
-	    */
-		String keyword=request.getParameter("keyword");
-		String condition=request.getParameter("condition");
-		//만일 키워드가 넘어오지 않는다면 
-		if(keyword==null){
-			//키워드와 검색 조건에 빈 문자열을 넣어준다. 
-			//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
-			keyword="";
-			condition=""; 
-		}
+	private ItemDao itemDao;
 	
-		//특수기호를 인코딩한 키워드를 미리 준비한다. 
-		String encodedK=URLEncoder.encode(keyword);
-		
-		ItemDto dto=new ItemDto();
-		
-		//만일 검색 키워드가 넘어온다면 
-		if(!keyword.equals("")){
-			//검색 조건이 무엇이냐에 따라 분기 하기
-			if(condition.equals("item_title")){ //제목 검색인 경우
-				dto.setItem_title(keyword);
-			}
-		}
-		//목록 얻어오기 
-		List<ItemDto> list=dao.getList(dto);
-		
-		//EL + JSTL 에서 사용할 데이터를 request 영역에 담아두기
-		request.setAttribute("list", list);
-		request.setAttribute("condition", condition);
-		request.setAttribute("keyword", keyword);
-		request.setAttribute("encodedK", encodedK);
+	
+	@Override
+	public List<ItemDto> getList(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-		
 	
-
 	@Override
-	public void insertItem(ItemDto dto) {
-		dao.insert(dto);
+	public void insertItem(ItemDto itemDto) {
+		itemDao.insert(itemDto);
 		
 	}
 
@@ -78,8 +42,8 @@ public class ItemServiceImpl implements ItemService {
 		// 아이템 번호를 읽어온다.
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
-		ItemDto dto = dao.getData2(item_idx);
-		request.setAttribute("dto", dto);
+		ItemDto itemDto = itemDao.getData2(item_idx);
+		request.setAttribute("itemDto", itemDto);
 		
 	}
 
@@ -116,22 +80,22 @@ public class ItemServiceImpl implements ItemService {
 
 	
 	@Override
-	public void updateItem(ItemDto dto) {
-		dao.update(dto);
+	public void updateItem(ItemDto itemDto) {
+		itemDao.update(itemDto);
 		
 	}
 
 	@Override
 	public void deleteItem(int item_idx, HttpServletRequest request) {
-		dao.delete(item_idx); 
+		itemDao.delete(item_idx); 
 		
 	}
 
 	@Override
 	public void getDetail(ModelAndView mView, int item_idx) {
-		ItemDto dto = dao.getData2(item_idx);
+		ItemDto itemDto = itemDao.getData2(item_idx);
 
-		mView.addObject("dto", dto);
+		mView.addObject("itemDto", itemDto);
 		
 	}
 
@@ -157,12 +121,13 @@ public class ItemServiceImpl implements ItemService {
 		int endRowNum = pageNum * PAGE_ROW_COUNT;
 	   
 		//startRowNum 과 endRowNum을 ItemDto 객체에 담고
-		ItemDto dto = new ItemDto();
-		dto.setStartRowNum(startRowNum);
-		dto.setEndRowNum(endRowNum);
+		ItemDto itemDto = new ItemDto();
+		itemDto.setStartRowNum(startRowNum);
+		itemDto.setEndRowNum(endRowNum);
 	   
 		//ItemDao 객체를 이용해서 상품목록을 얻어온다.
-		List<ItemDto> list = dao.getList(dto);
+		List<ItemDto> list = itemDao.getList(itemDto);
+		
 		
 		return list;
 	}
@@ -171,6 +136,8 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<ItemDto> moreItemList(HttpServletRequest request) { 
 		int item_category_top_idx=Integer.parseInt(request.getParameter("item_category_top_idx"));
+		
+		
 		//ajax 요청 파라미터로 넘어오는 페이지 번호를 읽어낸다
 		int pageNum=Integer.parseInt(request.getParameter("pageNum"));
 		
@@ -182,18 +149,24 @@ public class ItemServiceImpl implements ItemService {
 		//보여줄 페이지의 끝 ROWNUM
 		int endRowNum=pageNum*PAGE_ROW_COUNT;
 		
-		ItemDto dto = new ItemDto();
-		dto.setStartRowNum(startRowNum);
-		dto.setEndRowNum(endRowNum);
+		ItemDto itemDto = new ItemDto();
+		itemDto.setStartRowNum(startRowNum);
+		itemDto.setEndRowNum(endRowNum);
 		
 		List<ItemDto> moreList= new ArrayList<>();
-		moreList= dao.getList(dto);
-		int totalRow=dao.getCount(dto);
+		moreList= itemDao.getList(itemDto);
+		
+		int totalRow=itemDao.getCount(itemDto);
 		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
-	
+		
+		moreList.set(totalRow, itemDto);
+		moreList.set(totalPageCount, itemDto);
 		
 		return moreList;
 	}
+
+	
+
 
 
 	

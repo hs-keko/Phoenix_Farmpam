@@ -4,6 +4,17 @@
 	<sql id="searchCondition">
 		<choose>
 			<when test="item_title != null and item_content != null">
+				AND item_title LIKE '%'||#{item_title}||'%' 
+				OR item_content LIKE '%'||#{item_content}||'%'
+			</when>
+			<when test="item_title != null">
+				AND item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
+	</sql>
+	<sql id="searchCondition2">
+		<choose>
+			<when test="item_title != null and item_content != null">
 				WHERE item_title LIKE '%'||#{item_title}||'%' 
 				OR item_content LIKE '%'||#{item_content}||'%'
 			</when>
@@ -18,41 +29,36 @@
 		FROM 
 			(SELECT result1.*, ROWNUM AS rnum
 			FROM 
-				(SELECT item_idx, item_title, item_price, item_content, item_image
-				FROM item i
-				<include refid="searchCondition"/>
-				INNER JOIN item_category_top t
-				ON i.item_category_top_idx=t.item_category_top_idx
-				ORDER BY item_idx DESC) result1)
-				)
+				(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref
+				FROM item 
 				<choose>
 					<when test="item_category_top_idx lt 11">
-						WHERE i.item_category_top_idx = #{i.item_category_top_idx}
+						WHERE item_category_top_idx = #{item_category_top_idx}
 					</when>
-					<when test="item_category_top_idx == 111"> 
-						<![CDATA[ 
-						WHERE #{i.item_category_top_idx} < 11
-						]]>
+					<when test="item_category_top_ref == 1"> 
+						WHERE item_category_top_ref = #{item_category_top_ref}
 					</when>
 					<when test="11 lt item_category_top_idx lt 24">
-						WHERE i.item_category_top_idx = #{i.item_category_top_idx}
+						WHERE item_category_top_idx = #{item_category_top_idx}
 					</when>
-					<when test="item_category_top_idx == 222">
-						WHERE i.item_category_top_idx between 12 and 23
+					<when test="item_category_top_ref == 2">
+						WHERE item_category_top_ref = #{item_category_top_ref}
 					</when>
 					<when test="24 lt item_category_top_idx lt 33">
-						WHERE i.item_category_top_idx = #{item_category_top_idx}
+						WHERE item_category_top_idx = #{item_category_top_idx}
 					</when>
-					<when test="item_category_top_idx == 333">
-						WHERE i.item_category_top_idx between 25 and 32
+					<when test="item_category_top_ref == 3">
+						WHERE item_category_top_ref = #{item_category_top_ref}
 					</when>
 					<when test="33 lt item_category_top_idx lt 39">
-						WHERE i.item_category_top_idx = #{item_category_top_idx}
+						WHERE item_category_top_idx = #{item_category_top_idx}
 					</when>
-					<when test="item_category_top_idx == 444">
-						WHERE i.item_category_top_idx between 33 and 38
+					<when test="item_category_top_ref == 4">
+						WHERE item_category_top_ref = #{item_category_top_ref}
 					</when>
 				</choose>
+			 <include refid="searchCondition"/> 
+			ORDER BY item_idx DESC) result1)
 		<![CDATA[ 
 		WHERE rnum >= #{startRowNum} AND rnum <= #{endRowNum}
 		]]>
@@ -95,7 +101,7 @@
 				LAG(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS prevNum,
 				LEAD(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS nextNum
 			FROM item
-			<include refid="searchCondition"/>
+			<include refid="searchCondition2"/>
 			) result1
 		WHERE item_idx=#{item_idx}	
 	</select>
