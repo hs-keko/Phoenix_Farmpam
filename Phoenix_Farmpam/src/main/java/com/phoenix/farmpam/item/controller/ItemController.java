@@ -26,6 +26,16 @@ public class ItemController {
 	@Autowired
 	private ItemService service;
 	
+	//장바구니 구매수량 변경
+	@RequestMapping("item/private/cartupdate")
+	@ResponseBody
+	public Map<String, Object> updateCart(HttpServletRequest request){
+		service.updateCart(request);
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("isSuccess", true);
+		return map;
+	}
+	
 	//장바구니에서 상품 삭제
 	@RequestMapping("item/private/cartdelete")
 	@ResponseBody

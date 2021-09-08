@@ -13,6 +13,8 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.dto.OrdersDto;
 
 public interface ItemService {
+	//장바구니 구매수량 변경
+	public void updateCart(HttpServletRequest request);
 	//장바구니에서 상품 삭제
 	public void deleteCart(HttpServletRequest request);
 	//장바구니 목록 불러오기
