@@ -20,9 +20,7 @@ public interface ItemService {
 	//장바구니 목록 불러오기
 	public void getCartList(HttpSession session, ModelAndView mView);
 	//장바구니 담기
-	public void insertCart(HttpServletRequest request, HttpSession session);
-	//디테일
-	public ModelAndView getDetail(HttpServletRequest request, ModelAndView mView);											
+	public void insertCart(HttpServletRequest request, HttpSession session);									
 	//아이템 목록 얻어오기
 	public void getList(HttpServletRequest request);
 	public void insertItem(ItemDto dto);

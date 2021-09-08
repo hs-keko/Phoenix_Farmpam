@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.phoenix.farmpam.exception.NotDeleteException;
 import com.phoenix.farmpam.item.dao.CartDao;
 import com.phoenix.farmpam.item.dao.ItemDao;
@@ -36,43 +35,87 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Override
 	public void getList(HttpServletRequest request) {
-		String farmer_eamil = (String)request.getSession().getAttribute("email");
-		ItemDto itemDto = new ItemDto();
-		itemDto.setFarmer_email(farmer_eamil);
-		/*
-		[ 검색 키워드에 관련된 처리 ]
-		-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
-	    */
-	String keyword=request.getParameter("keyword");
-	String condition=request.getParameter("condition");
-	//만일 키워드가 넘어오지 않는다면 
-	if(keyword==null){
-		//키워드와 검색 조건에 빈 문자열을 넣어준다. 
-		//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
-		keyword="";
-		condition=""; 
-	}
-
-	//특수기호를 인코딩한 키워드를 미리 준비한다. 
-	String encodedK=URLEncoder.encode(keyword);
-	
-	ItemDto dto=new ItemDto();
-	
-	//만일 검색 키워드가 넘어온다면 
-	if(!keyword.equals("")){
-		//검색 조건이 무엇이냐에 따라 분기 하기
-		if(condition.equals("item_title")){ //제목 검색인 경우
-			dto.setItem_title(keyword);
+		//한 페이지에 몇개씩 표시할 것인지
+		final int PAGE_ROW_COUNT=10;
+		//하단 페이지를 몇개씩 표시할 것인지
+		final int PAGE_DISPLAY_COUNT=10;
+		
+		//보여줄 페이지의 번호를 일단 1이라고 초기값 지정
+		int pageNum=1;
+		//페이지 번호가 파라미터로 전달되는지 읽어와 본다.
+		String strPageNum=request.getParameter("pageNum");
+		//만일 페이지 번호가 파라미터로 넘어 온다면
+		if(strPageNum != null){
+			//숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
+			pageNum=Integer.parseInt(strPageNum);
 		}
-	}
-	//목록 얻어오기 
-	List<ItemDto> list=itemDao.getList(dto);
-	
-	//EL + JSTL 에서 사용할 데이터를 request 영역에 담아두기
-	request.setAttribute("list", list);
-	request.setAttribute("condition", condition);
-	request.setAttribute("keyword", keyword);
-	request.setAttribute("encodedK", encodedK);
+		
+		//보여줄 페이지의 시작 ROWNUM
+		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
+		//보여줄 페이지의 끝 ROWNUM
+		int endRowNum=pageNum*PAGE_ROW_COUNT;
+		
+		/*
+			[ 검색 키워드에 관련된 처리 ]
+			-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
+		*/
+		String keyword=request.getParameter("keyword");
+		String condition=request.getParameter("condition");
+		//만일 키워드가 넘어오지 않는다면 
+		if(keyword==null){
+			//키워드와 검색 조건에 빈 문자열을 넣어준다. 
+			//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
+			keyword="";
+			condition=""; 
+		}
+
+		//특수기호를 인코딩한 키워드를 미리 준비한다. 
+		String encodedK=URLEncoder.encode(keyword);
+		
+		//세션을 받아준다.
+		String farmer_email = (String)request.getSession().getAttribute("email");
+		ItemDto dto = new ItemDto();
+		dto.setFarmer_email(farmer_email);
+			
+		//CafeDto 객체에 startRowNum 과 endRowNum 을 담는다.
+		dto.setStartRowNum(startRowNum);
+		dto.setEndRowNum(endRowNum);
+
+		//만일 검색 키워드가 넘어온다면 
+		if(!keyword.equals("")){
+			//검색 조건이 무엇이냐에 따라 분기 하기
+			if(condition.equals("item_title")){ //제목 검색인 경우
+				dto.setItem_title(keyword);
+			}
+		}
+		//글 목록 얻어오기 
+		List<ItemDto> list=itemDao.getListItem(dto);
+		//전체글의 갯수
+		int totalRow=itemDao.getCount(dto);
+		
+		//하단 시작 페이지 번호 
+		int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
+		//하단 끝 페이지 번호
+		int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
+		
+
+		//전체 페이지의 갯수
+		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+		//끝 페이지 번호가 전체 페이지 갯수보다 크다면 잘못된 값이다.
+		if(endPageNum > totalPageCount){
+			endPageNum=totalPageCount; //보정해 준다.
+		}
+		//view page 에서 필요한 값을 request 에 담아준다. 
+		request.setAttribute("pageNum", pageNum);
+		request.setAttribute("startPageNum", startPageNum);
+		request.setAttribute("endPageNum", endPageNum);
+		request.setAttribute("condition", condition);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("encodedK", encodedK);
+		request.setAttribute("totalPageCount", totalPageCount);
+		request.setAttribute("list", list);
+		request.setAttribute("totalRow", totalRow);
+		
 	}
 			
 	@Override
@@ -99,7 +142,7 @@ public class ItemServiceImpl implements ItemService {
 	//새글저장
 	@Override
 	public void insertItem(ItemDto dto) {
-		itemDao.insert(dto);	
+		itemDao.insertItem(dto);	
 	}
 
 	@Override
@@ -139,7 +182,7 @@ public class ItemServiceImpl implements ItemService {
 		// 아이템 번호를 읽어온다.
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
-		ItemDto dto = itemDao.getData2(item_idx);
+		ItemDto dto = itemDao.getData3(item_idx);
 		request.setAttribute("dto", dto);
 		
 	}
@@ -174,21 +217,6 @@ public class ItemServiceImpl implements ItemService {
 		return mView;
 	}
 
-	@Override
-	public ModelAndView getDetail(HttpServletRequest request, ModelAndView mView) {
-		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
-		ItemDto itemDto = itemDao.getData2(item_idx);
-		mView.addObject("farmer_email", itemDto.getFarmer_email());
-		mView.addObject("item_idx", itemDto.getItem_idx());
-		mView.addObject("item_title", itemDto.getItem_title());
-		mView.addObject("item_price", itemDto.getItem_price());
-		mView.addObject("item_stock", itemDto.getItem_stock());
-		mView.addObject("item_category_top_idx", itemDto.getItem_category_top_idx());
-		mView.addObject("item_content", itemDto.getItem_content());
-		mView.addObject("item_image", itemDto.getItem_image());
-		return mView;
-	}
-
 	//장바구니 담기
 	@Override
 	public void insertCart(HttpServletRequest request, HttpSession session) {
@@ -198,7 +226,7 @@ public class ItemServiceImpl implements ItemService {
 		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
 		String users_email=(String)session.getAttribute("email");
 		// item_price 가져와서 cart_amount * item_price 값을 cart_price 에 저장
-		int item_price=itemDao.getData2(item_idx).getItem_price();
+		int item_price=itemDao.getData3(item_idx).getItem_price();
 		int cart_price = cart_amount * item_price ;
 		//CartDto 에 저장
 		cartDto.setItem_idx(item_idx);
