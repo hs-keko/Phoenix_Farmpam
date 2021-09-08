@@ -24,8 +24,8 @@ public class AuthAspect {
 				//찾았으면 원래 type 으로 casting
 				HttpServletRequest request=(HttpServletRequest)tmp;
 				//HttpSession 객체의 참조값 얻어와서 로그인 여부를 알아낸다.
-				String email=(String)request.getSession().getAttribute("email");
-				if(email == null) {//만일 로그인을 하지 않았으면
+				String users_email=(String)request.getSession().getAttribute("email");
+				if(users_email == null) {//만일 로그인을 하지 않았으면
 					
 					//원래 가려던 url 정보 읽어오기
 					String url=request.getRequestURI();
@@ -43,7 +43,7 @@ public class AuthAspect {
 						
 					//로그인 페이지로 리다일렉트 할수 있는 ModelAndView 객체를 생성해서 
 					ModelAndView mView=new ModelAndView();
-					mView.setViewName("redirect:/farmer/loginform.do?url="+encodedUrl);
+					mView.setViewName("redirect:/users/loginform.do?url="+encodedUrl);
 					//메소드를 여기서 리턴 시킨다. 
 					return mView;
 				}
@@ -65,8 +65,8 @@ public class AuthAspect {
 				//찾았으면 원래 type 으로 casting
 				HttpServletRequest request=(HttpServletRequest)tmp;
 				//HttpSession 객체의 참조값 얻어와서 로그인 여부를 알아낸다.
-				String email=(String)request.getSession().getAttribute("email");
-				if(email == null) {//만일 로그인을 하지 않았으면
+				String users_email=(String)request.getSession().getAttribute("email");
+				if(users_email == null) {//만일 로그인을 하지 않았으면
 					//예외를 발생 시켜서 정상적인 응답을 받을수 없도록 한다.
 					throw new RuntimeException("로그인이 필요 합니다.");
 				}
@@ -80,3 +80,11 @@ public class AuthAspect {
 	}
 	
 }
+
+
+
+
+
+
+
+

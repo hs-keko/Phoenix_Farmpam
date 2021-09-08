@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.phoenix.farmpam.item.dao;
 
 import java.util.List;
@@ -8,7 +9,7 @@ public interface ItemDao {
 	//상품 목록
 	public List<ItemDto> getList(ItemDto dto);
 	//인자로 전달하는 이메일에 해당하는 정보를 리턴하는 메소드
-	public ItemDto getData(String farmer_email);
+	public ItemDto getData(String farmer_email); // 이름 중복
 	//인자로 전달하는 번호에 해당하는 정보를 리턴하는 메소드
 	public ItemDto getData2(int item_idx);
 	//글의 갯수
@@ -25,4 +26,15 @@ public interface ItemDao {
 	public void minusMoney(ItemDto itemDto);
 	// 상품 재고 감소시키기
 	public void minusStock(ItemDto itemDto);
+
+
+	//상품 재고를 감소 시키는 메소드
+	public void minusCount(int item_stock);
+
+
+	//키워드를 활용한 글정보 얻어오기
+	public ItemDto getData(ItemDto itemDto); // 이름 중복
+
+
 }
+

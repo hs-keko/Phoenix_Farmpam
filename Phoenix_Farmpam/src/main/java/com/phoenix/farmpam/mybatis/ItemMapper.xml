@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
-	<!-- 상품 목록 -->
-	<select id="getList" resultType="itemDto" parameterType="itemDto">
-			SELECT *
-			FROM
-			(SELECT result1.*, ROWNUM AS rnum
-			FROM
-				(SELECT item_idx, item_image, item_title, item_content, item_price, item_stock, farmer_email
-				FROM item
-				<choose>
-					<when test="item_title != null">
-						WHERE item_title LIKE '%'||#{item_title}||'%'
-					</when>
-				</choose>
-			ORDER BY item_stock) result1)
-		<![CDATA[ 
-		WHERE rnum >= #{startRowNum} AND rnum <= #{endRowNum}
-		]]> AND farmer_email=#{farmer_email }
-	</select>
 
 	<select id="getCount" parameterType="itemDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM),0)
@@ -30,13 +12,13 @@
 		</choose>
 	</select>
 	
-	<select id="getData" parameterType="itemDto">
+	<select id="getData" parameterType="itemDto"> <!-- 이름 중복 -->
 		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
 		FROM item
 		WHERE farmer_email=#{farmer_email }
 	</select>
 	
-	<select id="getData2" parameterType="int" resultType="itemDto">
+	<select id="getData2" parameterType="int" resultType="itemDto">  <!-- 이름 중복 -->
 		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
 		FROM item
 		WHERE item_idx=#{item_idx }
@@ -86,4 +68,109 @@
 		(orders_idx, users_email, orders_price, orders_regdate, orders_item_total, orders_addr, item_idx, item_price)
 		VALUES(orders_seq.NEXTVAL, #{users_email}, #{orders_price}, SYSDATE, #{orders_item_total}, #{orders_addr}, #{item_idx}, #{item_price})
 	</insert>
+
+	<sql id="searchCondition">
+		<choose>
+			<when test="item_title != null and item_content != null">
+				AND item_title LIKE '%'||#{item_title}||'%' 
+				OR item_content LIKE '%'||#{item_content}||'%'
+			</when>
+			<when test="item_title != null">
+				AND item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
+	</sql>
+	<sql id="searchCondition2">
+		<choose>
+			<when test="item_title != null and item_content != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%' 
+				OR item_content LIKE '%'||#{item_content}||'%'
+			</when>
+			<when test="item_title != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="getList" parameterType="itemDto" resultType="itemDto">
+		SELECT *
+		FROM 
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM 
+				(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref
+				FROM item 
+				<choose>
+					<when test="item_category_top_idx lt 11">
+						WHERE item_category_top_idx = #{item_category_top_idx}
+					</when>
+					<when test="item_category_top_ref == 1"> 
+						WHERE item_category_top_ref = #{item_category_top_ref}
+					</when>
+					<when test="11 lt item_category_top_idx lt 24">
+						WHERE item_category_top_idx = #{item_category_top_idx}
+					</when>
+					<when test="item_category_top_ref == 2">
+						WHERE item_category_top_ref = #{item_category_top_ref}
+					</when>
+					<when test="24 lt item_category_top_idx lt 33">
+						WHERE item_category_top_idx = #{item_category_top_idx}
+					</when>
+					<when test="item_category_top_ref == 3">
+						WHERE item_category_top_ref = #{item_category_top_ref}
+					</when>
+					<when test="33 lt item_category_top_idx lt 39">
+						WHERE item_category_top_idx = #{item_category_top_idx}
+					</when>
+					<when test="item_category_top_ref == 4">
+						WHERE item_category_top_ref = #{item_category_top_ref}
+					</when>
+				</choose>
+			 <include refid="searchCondition"/> 
+			ORDER BY item_idx DESC) result1)
+		<![CDATA[ 
+		WHERE rnum >= #{startRowNum} AND rnum <= #{endRowNum}
+		]]>
+	</select>
+	
+	<update id="minusCount" parameterType="int">
+		UPDATE item
+		SET item_stock=item_stock-1
+		where item_idx=#{item_idx}
+	</update>
+	
+
+
+<!--
+	ID 중복 : 에러방지를 위해 입력하는 데이터가 많은 쿼리문을 주석처리함. 
+	<insert id="insert" parameterType="itemDto">    
+		INSERT INTO item 
+		(item_idx, item_title, item_price, item_stock, item_content, item_image, farmer_email, 
+					item_category_top_idx, item_category_top_name, item_category_low_idx, item_category_low_name)
+		VALUES(item_seq.NEXTVAL, #{item_title}, #{item_price}, #{item_stock}, #item_content}, #{item_image}, #{farmer_email}, 
+					#{item_category_top_idx}, #{item_category_top_name}, #{item_category_low_idx}, #{item_category_low_name})			
+	</insert>
+-->
+	
+	<select id="getData" parameterType="int" resultType="itemDto">  <!-- 이름 중복 -->
+		SELECT result1.*
+		FROM item
+			(SELECT item_idx,item_title, item_price,item_stock,item_content, item_image, farmer_email,
+				LAG(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS prevNum,
+				LEAD(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS nextNum
+			FROM item) result1
+		WHERE item_idx=#{item_idx}
+	</select>
+	
+	<select id="getData2" parameterType="itemDto" resultType="itemDto">  <!-- 이름 중복 -->
+		SELECT result1.*
+		FROM
+			(SELECT item_idx, item_title, item_price,item_stock, item_content, item_image, farmer_email,
+				LAG(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS prevNum,
+				LEAD(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS nextNum
+			FROM item
+			<include refid="searchCondition2"/>
+			) result1
+		WHERE item_idx=#{item_idx}	
+	</select>
+	
 </mapper>

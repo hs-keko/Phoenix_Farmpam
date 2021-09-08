@@ -43,7 +43,7 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public ItemDto getData(String farmer_email) {
+	public ItemDto getData(String farmer_email) { // 이름 중복
 		return session.selectOne("item.getData", farmer_email);
 	}
 
@@ -70,4 +70,21 @@ public class ItemDaoImpl implements ItemDao {
 	public void minusStock(ItemDto itemDto) {
 		session.update("item.minusStock", itemDto);
 	}
+
+
+
+
+	@Override
+	public void minusCount(int item_stock) {
+		session.update("item.minusCount", item_stock);
+		
+	}
+
+	@Override
+	public ItemDto getData(ItemDto itemDto) {  // 이름 중복
+		return session.selectOne("item.getData", itemDto);
+	}
+
+
+	
 }

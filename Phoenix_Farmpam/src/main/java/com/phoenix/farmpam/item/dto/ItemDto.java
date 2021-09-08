@@ -11,19 +11,20 @@ public class ItemDto {
    private String item_content;
    private String item_image;
    private int item_category_top_idx;
+   private int item_category_top_ref;
    private String item_category_top_name;
    private int item_category_low_idx;
    private String item_category_low_name;
    private String users_email; // 주문자 아이디
    private int orders_item_total; // 주문 수량
    //게시글 이미지 경로
-   private String board_image;
+   private String board_image; // ? 
    private int startRowNum;
    private int endRowNum;
    private int prevNum; //이전글의 글번호
    private int nextNum; //다음글의 글번호
    //이미지 파일 업로드 처리를 위한 필드
-   private MultipartFile image;	
+   private MultipartFile image;	 // ?
    
    public ItemDto() {}
 
