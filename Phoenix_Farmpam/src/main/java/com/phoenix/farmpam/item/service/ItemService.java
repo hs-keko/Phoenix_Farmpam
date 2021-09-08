@@ -15,8 +15,6 @@ import com.phoenix.farmpam.item.dto.OrdersDto;
 public interface ItemService {
 	//장바구니 담기
 	public ModelAndView insertCart(HttpServletRequest request, ModelAndView mView);
-	//디테일
-	public ModelAndView getDetail(HttpServletRequest request, ModelAndView mView);											
 	//아이템 목록 얻어오기
 	public void getList(HttpServletRequest request);
 	public void insertItem(ItemDto dto);

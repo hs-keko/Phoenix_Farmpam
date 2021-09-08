@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/item/list_farmer.jsp</title>
+<title>/item/list_admin.jsp</title>
 <style>
 	.page-ui a{
 		text-decoration: none;
@@ -79,7 +79,7 @@
 			<tr>
 				<td>${tmp.item_idx }</td>
 				<td>${tmp.item_image }</td>
-				<td><a href="${pageContext.request.contextPath}/item/detail.do?item_idx=${tmp.item_idx}">${tmp.item_title }</a></td>
+				<td>${tmp.item_title }</td>
 				<td>${tmp.item_content }</td>
 				<td>${tmp.item_price }</td>
 				<td>${tmp.item_stock }</td>
@@ -94,24 +94,24 @@
 			<ul>
 				<c:if test="${startPageNum ne 1 }">
 					<li>
-						<a href="list.do?pageNum=${startPageNum-1 }&condition=${condition }&keyword=${encodedK }">Prev</a>
+						<a href="list_admin.do?pageNum=${startPageNum-1 }&condition=${condition }&keyword=${encodedK }">Prev</a>
 					</li>
 				</c:if>
 				<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
 					<li>
 						<c:choose>
 							<c:when test="${pageNum eq i }">
-								<a  class="active" href="list.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a>
+								<a  class="active" href="list_admin.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a>
 							</c:when>
 							<c:otherwise>
-								<a href="list.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a>
+								<a href="list_admin.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a>
 							</c:otherwise>
 						</c:choose>
 					</li>
 				</c:forEach>
 				<c:if test="${endPageNum lt totalPageCount }">
 					<li>
-						<a href="list.do?pageNum=${endPageNum+1 }&condition=${condition }&keyword=${encodedK }">Next</a>
+						<a href="list_admin.do?pageNum=${endPageNum+1 }&condition=${condition }&keyword=${encodedK }">Next</a>
 					</li>
 				</c:if>
 			</ul>

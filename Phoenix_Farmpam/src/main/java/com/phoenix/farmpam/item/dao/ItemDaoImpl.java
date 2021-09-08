@@ -15,8 +15,8 @@ public class ItemDaoImpl implements ItemDao {
 	private SqlSession session;
 	
 	@Override
-	public List<ItemDto> getList(ItemDto dto) {
-		return session.selectList("item.getList", dto);
+	public List<ItemDto> getListItem(ItemDto dto) {
+		return session.selectList("item.getListItem", dto);
 	}
 
 	@Override
@@ -25,8 +25,8 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public void insert(ItemDto dto) {
-		session.insert("item.insert", dto);
+	public void insertItem(ItemDto dto) {
+		session.insert("item.insertItem", dto);
 		
 	}
 
@@ -43,13 +43,8 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public ItemDto getData(String farmer_email) {
-		return session.selectOne("item.getData", farmer_email);
-	}
-
-	@Override
-	public ItemDto getData2(int num) {
-		return session.selectOne("item.getData2", num);
+	public ItemDto getData3(int num) {
+		return session.selectOne("item.getData3", num);
 	}
 
 	//상품 번호에 해당하는 상품의 가격을 리턴하는 메소드

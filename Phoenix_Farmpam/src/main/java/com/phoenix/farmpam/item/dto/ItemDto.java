@@ -17,7 +17,6 @@ public class ItemDto {
    private String users_email; // 주문자 아이디
    private int orders_item_total; // 주문 수량
    //게시글 이미지 경로
-   private String board_image;
    private int startRowNum;
    private int endRowNum;
    private int prevNum; //이전글의 글번호
@@ -45,7 +44,6 @@ public ItemDto(String farmer_email, int item_idx, String item_title, int item_pr
 	this.item_category_low_name = item_category_low_name;
 	this.users_email = users_email;
 	this.orders_item_total = orders_item_total;
-	this.board_image = board_image;
 	this.startRowNum = startRowNum;
 	this.endRowNum = endRowNum;
 	this.prevNum = prevNum;
@@ -155,14 +153,6 @@ public int getOrders_item_total() {
 
 public void setOrders_item_total(int orders_item_total) {
 	this.orders_item_total = orders_item_total;
-}
-
-public String getBoard_image() {
-	return board_image;
-}
-
-public void setBoard_image(String board_image) {
-	this.board_image = board_image;
 }
 
 public int getStartRowNum() {

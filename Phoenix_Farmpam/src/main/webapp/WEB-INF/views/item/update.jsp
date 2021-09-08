@@ -10,7 +10,7 @@
 <body>
 	<script>
 		alert("${email} 님 글을 수정 했습니다.");
-		location.href="${pageContext.request.contextPath}/item/private/list.do";
+		location.href="${pageContext.request.contextPath}/item/private/list_admin.do";
 	</script>
 </body>
 </html>

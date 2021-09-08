@@ -34,21 +34,13 @@ public class ItemController {
 		return mView;
 	}
 	
-	//디테일
-	@RequestMapping("/item/detail")
-	public ModelAndView detail(HttpServletRequest request, ModelAndView mView) {
-		service.getDetail(request, mView);
-		mView.setViewName("item/detail");
-		return mView;
-	}
-	
 	//목록
-	@RequestMapping("/item/private/list")
+	@RequestMapping("/item/private/list_admin")
 	public String getList(HttpServletRequest request) {
 		
 		service.getList(request);
 		
-		return "item/list";
+		return "item/list_admin";
 	}
 	
 	//새글 저장 폼
@@ -96,7 +88,7 @@ public class ItemController {
 	@RequestMapping("/item/private/delete")
 	public String delete(@RequestParam int item_idx, HttpServletRequest request) {
 		service.deleteItem(item_idx, request);
-		return "redirect:/item/private/list.do";
+		return "redirect:/item/private/list_admin.do";
 	}	
 	
 	
