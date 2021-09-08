@@ -28,30 +28,12 @@ public class ItemDto {
    
    public ItemDto() {}
 
-public ItemDto(String farmer_email, int item_idx, String item_title, int item_price, int item_stock,
-		String item_content, String item_image, int item_category_top_idx, String item_category_top_name,
-		int item_category_low_idx, String item_category_low_name, String users_email, int orders_item_total,
-		String board_image, int startRowNum, int endRowNum, int prevNum, int nextNum, MultipartFile image) {
-	super();
-	this.farmer_email = farmer_email;
-	this.item_idx = item_idx;
-	this.item_title = item_title;
-	this.item_price = item_price;
-	this.item_stock = item_stock;
-	this.item_content = item_content;
-	this.item_image = item_image;
-	this.item_category_top_idx = item_category_top_idx;
-	this.item_category_top_name = item_category_top_name;
-	this.item_category_low_idx = item_category_low_idx;
-	this.item_category_low_name = item_category_low_name;
-	this.users_email = users_email;
-	this.orders_item_total = orders_item_total;
-	this.board_image = board_image;
-	this.startRowNum = startRowNum;
-	this.endRowNum = endRowNum;
-	this.prevNum = prevNum;
-	this.nextNum = nextNum;
-	this.image = image;
+public int getItem_category_top_ref() {
+	return item_category_top_ref;
+}
+
+public void setItem_category_top_ref(int item_category_top_ref) {
+	this.item_category_top_ref = item_category_top_ref;
 }
 
 public String getFarmer_email() {

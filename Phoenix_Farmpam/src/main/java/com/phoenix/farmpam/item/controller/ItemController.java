@@ -26,14 +26,14 @@ public class ItemController {
    @Autowired
    private ItemService service;
 
-   		// vue 목록 
-	@RequestMapping("/api/item/list")
-	@ResponseBody
-	public Map<String,Object> getAjaxList(HttpServletRequest request) {
-		service.getList(request);
-		Map<String, Object> map = new HashMap<String, Object>();
-		return map;
-	}
+//   		// vue 목록 
+//	@RequestMapping("/api/item/list")
+//	@ResponseBody
+//	public Map<String,Object> getAjaxList(HttpServletRequest request) {
+//		service.getList(request);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		return map;
+//	}
    
    //목록
    @RequestMapping("/item/private/list")

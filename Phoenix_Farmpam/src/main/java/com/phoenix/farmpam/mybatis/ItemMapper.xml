@@ -151,7 +151,7 @@
 	</insert>
 -->
 	
-	<select id="getData" parameterType="int" resultType="itemDto">  <!-- 이름 중복 -->
+	<select id="getDetailData" parameterType="int" resultType="itemDto">  <!-- 이름 중복 수정 -->
 		SELECT result1.*
 		FROM item
 			(SELECT item_idx,item_title, item_price,item_stock,item_content, item_image, farmer_email,
@@ -161,7 +161,7 @@
 		WHERE item_idx=#{item_idx}
 	</select>
 	
-	<select id="getData2" parameterType="itemDto" resultType="itemDto">  <!-- 이름 중복 -->
+	<select id="getDetailData2" parameterType="itemDto" resultType="itemDto">  <!-- 이름 중복 수정 -->
 		SELECT result1.*
 		FROM
 			(SELECT item_idx, item_title, item_price,item_stock, item_content, item_image, farmer_email,

@@ -2,6 +2,7 @@ package com.phoenix.farmpam.item.service;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import com.phoenix.farmpam.item.dao.ItemDao;
 import com.phoenix.farmpam.item.dao.OrdersDao;
@@ -119,20 +119,20 @@ public class ItemServiceImpl implements ItemService {
 		
 	}
 			
-	@Override
-	public void updateItem(HttpServletRequest request) { // 이름 중복
-		
-		ItemDto itemDto = new ItemDto();
-		
-		itemDto.setItem_image((String)request.getParameter("item_image"));
-		itemDto.setItem_idx(Integer.parseInt(request.getParameter("item_idx")));
-		itemDto.setItem_title((String)request.getParameter("item_title"));
-		itemDto.setItem_content((String)request.getParameter("item_content"));
-		itemDto.setItem_price(Integer.parseInt(request.getParameter("item_price")));
-		itemDto.setItem_stock(Integer.parseInt(request.getParameter("item_stock")));
-		
-		itemDao.update(itemDto);
-	}
+//	@Override
+//	public void updateItem(HttpServletRequest request) { // 이름 중복 이건 뭐죠?
+//		
+//		ItemDto itemDto = new ItemDto();
+//		
+//		itemDto.setItem_image((String)request.getParameter("item_image"));
+//		itemDto.setItem_idx(Integer.parseInt(request.getParameter("item_idx")));
+//		itemDto.setItem_title((String)request.getParameter("item_title"));
+//		itemDto.setItem_content((String)request.getParameter("item_content"));
+//		itemDto.setItem_price(Integer.parseInt(request.getParameter("item_price")));
+//		itemDto.setItem_stock(Integer.parseInt(request.getParameter("item_stock")));
+//		
+//		itemDao.update(itemDto);
+//	}
 
 	@Override
 	public void deleteItem(int item_idx, HttpServletRequest request) {
@@ -239,11 +239,11 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	
-	@Override
-	public List<ItemDto> getList(HttpServletRequest request) { // 이름 중복
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public List<ItemDto> getList(HttpServletRequest request) { // 이름 중복
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	
 	@Override

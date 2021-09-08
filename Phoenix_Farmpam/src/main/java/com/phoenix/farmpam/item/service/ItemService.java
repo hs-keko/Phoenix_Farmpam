@@ -25,7 +25,7 @@ public interface ItemService {
 	public void getInfo(HttpServletRequest request, HttpSession session); // 중복
 	public Map<String, Object> saveImage(HttpServletRequest request,
 			MultipartFile mFile); // 중복
-	public void updateItem(HttpServletRequest request); // 이름중복
+	// public void updateItem(HttpServletRequest request); // 이름중복
 	public void deleteItem(int num, HttpServletRequest request); // 중복
 	//상품 주문 처리를 하는 메소드
 	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView);
@@ -34,7 +34,7 @@ public interface ItemService {
 
 
 	//아이템 목록 얻어오기
-	public List<ItemDto> getList(HttpServletRequest request); // 이름중복
+	// public List<ItemDto> getList(HttpServletRequest request); // 이름중복
 	public List<ItemDto> getList2(HttpServletRequest request);
 	// public void insertItem(ItemDto itemDto); 중복 
 

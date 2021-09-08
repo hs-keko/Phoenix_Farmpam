@@ -42,10 +42,10 @@ public class ItemDaoImpl implements ItemDao {
 		
 	}
 
-	@Override
-	public ItemDto getData(String farmer_email) { // 이름 중복
-		return session.selectOne("item.getData", farmer_email);
-	}
+//	@Override
+//	public ItemDto getData(String farmer_email) { // 이름 중복
+//		return session.selectOne("item.getData", farmer_email);
+//	}
 
 	@Override
 	public ItemDto getData2(int num) {
@@ -80,10 +80,10 @@ public class ItemDaoImpl implements ItemDao {
 		
 	}
 
-	@Override
-	public ItemDto getData(ItemDto itemDto) {  // 이름 중복
-		return session.selectOne("item.getData", itemDto);
-	}
+//	@Override
+//	public ItemDto getData(ItemDto itemDto) {  // 이름 중복
+//		return session.selectOne("item.getData", itemDto);
+//	}
 
 
 	
