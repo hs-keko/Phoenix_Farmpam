@@ -31,7 +31,6 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Override
 	public void apiGetMainList(Map<String, Object> map, HttpServletRequest req) {
-		// TODO Auto-generated method stub
 		
 	}
 	
