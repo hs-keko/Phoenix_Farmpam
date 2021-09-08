@@ -26,11 +26,45 @@
 					<td><a href="${pageContext.request.contextPath}/item/detail.do?item_idx=${tmp.item_idx}">${tmp.item_title }</a></td>
 					<td><input type="number" name="cart_amount" value="${tmp.cart_amount}" /></td>
 					<td>${tmp.cart_price }</td>
-					<td></td>
+					<td><a data-num="${tmp.cart_idx }" class="delete-link" href="javascript:">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
 </div>
+<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
+<script>
+	addDeleteListener(".delete-link");
+	
+	function addDeleteListener(sel){
+		// 삭제 링크의 참조값을 배열에 담아오기
+		let deleteLinks=document.querySelectorAll(sel);
+		for(let i=0; i<deleteLinks.length; i++){
+			deleteLinks[i].addEventListener("click",function(){
+				//click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value 값을 읽어온다.
+				const cart_idx=this.getAttribute("data-num"); //장바구니 번호
+				const isDelete=confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")
+				if(isDelete){
+					// gura_util.js 에 있는 함수들 이용해서 ajax 요청
+					ajaxPromise("${pageContext.request.contextPath}/item/private/cartdelete.do", 
+							"post", 
+							"cart_idx="+cart_idx)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//만일 삭제 성공이면
+						if(data.isSuccess){
+							//알림을 띄워준다
+							alert("상품이 삭제되었습니다");
+							//페이지 리로드
+							location.reload();
+						}
+					});
+				}
+			});
+		}
+	}
+</script>
 </body>
 </html>

@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
 	
+	<!-- 장바구니에서 상품 삭제 -->
+	<delete id="deleteCart" parameterType="int">
+		DELETE FROM cart
+		WHERE cart_idx=#{cart_idx}
+	</delete>
+	
+	<!-- 장바구니 주인 이메일 불러오기 -->
+	<select id="getCartEmail" parameterType="int" resultType="string">
+		SELECT users_email
+		FROM cart
+		WHERE cart_idx=#{cart_idx}
+	</select>
+	
 	<!-- 장바구니 목록 불러오기 -->
 	<select id="getCartList" parameterType="string" resultType="cartDto">
 		SELECT c.cart_idx, c.item_idx, c.users_email, c.cart_amount,c.cart_price, i.item_title, i.item_price, i.item_image

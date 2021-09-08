@@ -26,6 +26,17 @@ public class ItemController {
 	@Autowired
 	private ItemService service;
 	
+	//장바구니에서 상품 삭제
+	@RequestMapping("item/private/cartdelete")
+	@ResponseBody
+	public Map<String, Object> deleteCart(HttpServletRequest request){
+		service.deleteCart(request);
+		Map<String, Object> map=new HashMap<String, Object>();
+		// {"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다.
+		map.put("isSuccess", true);
+		return map;
+	}
+	
 	//장바구니 목록
 	@RequestMapping("/item/private/cart")
 	public ModelAndView cartList(HttpSession session, ModelAndView mView) {

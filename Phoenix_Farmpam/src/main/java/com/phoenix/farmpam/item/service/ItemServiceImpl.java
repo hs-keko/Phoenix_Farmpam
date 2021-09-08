@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.phoenix.farmpam.exception.NotDeleteException;
 import com.phoenix.farmpam.item.dao.CartDao;
 import com.phoenix.farmpam.item.dao.ItemDao;
 import com.phoenix.farmpam.item.dao.OrdersDao;
@@ -218,5 +219,20 @@ public class ItemServiceImpl implements ItemService {
 		//ModelAndView 객체에 list 라는 키값으로 담는다.
 		mView.addObject("list", list);
 		
+	}
+
+	//장바구니에서 상품 삭제
+	@Override
+	public void deleteCart(HttpServletRequest request) {
+		int cart_idx=Integer.parseInt(request.getParameter("cart_idx"));
+		String users_email=(String)request.getSession().getAttribute("email");
+		String cart_users_email=cartDao.getCartEmail(cart_idx);
+		
+		// 장바구니 테이블 이메일과 세션 이메일 일치 여부
+		if(!cart_users_email.equals(users_email)) {
+			throw new NotDeleteException("다른 이용자의 장바구니를 삭제할 수 없습니다.");
+		}
+		
+		cartDao.deleteCart(cart_idx);
 	}
 }
