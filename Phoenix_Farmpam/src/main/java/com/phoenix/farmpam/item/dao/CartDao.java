@@ -5,6 +5,8 @@ import java.util.List;
 import com.phoenix.farmpam.item.dto.CartDto;
 
 public interface CartDao {
+	// 장바구니 구매수량 변경
+	public void updateCart(CartDto cartDto);
 	// 장바구니에서 상품 삭제
 	public void deleteCart(int cart_idx);
 	// 장바구니 주인 이메일 가져오기

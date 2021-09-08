@@ -268,6 +268,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void updateCart(HttpServletRequest request) {
 		int cart_idx=Integer.parseInt(request.getParameter("cart_idx"));
+		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
 		String users_email=(String)request.getSession().getAttribute("email");
 		String cart_users_email=cartDao.getCartEmail(cart_idx);
 		
@@ -275,8 +276,10 @@ public class ItemServiceImpl implements ItemService {
 		if(!cart_users_email.equals(users_email)) {
 			throw new NotDeleteException("다른 이용자의 구매수량을 변경할 수 없습니다.");
 		}
+		CartDto cartDto=new CartDto();
+		cartDto.setCart_idx(cart_idx);
+		cartDto.setCart_amount(cart_amount);
 		
-		cartDao.updateCart(cart_idx);
-		
+		cartDao.updateCart(cartDto);
 	}
 }

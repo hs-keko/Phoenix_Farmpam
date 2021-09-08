@@ -38,4 +38,10 @@ public class CartDaoImpl implements CartDao {
 		session.delete("cart.deleteCart", cart_idx);
 	}
 
+	@Override
+	public void updateCart(CartDto cartDto) {
+		session.update("cart.updateCart", cartDto);
+		
+	}
+
 }
