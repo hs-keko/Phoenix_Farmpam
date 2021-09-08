@@ -142,8 +142,10 @@ public class UsersController {
 			map.put("chk",(String)session.getAttribute("check"));
 			// 나중에 JWT 토큰API 사용해보기.
 			map.put("token",true);
+			System.out.println("로그인 성공");
 		}else {
 			map.put("token",false);
+			System.out.println("로그인 실패");
 		}
 	
 		return map;

@@ -54,6 +54,15 @@ public class ItemController {
 		return "/item/list";
 	}
 	
+	// vue 목록 
+	@RequestMapping("/api/item/list")
+	@ResponseBody
+	public Map<String,Object> getAjaxList(HttpServletRequest request) {
+		service.getList(request);
+		Map<String, Object> map = new HashMap<String, Object>();
+		return map;
+	}
+	
 	//새글 저장 폼
 	@RequestMapping("/item/private/insertform")
 	public String insertForm() {

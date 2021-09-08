@@ -27,4 +27,6 @@ public interface ItemService {
 	public void deleteItem(int num, HttpServletRequest request);
 	//상품 주문 처리를 하는 메소드
 	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView);
+	// vue Shopmain 아이템리스트 가져오기
+	public void apiGetMainList(Map<String, Object> map, HttpServletRequest req);
 }

@@ -29,6 +29,12 @@ public class ItemServiceImpl implements ItemService {
 	private OrdersDao ordersDao;
 	
 	@Override
+	public void apiGetMainList(Map<String, Object> map, HttpServletRequest req) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void getList(HttpServletRequest request) {
 		String farmer_eamil = (String)request.getSession().getAttribute("email");
 		ItemDto itemDto = new ItemDto();
