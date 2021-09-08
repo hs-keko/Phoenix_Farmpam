@@ -35,7 +35,7 @@
 		let pwd2=document.querySelector("#farmer_newPwd2").value;
 		let pwd3=document.querySelector("#farmer_pwd").value;
 		//새 비밀번호와 비밀번호 확인이 일치하지 않으면 폼 전송을 막는다.
-		    //비밀번호 일치여부 확인 
+		//비밀번호 일치여부 확인 
 		let check = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
 		//새 비밀번호와 비밀번호 확인이 일치하지 않으면 폼 전송을 막는다.
 		if(pwd1 != pwd2){

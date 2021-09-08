@@ -25,6 +25,15 @@ public class ItemController {
 	
 	@Autowired
 	private ItemService service;
+
+		// vue 목록 
+	@RequestMapping("/api/item/list")
+	@ResponseBody
+	public Map<String,Object> getAjaxList(HttpServletRequest request) {
+		service.getList(request);
+		Map<String, Object> map = new HashMap<String, Object>();
+		return map;
+	}
 	
 	//장바구니 담기
 	@RequestMapping(value = "/item/private/addcart", method = RequestMethod.POST)
@@ -45,22 +54,10 @@ public class ItemController {
 	//목록
 	@RequestMapping("/item/private/list")
 	public String getList(HttpServletRequest request) {
-		//글 작성자는 세션에서 얻어낸다. 
-		String farmer_email=(String)request.getSession().getAttribute("email");
-		//Dto 객체에 글 작성자도 담기
-		ItemDto itemDto = new ItemDto();
-		itemDto.setFarmer_email(farmer_email);
+		
 		service.getList(request);
-		return "/item/list";
-	}
-	
-	// vue 목록 
-	@RequestMapping("/api/item/list")
-	@ResponseBody
-	public Map<String,Object> getAjaxList(HttpServletRequest request) {
-		service.getList(request);
-		Map<String, Object> map = new HashMap<String, Object>();
-		return map;
+		
+		return "item/list";
 	}
 	
 	//새글 저장 폼

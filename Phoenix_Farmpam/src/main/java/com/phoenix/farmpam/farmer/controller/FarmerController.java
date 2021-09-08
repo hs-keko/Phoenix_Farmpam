@@ -68,6 +68,7 @@ public class FarmerController {
 		return service.followInsert(followDto);
 	}
 	
+
 	//회원 탈퇴 요청 처리
 	@RequestMapping("/farmer/private/delete_farmer")
 	public ModelAndView delete(HttpSession session, ModelAndView mView) {
@@ -118,7 +119,6 @@ public class FarmerController {
 		mView.setViewName("farmer/pwd_update_farmer");
 		return mView;
 	}
-	
 	
 	//비밀번호 수정폼 요청
 	@RequestMapping("/farmer/private/pwd_updateform_farmer")
@@ -214,4 +214,6 @@ public class FarmerController {
 		
 		return "farmer/signup_form_farmer";
 	}
+	
+	
 }
