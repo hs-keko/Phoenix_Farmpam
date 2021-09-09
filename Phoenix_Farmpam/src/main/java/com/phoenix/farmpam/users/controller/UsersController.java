@@ -1,6 +1,5 @@
 package com.phoenix.farmpam.users.controller;
 
-import java.util.HashMap;
 import java.net.URLEncoder;
 import java.util.Map;
 
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +33,7 @@ public class UsersController {
 		mView.setViewName("users/delete");
 		return mView;
 	}
-	
+
 	//개인정보 수정반영 요청처리 메소드
 	@RequestMapping(value = "/users/private/update", method=RequestMethod.POST)
 	public String update(UsersDto dto, HttpSession session) {
@@ -126,48 +124,12 @@ public class UsersController {
 		return mView;
 	}
 	
-	//vue 로그인 요청
-	@RequestMapping("/users/vue/login")
-	@ResponseBody
-	public Map<String,Object> vuelogin(UsersDto dto, HttpSession session) {
-		System.out.println("login 요청");
-		System.out.println(dto.getUsers_email());
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		// response => { email: String, name: String, chk: String ,token: boolean } 
-		if(service.loginpro(dto, session)) {
-			service.checkbox(dto, session);		
-			map.put("email",(String)session.getAttribute("email"));
-			map.put("name",(String)session.getAttribute("name"));
-			map.put("chk",(String)session.getAttribute("check"));
-			// 나중에 JWT 토큰API 사용해보기.
-			map.put("token",true);
-		}else {
-			map.put("token",false);
-		}
-	
-		return map;
-	}
-	
 	//회원가입 요청처리
 	@RequestMapping(value="/users/signup", method = RequestMethod.POST)
 	public ModelAndView signup(ModelAndView mView, UsersDto dto) {
 		service.addUser(dto);
 		mView.setViewName("users/signup");
 		return mView;	
-	}
-	
-	// vue 회원가입 요청처리
-	@RequestMapping(value="/users/vue/signup", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> vuesignup( UsersDto dto) {
-		System.out.println("vue 회원가입 요청");
-		System.out.println(dto.getUsers_email());
-		dto.setUsers_chk("0");
-		service.addUser(dto);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isSuccess",true );
-		return map;
 	}
 
 	//before창 가입하기 전 분류하기
@@ -189,4 +151,8 @@ public class UsersController {
 	public String signupForm() {
 		return "users/signup_form";
 	}
+
+
+
+	
 }
