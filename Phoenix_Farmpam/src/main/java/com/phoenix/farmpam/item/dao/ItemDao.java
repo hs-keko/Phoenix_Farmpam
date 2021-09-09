@@ -19,7 +19,7 @@ public interface ItemDao {
 	public void insertItem(ItemDto dto);
 	
 	//글 삭제
-	public void delete(int item_idx);
+	public void delete(int num);
 	
 	//글 수정
 	public void update(ItemDto itemDto);
