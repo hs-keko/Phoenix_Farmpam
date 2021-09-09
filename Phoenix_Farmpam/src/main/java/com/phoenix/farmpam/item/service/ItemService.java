@@ -19,7 +19,7 @@ public interface ItemService {
 	//장바구니에서 상품 삭제
 	public void deleteCart(HttpServletRequest request);
 	//장바구니 목록 불러오기
-	public void getCartList(HttpSession session, ModelAndView mView);
+	public void getCartList(HttpSession session, Map<String, Object> map);
 	//장바구니 담기
 	public void insertCart(HttpServletRequest request, HttpSession session);									
 	//아이템 목록 얻어오기

@@ -50,10 +50,11 @@ public class ItemController {
 	
 	//장바구니 목록
 	@RequestMapping("/item/private/cart")
-	public ModelAndView cartList(HttpSession session, ModelAndView mView) {
-		service.getCartList(session, mView);
-		mView.setViewName("item/cart");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> cartList(HttpSession session) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getCartList(session, map);
+		return map;
 	}
 	
 	//장바구니 담기

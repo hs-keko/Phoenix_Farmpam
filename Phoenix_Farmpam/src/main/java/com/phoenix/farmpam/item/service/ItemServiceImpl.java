@@ -240,13 +240,13 @@ public class ItemServiceImpl implements ItemService {
 
 	//장바구니 목록 불러오기
 	@Override
-	public void getCartList(HttpSession session, ModelAndView mView) {
+	public void getCartList(HttpSession session, Map<String, Object> map) {
 		//세션에서 로그인된 유저 이메일 불러오기
 		String users_email = (String)session.getAttribute("email");
 		//장바구니 상품 목록을 담을 List
 		List<CartDto> list = cartDao.getCartList(users_email);
 		//ModelAndView 객체에 list 라는 키값으로 담는다.
-		mView.addObject("list", list);
+		map.put("cartList", list);
 		
 	}
 
