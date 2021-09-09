@@ -31,9 +31,8 @@ public class ItemController {
 	@RequestMapping("item/private/cartupdate")
 	@ResponseBody
 	public Map<String, Object> updateCart(HttpServletRequest request){
-		service.updateCart(request);
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("isSuccess", true);
+		service.updateCart(request, map);
 		return map;
 	}
 	

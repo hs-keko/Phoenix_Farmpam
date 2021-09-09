@@ -267,9 +267,11 @@ public class ItemServiceImpl implements ItemService {
 
 	//장바구니 구매수량 변경
 	@Override
-	public void updateCart(HttpServletRequest request) {
+	public void updateCart(HttpServletRequest request, Map<String, Object> map) {
 		int cart_idx=Integer.parseInt(request.getParameter("cart_idx"));
 		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
+		int item_price=cartDao.getCartData(cart_idx);
+		int cart_price = cart_amount * item_price;
 		String users_email=(String)request.getSession().getAttribute("email");
 		String cart_users_email=cartDao.getCartEmail(cart_idx);
 		
@@ -277,11 +279,17 @@ public class ItemServiceImpl implements ItemService {
 		if(!cart_users_email.equals(users_email)) {
 			throw new NotDeleteException("다른 이용자의 구매수량을 변경할 수 없습니다.");
 		}
+		
 		CartDto cartDto=new CartDto();
 		cartDto.setCart_idx(cart_idx);
 		cartDto.setCart_amount(cart_amount);
+		cartDto.setCart_price(cart_price);
 		
 		cartDao.updateCart(cartDto);
+		
+		map.put("cart_amount", cart_amount);
+		map.put("cart_price", cart_price);
+		map.put("isSuccess", true);
 	}
 
 	@Override

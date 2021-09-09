@@ -44,4 +44,9 @@ public class CartDaoImpl implements CartDao {
 		
 	}
 
+	@Override
+	public int getCartData(int cart_idx) {
+		return session.selectOne("cart.getCartData", cart_idx);
+	}
+
 }

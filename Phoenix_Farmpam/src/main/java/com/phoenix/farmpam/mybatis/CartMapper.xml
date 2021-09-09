@@ -5,7 +5,7 @@
 	<!-- 장바구니 구매수량 변경 -->
 	<update id="updateCart" parameterType="cartDto">
 		UPDATE cart
-		SET cart_amount=#{cart_amount}
+		SET cart_amount=#{cart_amount}, cart_price=#{cart_price}
 		WHERE cart_idx=#{cart_idx}
 	</update>
 	
@@ -29,6 +29,14 @@
 		WHERE c.item_idx = i.item_idx
 		AND c.users_email = #{users_email}
 		ORDER BY c.cart_idx DESC
+	</select>
+	
+	<!-- 장바구니 특정 row에서 item_price 가져오기 -->
+	<select id="getCartData" parameterType="int" resultType="int">
+		SELECT i.item_price
+		FROM cart c, item i
+		WHERE c.item_idx = i.item_idx
+		AND c.cart_idx = #{cart_idx}
 	</select>
 	
 	<!-- 장바구니에 상품 추가 -->
