@@ -49,7 +49,7 @@
 	</c:choose>
 <h2> ${sessionScope.email }님의 상품 목록 확인하기 </h2>
 	<br/>
-	<form action="list.do" method="get"> 
+	<form action="list_admin.do" method="get"> 
 		<select name="condition" id="condition">
 			<option value="item_title" ${condition eq 'item_title' ? 'selected' : '' }>제목</option>
 		</select>
@@ -101,7 +101,7 @@
 					<li>
 						<c:choose>
 							<c:when test="${pageNum eq i }">
-								<a  class="active" href="list_admin.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a>
+								<a class="active" href="list_admin.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a>
 							</c:when>
 							<c:otherwise>
 								<a href="list_admin.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a>
