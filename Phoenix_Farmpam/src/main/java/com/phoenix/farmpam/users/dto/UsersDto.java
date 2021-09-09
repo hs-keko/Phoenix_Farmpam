@@ -120,5 +120,4 @@ public class UsersDto {
 		this.users_newPwd = users_newPwd;
 	}
 
-
 }

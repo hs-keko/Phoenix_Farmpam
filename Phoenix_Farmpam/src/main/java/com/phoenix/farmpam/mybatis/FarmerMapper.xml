@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmer">
+
 	<select id="isExist" parameterType="java.lang.String" resultType="string">
 		SELECT farmer_email 
 		FROM farmer
 		WHERE farmer_email=#{farmer_email}
 	</select>
+	
 	<insert id="insert" parameterType="farmerDto">
 		INSERT INTO farmer
 		(farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_regdate, farmer_chk)
 		VALUES(#{farmer_email}, #{farmer_pwd }, #{farmer_name }, #{farmer_addr }, #{farmer_addr_detail }, #{farmer_phone}, SYSDATE, #{farmer_chk}) 
 	</insert>
+	
 	<select id="getData" parameterType="string" 
 	 resultType="farmerDto">
 		SELECT farmer_email, farmer_pwd, farmer_name, farmer_addr, farmer_addr_detail, farmer_phone, farmer_profile, farmer_follow, farmer_intro, farmer_ban, farmer_regdate, farmer_chk
 		FROM farmer
 		WHERE farmer_email=#{farmer_email }
 	</select>
+
 	<update id="pwdUpdate" parameterType="farmerDto">
 		UPDATE farmer
 		SET farmer_pwd=#{farmer_newPwd}
 		WHERE farmer_email=#{farmer_email}
 	</update>
-		<update id="update" parameterType="farmerDto">
+		
+	<update id="update" parameterType="farmerDto">
 		UPDATE farmer
 		SET farmer_profile=#{farmer_profile}, farmer_name=#{farmer_name}, farmer_addr=#{farmer_addr }, farmer_addr_detail=#{farmer_addr_detail }, farmer_phone=#{farmer_phone}, farmer_intro=#{farmer_intro}
 		WHERE farmer_email=#{farmer_email}
 	</update>
-		<delete id="delete" parameterType="string">
+	
+	<delete id="delete" parameterType="string">
 		DELETE FROM farmer
 		WHERE farmer_email=#{farmer_email}
 	</delete>

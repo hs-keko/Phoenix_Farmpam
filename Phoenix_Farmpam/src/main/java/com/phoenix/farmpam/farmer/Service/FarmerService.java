@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.farmer.dto.FollowDto;
 
+
 public interface FarmerService {
 	
 	public Map<String, Object> isExistEmail(String inputFarmerEmail);

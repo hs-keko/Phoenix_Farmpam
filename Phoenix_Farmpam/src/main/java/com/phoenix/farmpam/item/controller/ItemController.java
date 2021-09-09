@@ -1,6 +1,7 @@
 package com.phoenix.farmpam.item.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -120,13 +121,6 @@ public class ItemController {
 		return "redirect:/item/private/list_admin.do";
 	}	
 	
-	
-	// 물품 구매 테스트 페이지 요청
-	@RequestMapping("/item/test_buy")
-	public String testDetailForm() {
-		return "item/test_buy";
-	}
-	
 	// 구매 요청 처리
 	@RequestMapping(value = "/item/buy", method = RequestMethod.POST)
 	public ModelAndView authBuy(HttpServletRequest request,
@@ -136,6 +130,27 @@ public class ItemController {
 		mView.addObject("users_email",(String)request.getSession().getAttribute("email"));
 		service.buy(ordersDto, mView);
 		mView.setViewName("item/buy");
+		return mView;
+	}
+
+   
+   
+   //ajax 요청에 대해 item 목록을 출력할 컨트롤러 메소드 
+ 	@RequestMapping("/api/item/list")
+ 	@ResponseBody 
+ 	public List<ItemDto> getList2(HttpServletRequest request){
+ 		
+ 		return service.getList2(request);
+ 	}
+ 	
+ 	//item 게시글의 item_idx 이 parameter get 방식으로 넘어온다.
+	//detail 페이지
+	@RequestMapping(value = "/item/detail", method = RequestMethod.GET)
+	public ModelAndView getDetail(ModelAndView mView, @RequestParam int item_idx) {
+		//item detail 페이지에 필요한 data를 item_idx 으로 가져와, ModelAndView 에 저장
+		service.getDetail(mView, item_idx);
+		mView.setViewName("item/detail");
+		
 		return mView;
 	}
 }

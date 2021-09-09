@@ -23,4 +23,15 @@ public interface ItemDao {
 	public void minusMoney(ItemDto itemDto);
 	// 상품 재고 감소시키기
 	public void minusStock(ItemDto itemDto);
+	//상품 목록을 리턴해주는 메소드
+	public List<ItemDto> getList(ItemDto itemDto);
+	//상품 재고를 감소 시키는 메소드
+	public void minusCount(int item_stock);
+	//글 추가
+	public void insert(ItemDto itemDto);
+	//글정보 얻어오기
+	public ItemDto getData2(int item_idx);
+	//키워드를 활용한 글정보 얻어오기
+	public ItemDto getData(ItemDto itemDto);
+	
 }

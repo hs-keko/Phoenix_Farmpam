@@ -1,6 +1,7 @@
 package com.phoenix.farmpam.item.service;
 
-import java.util.HashMap;
+
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,4 +32,8 @@ public interface ItemService {
 	public void deleteItem(int num, HttpServletRequest request);
 	//상품 주문 처리를 하는 메소드
 	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView);
+	//상품목록 추가 응답
+	public List<ItemDto> moreItemList(HttpServletRequest request);
+	public List<ItemDto> getList2(HttpServletRequest request);
+	public void getDetail(ModelAndView mView, int item_idx);
 }

@@ -139,5 +139,4 @@ public class FarmerDto {
 	public void setFarmer_newPwd(String farmer_newPwd) {
 		this.farmer_newPwd = farmer_newPwd;
 	}
-
 }

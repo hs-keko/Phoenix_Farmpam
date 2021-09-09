@@ -25,4 +25,5 @@ public interface UsersService {
 			MultipartFile mFile);
 	public void updateUser(UsersDto dto, HttpSession session);
 	public void deleteUser(HttpSession session, ModelAndView mView);
+	public boolean loginpro(UsersDto dto, HttpSession session);
 }

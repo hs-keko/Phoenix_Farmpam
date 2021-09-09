@@ -65,4 +65,31 @@ public class ItemDaoImpl implements ItemDao {
 	public void minusStock(ItemDto itemDto) {
 		session.update("item.minusStock", itemDto);
 	}
+	
+	public List<ItemDto> getList(ItemDto itemDto) {
+		return session.selectList("item.getList", itemDto);
+	}
+
+	@Override
+	public void minusCount(int item_stock) {
+		session.update("item.minusCount", item_stock);
+		
+	}
+
+	@Override
+	public void insert(ItemDto itemDto) {
+		session.insert("item.insert", itemDto);
+		
+	}
+
+	@Override
+	public ItemDto getData(ItemDto itemDto) {
+		return session.selectOne("item.getData", itemDto);
+	}
+
+	@Override
+	public ItemDto getData2(int item_idx) {
+		return session.selectOne("item.getData2", item_idx);
+	}
+	
 }

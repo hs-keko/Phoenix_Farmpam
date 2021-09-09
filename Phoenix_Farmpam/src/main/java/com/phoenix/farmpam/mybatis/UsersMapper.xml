@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
+
 	<select id="isExist" parameterType="java.lang.String" resultType="string">
 		SELECT users_email 
 		FROM new_users
 		WHERE users_email=#{users_email}
 	</select>
+	
 	<insert id="insert" parameterType="usersDto">
 		INSERT INTO new_users
 		(users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone, users_regdate, users_chk)
 		VALUES(#{users_email}, #{users_pwd }, #{users_name }, #{users_addr }, #{users_addr_detail }, #{users_phone}, SYSDATE, #{users_chk})
 	</insert>
+	
 	<select id="getData" parameterType="string" 
 	 resultType="usersDto">
 		SELECT users_email, users_pwd, users_name, users_addr, users_addr_detail, users_phone, users_profile, users_ban, users_regdate, users_chk
 		FROM new_users
 		WHERE users_email=#{users_email }
 	</select>
+	
 	<update id="pwdUpdate" parameterType="usersDto">
 		UPDATE new_users
 		SET users_pwd=#{users_newPwd}
 		WHERE users_email=#{users_email}
 	</update>
+	
 	<update id="update" parameterType="usersDto">
 		UPDATE new_users
 		SET users_profile=#{users_profile}, users_name=#{users_name}, users_addr=#{users_addr }, users_addr_detail=#{users_addr_detail }, users_phone=#{users_phone}
 		WHERE users_email=#{users_email}
 	</update>
+	
 	<delete id="delete" parameterType="string">
 		DELETE FROM new_users
 		WHERE users_email=#{users_email}

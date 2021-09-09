@@ -69,6 +69,7 @@ public class FarmerDaoImpl implements FarmerDao {
 		return farmerDto; 
 	}
 
+	// 팔로우 해제
 	@Override
 	public FarmerDto followDelete(FarmerDto farmerDto, FollowDto followDto) {
 		

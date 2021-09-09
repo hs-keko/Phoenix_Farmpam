@@ -1,5 +1,6 @@
 package com.phoenix.farmpam.item.dto;
 
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class ItemDto {
@@ -10,6 +11,7 @@ public class ItemDto {
    private int item_stock;
    private String item_content;
    private String item_image;
+   private int item_category_top_ref;
    private int item_category_top_idx;
    private String item_category_top_name;
    private int item_category_low_idx;
@@ -22,14 +24,14 @@ public class ItemDto {
    private int prevNum; //이전글의 글번호
    private int nextNum; //다음글의 글번호
    //이미지 파일 업로드 처리를 위한 필드
-   private MultipartFile image;	
+   private MultipartFile image;
    
    public ItemDto() {}
 
 public ItemDto(String farmer_email, int item_idx, String item_title, int item_price, int item_stock,
-		String item_content, String item_image, int item_category_top_idx, String item_category_top_name,
-		int item_category_low_idx, String item_category_low_name, String users_email, int orders_item_total,
-		String board_image, int startRowNum, int endRowNum, int prevNum, int nextNum, MultipartFile image) {
+		String item_content, String item_image, int item_category_top_ref, int item_category_top_idx,
+		String item_category_top_name, int item_category_low_idx, String item_category_low_name, String users_email,
+		int orders_item_total, int startRowNum, int endRowNum, int prevNum, int nextNum, MultipartFile image) {
 	super();
 	this.farmer_email = farmer_email;
 	this.item_idx = item_idx;
@@ -38,6 +40,7 @@ public ItemDto(String farmer_email, int item_idx, String item_title, int item_pr
 	this.item_stock = item_stock;
 	this.item_content = item_content;
 	this.item_image = item_image;
+	this.item_category_top_ref = item_category_top_ref;
 	this.item_category_top_idx = item_category_top_idx;
 	this.item_category_top_name = item_category_top_name;
 	this.item_category_low_idx = item_category_low_idx;
@@ -105,6 +108,14 @@ public String getItem_image() {
 
 public void setItem_image(String item_image) {
 	this.item_image = item_image;
+}
+
+public int getItem_category_top_ref() {
+	return item_category_top_ref;
+}
+
+public void setItem_category_top_ref(int item_category_top_ref) {
+	this.item_category_top_ref = item_category_top_ref;
 }
 
 public int getItem_category_top_idx() {
@@ -194,5 +205,7 @@ public MultipartFile getImage() {
 public void setImage(MultipartFile image) {
 	this.image = image;
 }
-
+   
+   
+   
 }

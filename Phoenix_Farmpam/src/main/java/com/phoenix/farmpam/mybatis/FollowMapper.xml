@@ -34,5 +34,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM farmer
 		WHERE farmer_email=#{farmer_email}
 	</select>
-
+	
 </mapper>
