@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.farmer.dto.FollowDto;
 
-
 public interface FarmerService {
 	
 	public Map<String, Object> isExistEmail(String inputFarmerEmail);
@@ -30,4 +29,7 @@ public interface FarmerService {
 	public FarmerDto followInsert(FollowDto followDto);
 	// 팔로우 해제
 	public FarmerDto followDelete(FollowDto followDto);
+	
+	// vue 처리
+	public boolean vuelogin(FarmerDto dto, HttpSession session);
 }

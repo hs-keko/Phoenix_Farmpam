@@ -17,12 +17,35 @@ import org.springframework.web.servlet.ModelAndView;
 import com.phoenix.farmpam.farmer.dao.FarmerDao;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.farmer.dto.FollowDto;
+import com.phoenix.farmpam.users.dto.UsersDto;
 
 @Service
 public class FarmerServiceImpl implements FarmerService {
 
 	@Autowired
 	private FarmerDao dao;
+	
+	@Override
+	public boolean vuelogin(FarmerDto dto, HttpSession session) {
+		//입력한 정보가 맞는여부
+		boolean isValid=false;
+		
+		//1. 로그인 폼에 입력한 아이디를 이용해서 해당 정보를 select 해 본다. 
+		FarmerDto result=dao.getData(dto.getFarmer_email());
+		if(result != null) {//만일 존재하는 아이디 라면
+			//비밀번호가 일치하는지 확인한다.
+			String encodedPwd=result.getFarmer_pwd(); //DB 에 저장된 암호화된 비밀번호 
+			String inputUsersPwd=dto.getFarmer_pwd(); //로그인폼에 입력한 비밀번호
+			//Bcrypt 클래스의 static 메소드를 이용해서 일치 여부를 얻어낸다.
+			isValid=BCrypt.checkpw(inputUsersPwd, encodedPwd);
+		}
+		if(isValid) {//만일 유효한 정보이면 
+			//로그인 처리를 한다.
+			session.setAttribute("email", dto.getFarmer_email());
+			session.setAttribute("name",result.getFarmer_name());
+		}
+		return isValid;
+	}
 	
 	@Override
 	public Map<String, Object> isExistEmail(String inputFarmerEmail) {
@@ -81,12 +104,12 @@ public class FarmerServiceImpl implements FarmerService {
 
 	@Override
 	public void checkbox(FarmerDto dto, HttpSession session) {
-		FarmerDto result=dao.getData(dto.getFarmer_email());
-		if(result != null) {//만일 존재하는 아이디 라면
-			if(!dao.getData(dto.getFarmer_email()).getFarmer_chk().equals("0")) {
-				session.setAttribute("check", "chk_farmer");
-			}
-		}
+	FarmerDto result=dao.getData(dto.getFarmer_email());
+	if(result != null) {//만일 존재하는 아이디 라면
+		if(!dao.getData(dto.getFarmer_email()).getFarmer_chk().equals("0")) {
+		session.setAttribute("check", "chk_farmer");
+	}}
+
 	}
 
 	@Override
@@ -154,20 +177,6 @@ public class FarmerServiceImpl implements FarmerService {
 		return map;
 	}
 
-	@Override
-	public void updateUser(FarmerDto dto, HttpSession session) {
-		// 수정할 회원의 아이디
-		String email=(String)session.getAttribute("email");
-		//UsersDao에 아이디를 담아준다.
-		dto.setFarmer_email(email);
-		//만일 프로필 사진을 수정하지 않았다면
-		if(dto.getFarmer_profile().equals("empty")) {
-			//My Batis에서 null을 바인딩하면 오류가 나기 때문에 빈 문자열을 넣어준다.
-			dto.setFarmer_profile("");
-		}
-		//usersDao에서 수정반영한다.
-		dao.update(dto);
-	}
 
 	@Override
 	public void deleteUser(HttpSession session, ModelAndView mView) {
@@ -201,6 +210,26 @@ public class FarmerServiceImpl implements FarmerService {
 		// DB에서 팔로우 해제 작업을 하고 FarmerDto 리턴
 		return dao.followDelete(farmerDto, followDto);
 	}
+
+
+
+
+	@Override
+	public void updateUser(FarmerDto dto, HttpSession session) {
+		// 수정할 회원의 아이디
+		String email=(String)session.getAttribute("email");
+		//UsersDao에 아이디를 담아준다.
+		dto.setFarmer_email(email);
+		//만일 프로필 사진을 수정하지 않았다면
+		if(dto.getFarmer_profile().equals("empty")) {
+			//My Batis에서 null을 바인딩하면 오류가 나기 때문에 빈 문자열을 넣어준다.
+			dto.setFarmer_profile("");
+		}
+		//usersDao에서 수정반영한다.
+		dao.update(dto);
+	}
+
 		
 }
+
 

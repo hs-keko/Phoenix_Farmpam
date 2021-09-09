@@ -4,6 +4,7 @@ package com.phoenix.farmpam.item.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ItemDto {
+   private String farmer_name;
    private String farmer_email;
    private int item_idx;
    private String item_title;
@@ -28,184 +29,192 @@ public class ItemDto {
    
    public ItemDto() {}
 
-public ItemDto(String farmer_email, int item_idx, String item_title, int item_price, int item_stock,
-		String item_content, String item_image, int item_category_top_ref, int item_category_top_idx,
-		String item_category_top_name, int item_category_low_idx, String item_category_low_name, String users_email,
-		int orders_item_total, int startRowNum, int endRowNum, int prevNum, int nextNum, MultipartFile image) {
-	super();
-	this.farmer_email = farmer_email;
-	this.item_idx = item_idx;
-	this.item_title = item_title;
-	this.item_price = item_price;
-	this.item_stock = item_stock;
-	this.item_content = item_content;
-	this.item_image = item_image;
-	this.item_category_top_ref = item_category_top_ref;
-	this.item_category_top_idx = item_category_top_idx;
-	this.item_category_top_name = item_category_top_name;
-	this.item_category_low_idx = item_category_low_idx;
-	this.item_category_low_name = item_category_low_name;
-	this.users_email = users_email;
-	this.orders_item_total = orders_item_total;
-	this.startRowNum = startRowNum;
-	this.endRowNum = endRowNum;
-	this.prevNum = prevNum;
-	this.nextNum = nextNum;
-	this.image = image;
-}
+	public ItemDto(String farmer_name, String farmer_email, int item_idx, String item_title, int item_price, int item_stock,
+			String item_content, String item_image, int item_category_top_ref, int item_category_top_idx,
+			String item_category_top_name, int item_category_low_idx, String item_category_low_name, String users_email,
+			int orders_item_total, int startRowNum, int endRowNum, int prevNum, int nextNum, MultipartFile image) {
+		super();
+		this.farmer_name = farmer_name;
+		this.farmer_email = farmer_email;
+		this.item_idx = item_idx;
+		this.item_title = item_title;
+		this.item_price = item_price;
+		this.item_stock = item_stock;
+		this.item_content = item_content;
+		this.item_image = item_image;
+		this.item_category_top_ref = item_category_top_ref;
+		this.item_category_top_idx = item_category_top_idx;
+		this.item_category_top_name = item_category_top_name;
+		this.item_category_low_idx = item_category_low_idx;
+		this.item_category_low_name = item_category_low_name;
+		this.users_email = users_email;
+		this.orders_item_total = orders_item_total;
+		this.startRowNum = startRowNum;
+		this.endRowNum = endRowNum;
+		this.prevNum = prevNum;
+		this.nextNum = nextNum;
+		this.image = image;
+	}
 
-public String getFarmer_email() {
-	return farmer_email;
-}
+	public String getFarmer_name() {
+		return farmer_name;
+	}
 
-public void setFarmer_email(String farmer_email) {
-	this.farmer_email = farmer_email;
-}
+	public void setFarmer_name(String farmer_name) {
+		this.farmer_name = farmer_name;
+	}
 
-public int getItem_idx() {
-	return item_idx;
-}
+	public String getFarmer_email() {
+		return farmer_email;
+	}
 
-public void setItem_idx(int item_idx) {
-	this.item_idx = item_idx;
-}
+	public void setFarmer_email(String farmer_email) {
+		this.farmer_email = farmer_email;
+	}
 
-public String getItem_title() {
-	return item_title;
-}
+	public int getItem_idx() {
+		return item_idx;
+	}
 
-public void setItem_title(String item_title) {
-	this.item_title = item_title;
-}
+	public void setItem_idx(int item_idx) {
+		this.item_idx = item_idx;
+	}
 
-public int getItem_price() {
-	return item_price;
-}
+	public String getItem_title() {
+		return item_title;
+	}
 
-public void setItem_price(int item_price) {
-	this.item_price = item_price;
-}
+	public void setItem_title(String item_title) {
+		this.item_title = item_title;
+	}
 
-public int getItem_stock() {
-	return item_stock;
-}
+	public int getItem_price() {
+		return item_price;
+	}
 
-public void setItem_stock(int item_stock) {
-	this.item_stock = item_stock;
-}
+	public void setItem_price(int item_price) {
+		this.item_price = item_price;
+	}
 
-public String getItem_content() {
-	return item_content;
-}
+	public int getItem_stock() {
+		return item_stock;
+	}
 
-public void setItem_content(String item_content) {
-	this.item_content = item_content;
-}
+	public void setItem_stock(int item_stock) {
+		this.item_stock = item_stock;
+	}
 
-public String getItem_image() {
-	return item_image;
-}
+	public String getItem_content() {
+		return item_content;
+	}
 
-public void setItem_image(String item_image) {
-	this.item_image = item_image;
-}
+	public void setItem_content(String item_content) {
+		this.item_content = item_content;
+	}
 
-public int getItem_category_top_ref() {
-	return item_category_top_ref;
-}
+	public String getItem_image() {
+		return item_image;
+	}
 
-public void setItem_category_top_ref(int item_category_top_ref) {
-	this.item_category_top_ref = item_category_top_ref;
-}
+	public void setItem_image(String item_image) {
+		this.item_image = item_image;
+	}
 
-public int getItem_category_top_idx() {
-	return item_category_top_idx;
-}
+	public int getItem_category_top_ref() {
+		return item_category_top_ref;
+	}
 
-public void setItem_category_top_idx(int item_category_top_idx) {
-	this.item_category_top_idx = item_category_top_idx;
-}
+	public void setItem_category_top_ref(int item_category_top_ref) {
+		this.item_category_top_ref = item_category_top_ref;
+	}
 
-public String getItem_category_top_name() {
-	return item_category_top_name;
-}
+	public int getItem_category_top_idx() {
+		return item_category_top_idx;
+	}
 
-public void setItem_category_top_name(String item_category_top_name) {
-	this.item_category_top_name = item_category_top_name;
-}
+	public void setItem_category_top_idx(int item_category_top_idx) {
+		this.item_category_top_idx = item_category_top_idx;
+	}
 
-public int getItem_category_low_idx() {
-	return item_category_low_idx;
-}
+	public String getItem_category_top_name() {
+		return item_category_top_name;
+	}
 
-public void setItem_category_low_idx(int item_category_low_idx) {
-	this.item_category_low_idx = item_category_low_idx;
-}
+	public void setItem_category_top_name(String item_category_top_name) {
+		this.item_category_top_name = item_category_top_name;
+	}
 
-public String getItem_category_low_name() {
-	return item_category_low_name;
-}
+	public int getItem_category_low_idx() {
+		return item_category_low_idx;
+	}
 
-public void setItem_category_low_name(String item_category_low_name) {
-	this.item_category_low_name = item_category_low_name;
-}
+	public void setItem_category_low_idx(int item_category_low_idx) {
+		this.item_category_low_idx = item_category_low_idx;
+	}
 
-public String getUsers_email() {
-	return users_email;
-}
+	public String getItem_category_low_name() {
+		return item_category_low_name;
+	}
 
-public void setUsers_email(String users_email) {
-	this.users_email = users_email;
-}
+	public void setItem_category_low_name(String item_category_low_name) {
+		this.item_category_low_name = item_category_low_name;
+	}
 
-public int getOrders_item_total() {
-	return orders_item_total;
-}
+	public String getUsers_email() {
+		return users_email;
+	}
 
-public void setOrders_item_total(int orders_item_total) {
-	this.orders_item_total = orders_item_total;
-}
+	public void setUsers_email(String users_email) {
+		this.users_email = users_email;
+	}
 
-public int getStartRowNum() {
-	return startRowNum;
-}
+	public int getOrders_item_total() {
+		return orders_item_total;
+	}
 
-public void setStartRowNum(int startRowNum) {
-	this.startRowNum = startRowNum;
-}
+	public void setOrders_item_total(int orders_item_total) {
+		this.orders_item_total = orders_item_total;
+	}
 
-public int getEndRowNum() {
-	return endRowNum;
-}
+	public int getStartRowNum() {
+		return startRowNum;
+	}
 
-public void setEndRowNum(int endRowNum) {
-	this.endRowNum = endRowNum;
-}
+	public void setStartRowNum(int startRowNum) {
+		this.startRowNum = startRowNum;
+	}
 
-public int getPrevNum() {
-	return prevNum;
-}
+	public int getEndRowNum() {
+		return endRowNum;
+	}
 
-public void setPrevNum(int prevNum) {
-	this.prevNum = prevNum;
-}
+	public void setEndRowNum(int endRowNum) {
+		this.endRowNum = endRowNum;
+	}
 
-public int getNextNum() {
-	return nextNum;
-}
+	public int getPrevNum() {
+		return prevNum;
+	}
 
-public void setNextNum(int nextNum) {
-	this.nextNum = nextNum;
-}
+	public void setPrevNum(int prevNum) {
+		this.prevNum = prevNum;
+	}
 
-public MultipartFile getImage() {
-	return image;
-}
+	public int getNextNum() {
+		return nextNum;
+	}
 
-public void setImage(MultipartFile image) {
-	this.image = image;
-}
+	public void setNextNum(int nextNum) {
+		this.nextNum = nextNum;
+	}
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+
    
-   
-   
-}
+}   

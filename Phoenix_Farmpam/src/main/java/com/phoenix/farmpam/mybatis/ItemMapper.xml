@@ -26,8 +26,14 @@
 		SELECT NVL(MAX(ROWNUM),0)
 		FROM item
 		<choose>
-			<when test="item_title != null">
-				WHERE item_title LIKE '%'||#{item_title}||'%'
+			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+				WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_idx != 0">
+				WHERE item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_ref != 0"> 
+				WHERE item_category_top_ref = #{item_category_top_ref}
 			</when>
 		</choose>
 	</select>
@@ -121,7 +127,7 @@
 		where item_idx=#{item_idx}
 	</update>
 	
-	<select id="getData" parameterType="int" resultType="itemDto"> 
+	<select id="getDetailData" parameterType="int" resultType="itemDto">  <!-- 이름 중복 수정 -->
 		SELECT result1.*
 		FROM item
 			(SELECT item_idx,item_title, item_price,item_stock,item_content, item_image, farmer_email,
@@ -131,7 +137,7 @@
 		WHERE item_idx=#{item_idx}
 	</select>
 	
-	<select id="getData2" parameterType="itemDto" resultType="itemDto">
+	<select id="getDetailData2" parameterType="itemDto" resultType="itemDto">  <!-- 이름 중복 수정 -->
 		SELECT result1.*
 		FROM
 			(SELECT item_idx, item_title, item_price,item_stock, item_content, item_image, farmer_email,
@@ -141,6 +147,53 @@
 			<include refid="searchCondition"/>
 			) result1
 		WHERE item_idx=#{item_idx}	
+	</select>
+	
+	<!-- vue -->
+	<select id="getCategory" parameterType="int" resultType="cateTopDto">
+		select b.item_category_low_name ,a.item_category_top_idx
+		from item_category_top a inner join item_category_low b
+		on a.item_category_low_idx = b.item_category_low_idx
+		where item_category_top_ref = #{item_category_top_ref}
+	</select>
+	
+	<select id="getMyDetail" parameterType="int" resultType="itemDto">
+		SELECT i.farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image, farmer_name
+		FROM item i inner join farmer f on i.farmer_email = f.farmer_email
+		WHERE item_idx=#{item_idx}
+	</select>
+	
+	<select id="getMyList" parameterType="itemDto" resultType="itemDto">
+		SELECT result2.* from
+		(SELECT result1.*, rownum as rnum FROM
+		(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref, i.farmer_email, farmer_name
+		FROM item i inner join farmer f on i.farmer_email = f.farmer_email order by item_idx desc) result1 where farmer_email like '%'||#{farmer_email}||'%' ) result2
+			<choose>
+			<when test="item_title != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%' and rnum between #{startRowNum} AND #{endRowNum}
+			</when>
+			<otherwise>
+				where rnum between #{startRowNum} AND #{endRowNum}
+			</otherwise>
+			</choose>
+	</select>
+	
+	<select id="getMyShopCount" parameterType="itemDto" resultType="int">
+	SELECT NVL(MAX(ROWNUM),0)
+	FROM item where farmer_email like '%'||#{farmer_email}||'%'
+		<choose>
+			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+				and item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_ref != 0"> 
+				and item_category_top_ref = #{item_category_top_ref}
+			</when>
+		</choose>
+		<choose>
+			<when test="item_title != null">
+			and item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
 	</select>
 	
 </mapper>

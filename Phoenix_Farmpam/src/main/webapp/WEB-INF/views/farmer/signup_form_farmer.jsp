@@ -56,6 +56,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
 	// 이메일, 비밀번호, 약관동의의 유효성 여부를 관리한 변수 만들고 초기값 대입
 	let isEmailValid=false;
@@ -69,23 +71,24 @@
 	const inputEmail=this.value;
 	
 	//2. util 에 있는 함수를 이용해서 ajax 요청하기
-	ajaxPromise("${pageContext.request.contextPath}/farmer/checkfarmeremail.do", "get", "inputFarmerEmail="+inputEmail)
-	.then(function(response){
-	  return response.json();
+	axios.get("${pageContext.request.contextPath}/farmer/checkfarmeremail.do?inputFarmerEmail="+inputEmail)
+	.then((res)=>{
+		console.log(res.data.isExist);
+		const data = res.data;
+		if(data.isExist){
+		     //사용할수 없는 아이디라는 피드백을 보이게 한다. 
+		     isEmailValid=false;
+		     // is-invalid 클래스를 추가한다. 
+		     document.querySelector("#farmer_email").classList.add("is-invalid");
+		}else{
+			console.log('아이디중복없음')
+		     isEmailValid=true;
+		     document.querySelector("#farmer_email").classList.add("is-valid");
+		}
+	}).catch((e)=>{
+		console.log(e);
 	})
-	.then(function(data){
-	  console.log(data);
-	  //data 는 {isExist:true} or {isExist:false} 형태의 object 이다.
-	  if(data.isExist){//만일 존재한다면
-	     //사용할수 없는 아이디라는 피드백을 보이게 한다. 
-	     isEmailValid=false;
-	     // is-invalid 클래스를 추가한다. 
-	     document.querySelector("#farmer_email").classList.add("is-invalid");
-	  }else{
-	     isEmailValid=true;
-	     document.querySelector("#farmer_email").classList.add("is-valid");
-	      }
-	   });
+	
 	});
 	// 핸드폰 하이픈 넣기
 	function autoHypenPhone(str){

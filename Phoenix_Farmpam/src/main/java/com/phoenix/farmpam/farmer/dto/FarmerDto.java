@@ -140,3 +140,4 @@ public class FarmerDto {
 		this.farmer_newPwd = farmer_newPwd;
 	}
 }
+

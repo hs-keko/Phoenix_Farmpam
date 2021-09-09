@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 </head>
 <body>
+<h1><a href="${pageContext.request.contextPath}/index.do">Vue 페이지로 가기</a></h1>
 
 <div class="container">
 	<c:if test="${empty sessionScope.email}">
@@ -18,11 +19,12 @@
 	</c:if>
 	<c:if test="${sessionScope.check eq 'chk_farmer'}">
 		<a href="${pageContext.request.contextPath}/farmer/private/info_farmer.do">${sessionScope.email }</a> 농장주 로그인중... 
-		<a href="${pageContext.request.contextPath}/item/private/list_admin.do">내 상점</a>
+		<a href="${pageContext.request.contextPath}/item/private/list.do">내 상점 관리</a>
 		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 	</c:if>
 	<c:if test="${sessionScope.check eq 'chk_common'}">
 		<a href="${pageContext.request.contextPath}/users/private/info.do">${sessionScope.email }</a> 유저 로그인중... 
+		<a href="${pageContext.request.contextPath}/item/test_buy.do">상품 구매 테스트</a>
 		<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 	</c:if>
 <h1>
@@ -31,5 +33,4 @@
 <h2>${notice }</h2>
 </div>
 </body>
-
 </html>
