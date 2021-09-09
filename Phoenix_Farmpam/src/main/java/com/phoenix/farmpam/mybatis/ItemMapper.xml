@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
-
 	<select id="getCount" parameterType="itemDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM),0)
 		FROM item
 		<choose>
-			<when test="item_title != null">
-				WHERE item_title LIKE '%'||#{item_title}||'%'
+			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+				WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_idx != 0">
+				WHERE item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_ref != 0"> 
+				WHERE item_category_top_ref = #{item_category_top_ref}
 			</when>
 		</choose>
 	</select>
@@ -72,17 +77,6 @@
 	<sql id="searchCondition">
 		<choose>
 			<when test="item_title != null and item_content != null">
-				AND item_title LIKE '%'||#{item_title}||'%' 
-				OR item_content LIKE '%'||#{item_content}||'%'
-			</when>
-			<when test="item_title != null">
-				AND item_title LIKE '%'||#{item_title}||'%'
-			</when>
-		</choose>
-	</sql>
-	<sql id="searchCondition2">
-		<choose>
-			<when test="item_title != null and item_content != null">
 				WHERE item_title LIKE '%'||#{item_title}||'%' 
 				OR item_content LIKE '%'||#{item_content}||'%'
 			</when>
@@ -93,43 +87,23 @@
 	</sql>
 	
 	<select id="getList" parameterType="itemDto" resultType="itemDto">
-		SELECT *
-		FROM 
-			(SELECT result1.*, ROWNUM AS rnum
-			FROM 
-				(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref
-				FROM item 
-				<choose>
-					<when test="item_category_top_idx lt 11">
-						WHERE item_category_top_idx = #{item_category_top_idx}
-					</when>
-					<when test="item_category_top_ref == 1"> 
-						WHERE item_category_top_ref = #{item_category_top_ref}
-					</when>
-					<when test="11 lt item_category_top_idx lt 24">
-						WHERE item_category_top_idx = #{item_category_top_idx}
-					</when>
-					<when test="item_category_top_ref == 2">
-						WHERE item_category_top_ref = #{item_category_top_ref}
-					</when>
-					<when test="24 lt item_category_top_idx lt 33">
-						WHERE item_category_top_idx = #{item_category_top_idx}
-					</when>
-					<when test="item_category_top_ref == 3">
-						WHERE item_category_top_ref = #{item_category_top_ref}
-					</when>
-					<when test="33 lt item_category_top_idx lt 39">
-						WHERE item_category_top_idx = #{item_category_top_idx}
-					</when>
-					<when test="item_category_top_ref == 4">
-						WHERE item_category_top_ref = #{item_category_top_ref}
-					</when>
-				</choose>
-			 <include refid="searchCondition"/> 
-			ORDER BY item_idx DESC) result1)
-		<![CDATA[ 
-		WHERE rnum >= #{startRowNum} AND rnum <= #{endRowNum}
-		]]>
+		select result2.* from 
+		(select result1.* , rownum as rnum from 
+		(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref FROM item 
+			<choose>		
+				<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+					WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+				</when>
+				<when test="item_category_top_idx != 0">
+					WHERE item_category_top_idx = #{item_category_top_idx}
+				</when>
+				<when test="item_category_top_ref != 0"> 
+					WHERE item_category_top_ref = #{item_category_top_ref}
+				</when>
+			</choose>
+ 	) result1 
+ 	<include refid="searchCondition"/>
+ 	order by item_idx desc) result2  WHERE rnum between #{startRowNum} AND #{endRowNum}
 	</select>
 	
 	<update id="minusCount" parameterType="int">
@@ -137,7 +111,6 @@
 		SET item_stock=item_stock-1
 		where item_idx=#{item_idx}
 	</update>
-	
 
 
 <!--
@@ -168,9 +141,56 @@
 				LAG(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS prevNum,
 				LEAD(item_idx,1,0) OVER (ORDER BY item_idx DESC) AS nextNum
 			FROM item
-			<include refid="searchCondition2"/>
+			<include refid="searchCondition"/>
 			) result1
 		WHERE item_idx=#{item_idx}	
+	</select>
+	
+	<!-- vue -->
+	<select id="getCategory" parameterType="int" resultType="cateTopDto">
+		select b.item_category_low_name ,a.item_category_top_idx
+		from item_category_top a inner join item_category_low b
+		on a.item_category_low_idx = b.item_category_low_idx
+		where item_category_top_ref = #{item_category_top_ref}
+	</select>
+	
+	<select id="getMyDetail" parameterType="int" resultType="itemDto">
+		SELECT i.farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image, farmer_name
+		FROM item i inner join farmer f on i.farmer_email = f.farmer_email
+		WHERE item_idx=#{item_idx}
+	</select>
+	
+	<select id="getMyList" parameterType="itemDto" resultType="itemDto">
+		SELECT result2.* from
+		(SELECT result1.*, rownum as rnum FROM
+		(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref, i.farmer_email, farmer_name
+		FROM item i inner join farmer f on i.farmer_email = f.farmer_email order by item_idx desc) result1 where farmer_email like '%'||#{farmer_email}||'%' ) result2
+			<choose>
+			<when test="item_title != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%' and rnum between #{startRowNum} AND #{endRowNum}
+			</when>
+			<otherwise>
+				where rnum between #{startRowNum} AND #{endRowNum}
+			</otherwise>
+			</choose>
+		</select>
+	
+		<select id="getMyShopCount" parameterType="itemDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM item where farmer_email like '%'||#{farmer_email}||'%'
+		<choose>
+			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+				and item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_ref != 0"> 
+				and item_category_top_ref = #{item_category_top_ref}
+			</when>
+		</choose>
+		<choose>
+			<when test="item_title != null">
+			and item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
 	</select>
 	
 </mapper>

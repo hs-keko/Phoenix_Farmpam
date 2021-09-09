@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.phoenix.farmpam.item.dto.ItemCategoryTopDto;
 import com.phoenix.farmpam.item.dto.ItemDto;
 
 @Repository
@@ -13,6 +14,26 @@ public class ItemDaoImpl implements ItemDao {
 	
 	@Autowired
 	private SqlSession session;
+	
+	@Override
+	public ItemDto getMyDetail(int item_idx) {
+		return session.selectOne("item.getMyDetail",item_idx);
+	}
+	
+	@Override
+	public int getMyCount(ItemDto dto) {
+		return session.selectOne("item.getMyShopCount",dto);
+	}
+	
+	@Override
+	public List<ItemDto> getMyList(ItemDto dto) {
+		return session.selectList("item.getMyList",dto);
+	}
+	
+	@Override
+	public List<ItemCategoryTopDto> getCategory(int item_category_top_ref) {
+		return session.selectList("item.getCategory", item_category_top_ref);
+	}
 	
 	@Override
 	public List<ItemDto> getList(ItemDto dto) {
@@ -27,7 +48,6 @@ public class ItemDaoImpl implements ItemDao {
 	@Override
 	public void insert(ItemDto dto) {
 		session.insert("item.insert", dto);
-		
 	}
 
 	@Override

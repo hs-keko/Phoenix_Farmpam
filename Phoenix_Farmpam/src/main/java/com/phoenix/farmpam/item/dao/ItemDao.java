@@ -1,7 +1,9 @@
 package com.phoenix.farmpam.item.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.phoenix.farmpam.item.dto.ItemCategoryTopDto;
 import com.phoenix.farmpam.item.dto.ItemDto;
 
 public interface ItemDao {
@@ -34,6 +36,19 @@ public interface ItemDao {
 //	//키워드를 활용한 글정보 얻어오기
 //	public ItemDto getData(ItemDto itemDto); // 이름 중복
 
+	
+	
+	// vue category_low 가져오기
+	public List<ItemCategoryTopDto> getCategory(int item_category_top_ref);
+	
+	// vue MyShop 아이템 가져오기
+	public List<ItemDto> getMyList(ItemDto dto);
+	
+	// vue MyShop 글 갯수
+	public int getMyCount(ItemDto dto);
+	
+	// vue Detail 아이템 정보
+	public ItemDto getMyDetail(int item_idx);
 
 }
 

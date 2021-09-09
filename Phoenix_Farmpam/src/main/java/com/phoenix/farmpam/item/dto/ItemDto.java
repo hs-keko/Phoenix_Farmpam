@@ -3,6 +3,7 @@ package com.phoenix.farmpam.item.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ItemDto {
+	private String farmer_name;
    private String farmer_email;
    private int item_idx;
    private String item_title;
@@ -27,6 +28,20 @@ public class ItemDto {
    private MultipartFile image;	 // ?
    
    public ItemDto() {}
+   
+   
+
+public String getFarmer_name() {
+	return farmer_name;
+}
+
+
+
+public void setFarmer_name(String farmer_name) {
+	this.farmer_name = farmer_name;
+}
+
+
 
 public int getItem_category_top_ref() {
 	return item_category_top_ref;

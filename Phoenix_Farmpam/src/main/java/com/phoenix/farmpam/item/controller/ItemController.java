@@ -25,15 +25,36 @@ public class ItemController {
 
    @Autowired
    private ItemService service;
+   
+   // vue MyShop 목록
+   @RequestMapping("/vue/myshop/list")
+   @ResponseBody
+   public Map<String, Object> getAjaxMyShop(HttpServletRequest req){
+	   System.out.println("excute getAjaxMyShop");
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   service.vueGetMyShop(map, req);
+	   return map;
+   }
+   
+   // vue 아이템 상세
+   @RequestMapping("/vue/item/detail")
+   @ResponseBody
+   public Map<String, Object> getAjaxDetail(HttpServletRequest req){
+	   System.out.println("excute getAjaxDetail");
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   service.vueGetInfo(map, req);
+	   return map;
+   }
 
-//   		// vue 목록 
-//	@RequestMapping("/api/item/list")
-//	@ResponseBody
-//	public Map<String,Object> getAjaxList(HttpServletRequest request) {
-//		service.getList(request);
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		return map;
-//	}
+   	// vue 목록 
+	@RequestMapping("/vue/item/list")
+	@ResponseBody
+	public Map<String,Object> getAjaxList(HttpServletRequest req) {
+		System.out.println("excute getAjaxList");
+		Map<String, Object> map = new HashMap<String, Object>();
+		service.vueGetMainList(map, req);
+		return map;
+	}
    
    //목록
    @RequestMapping("/item/private/list")
