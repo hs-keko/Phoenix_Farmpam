@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="follow">
+
+	<!-- 팔로우 추가 -->
+	<insert id="followinsert" parameterType="followDto">
+		INSERT INTO follow
+		(follow_idx, farmer_email, users_email)
+		VALUES(follow_seq.NEXTVAL, #{farmer_email}, #{users_email})
+	</insert>
+	<update id="followup" parameterType="FarmerDto">
+		UPDATE farmer
+		SET farmer_follow = farmer_follow + 1
+		WHERE farmer_email=#{farmer_email}
+	</update>
+	
+	<!-- 팔로우 해제 -->
+	<delete id="followdelete" parameterType="followDto">
+		DELETE FROM follow
+		WHERE farmer_email=#{farmer_email} AND users_email=#{users_email}
+	</delete>
+	<update id="followdown" parameterType="FarmerDto">
+		UPDATE farmer
+		SET farmer_follow = farmer_follow - 1
+		WHERE farmer_email=#{farmer_email}
+	</update>
+	
+	<!-- 팔로우 추가/해제시 팔로워 수 가져오기 -->
+	<select id="followcount" parameterType="FarmerDto" resultType="FarmerDto">
+		SELECT farmer_follow
+		FROM farmer
+		WHERE farmer_email=#{farmer_email}
+	</select>
+	
+</mapper>

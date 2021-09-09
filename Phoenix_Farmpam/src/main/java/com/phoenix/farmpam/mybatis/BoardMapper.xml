@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<sql id="searchCondition">
+		<choose>
+			<when test="board_title != null and board_content != null">
+				WHERE board_title LIKE '%'||#{board_title}||'%' 
+				OR board_content LIKE '%'||#{board_content}||'%'
+			</when>
+			<when test="board_title != null">
+				WHERE board_title LIKE '%'||#{board_title}||'%'
+			</when>
+			<when test="board_writer != null">
+				WHERE board_writer LIKE '%'||#{board_writer}||'%'
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="getList" parameterType="boardDto" resultType="boardDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT board_idx, board_writer, board_title, board_content, board_regdate
+				FROM board
+				<include refid="searchCondition"/>
+				ORDER BY board_idx DESC) result1)
+		<![CDATA[ 
+		WHERE rnum >= #{startRowNum} AND rnum <= #{endRowNum}
+		]]>
+	</select>
+	
+	<select id="getCount" parameterType="boardDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM board
+		<include refid="searchCondition"/>
+	</select>
+	
+	<insert id="insert" parameterType="boardDto">
+		INSERT INTO board
+		(board_idx, board_writer, board_title, board_content, board_regdate)
+		VALUES(board_seq.NEXTVAL, #{board_writer}, #{board_title}, 
+			#{board_content}, SYSDATE)
+	</insert>
+	
+	<select id="getData" parameterType="int" resultType="boardDto">
+		SELECT result1.*
+		FROM
+			(SELECT board_idx,board_writer,board_title,board_content, board_image,
+				TO_CHAR(board_regdate,'YY.MM.DD HH24:MI') AS board_regdate,
+				LAG(board_idx,1,0) OVER (ORDER BY board_idx DESC) AS prevNum,
+				LEAD(board_idx,1,0) OVER (ORDER BY board_idx DESC) AS nextNum
+			FROM board) result1
+		WHERE board_idx=#{board_idx}
+	</select>
+	
+	<select id="getData2" parameterType="boardDto" resultType="boardDto">
+		SELECT result1.*
+		FROM
+			(SELECT board_idx,board_writer,board_title,board_content, board_image,
+				TO_CHAR(board_regdate,'YY.MM.DD HH24:MI') AS board_regdate,
+				LAG(board_idx,1,0) OVER (ORDER BY board_idx DESC) AS prevNum,
+				LEAD(board_idx,1,0) OVER (ORDER BY board_idx DESC) AS nextNum
+			FROM board
+			<include refid="searchCondition"/>
+			) result1
+		WHERE board_idx=#{board_idx}	
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM board
+		WHERE board_idx=#{board_idx}
+	</delete>
+	
+	<update id="update" parameterType="boardDto">
+		UPDATE board
+		SET board_title=#{board_title}, board_content=#{board_content}, board_image=#{board_image}
+		WHERE board_idx=#{board_idx}
+	</update>
+	
+</mapper>
