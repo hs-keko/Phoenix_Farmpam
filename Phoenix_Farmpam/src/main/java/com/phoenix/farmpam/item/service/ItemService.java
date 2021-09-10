@@ -38,7 +38,8 @@ public interface ItemService {
 	public void updateItem(HttpServletRequest request);
 	
 	public void deleteItem(int num, HttpServletRequest request);
-	
+	//상품 주문 페이지 요청
+	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map);
 	//상품 주문 처리를 하는 메소드
 	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView);
 	

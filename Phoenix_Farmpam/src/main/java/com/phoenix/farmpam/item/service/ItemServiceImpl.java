@@ -23,6 +23,7 @@ import com.phoenix.farmpam.item.dto.CartDto;
 import com.phoenix.farmpam.item.dto.ItemCategoryTopDto;
 import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.dto.OrdersDto;
+import com.phoenix.farmpam.users.dao.UsersDao;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -35,6 +36,9 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private CartDao cartDao;
+	
+	@Autowired
+	private UsersDao usersDao;
 	
 	@Override
 	public void vueGetMyShop(Map<String, Object> map, HttpServletRequest request) {
@@ -568,7 +572,7 @@ public class ItemServiceImpl implements ItemService {
 		
 		//보여줄 페이지의 시작 ROWNUM
 		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
-		//보여줄 페이지의 끝 ROWNUM
+		//보여줄 페이지의 끝 ROWNUM   
 		int endRowNum=pageNum*PAGE_ROW_COUNT;
 		
 		ItemDto itemDto = new ItemDto();
@@ -585,6 +589,38 @@ public class ItemServiceImpl implements ItemService {
 		moreList.set(totalPageCount, itemDto);
 		
 		return moreList;
+	}
+
+	//주문 페이지 요청
+	@Override
+	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map) {
+		//세션에서 구매자 이메일 받아오기
+		String users_email=(String)session.getAttribute("email");
+		//구매할 상품의 상품번호 가져오기
+		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
+		//구입 수량 가져오기
+		int orders_item_total=Integer.parseInt(request.getParameter("orders_item_total"));
+		//구매할 상품의 개당 가격 가져와서
+		int item_price=itemDao.getPrice(item_idx);
+		//구매수량 * 개당가격 저장
+		int orders_price = orders_item_total * item_price;
+		
+		//배송지 정보에 뿌려줄 구매자 정보를 가져와보자.
+		String orders_name=usersDao.getData(users_email).getUsers_name();
+		String orders_phone=usersDao.getData(users_email).getUsers_phone();
+		String orders_addr=usersDao.getData(users_email).getUsers_addr();
+		
+		//OrdersDto 에 저장
+		OrdersDto ordersDto=new OrdersDto();
+		ordersDto.setUsers_email(users_email);
+		ordersDto.setItem_idx(item_idx);
+		ordersDto.setOrders_item_total(orders_item_total);
+		ordersDto.setOrders_price(orders_price);
+		ordersDto.setOrders_name(orders_name);
+		ordersDto.setOrders_phone(orders_phone);
+		ordersDto.setOrders_addr(orders_addr);
+		
+		map.put("ordersInfo",ordersDto);
 	}
 
 }
