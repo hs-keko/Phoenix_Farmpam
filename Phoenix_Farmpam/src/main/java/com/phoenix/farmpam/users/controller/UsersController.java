@@ -57,10 +57,10 @@ public class UsersController {
 	
 	//회원정보 수정폼 요청처리 (프로필사진)
 	@RequestMapping("/users/private/updateform")
-	public ModelAndView updateForm(ModelAndView mView, HttpSession session) {
-		service.getInfo(session, mView);
-		mView.setViewName("users/updateform");
-		return mView;
+	public Map<String, Object> updateForm(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//비밀번호 수정요청
@@ -80,13 +80,13 @@ public class UsersController {
 		return "users/pwd_updateform";
 	}
 	
+	//회원정보 폼
 	@RequestMapping("/users/private/info")
-	public ModelAndView info(HttpSession session, ModelAndView mView) {
-		
-		service.getInfo(session, mView);
-		
-		mView.setViewName("users/info");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> info(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//ID라는 키값으로 저장된 값 삭제 (로그아웃 기능)
@@ -190,8 +190,4 @@ public class UsersController {
 	public String signupForm() {
 		return "users/signup_form";
 	}
-
-
-
-	
 }

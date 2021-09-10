@@ -93,13 +93,13 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public void getInfo(HttpSession session, ModelAndView mView) {
+	public void getInfo(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 이메일을 읽어온다.
-		String users_email=(String)session.getAttribute("email");
+		String users_email=(String)request.getParameter("email");
 		// DB에서 회원 정보를 얻어와서
 		UsersDto dto = dao.getData(users_email);
 		// ModelAndView 객체에 담아준다.
-		mView.addObject("dto", dto);
+		map.put("getInfo", dto);	
 		
 	}
 

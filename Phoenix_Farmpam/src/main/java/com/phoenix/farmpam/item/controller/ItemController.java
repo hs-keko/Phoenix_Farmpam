@@ -96,29 +96,28 @@ public class ItemController {
  	
  	//목록
  	@RequestMapping("/item/private/list_admin")
- 	public String getList(HttpServletRequest request) {
- 		
- 		service.getList(request);
- 		
- 		return "item/list_admin";
+ 	@ResponseBody
+ 	public Map<String, Object> getList(HttpServletRequest request) {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.getList(request, map);
+ 		return map;
  	}
  	
  	//새글 저장 폼
  	@RequestMapping("/item/private/insertform")
- 	public String insertForm() {
- 		return "item/insertform";
+ 	@ResponseBody
+ 	public Map<String, Object> insertForm() {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		return map;
  	}
  	
  	//새글 저장 요청 처리 
- 	@RequestMapping("/item/insert")
- 	public ModelAndView authInsert(ItemDto dto, HttpSession session, HttpServletRequest request) {
- 		//글 작성자는 세션에서 얻어낸다. 
- 		String farmer_email=(String)session.getAttribute("email");
- 		//CafeDto 객체에 글 작성자도 담기
- 		dto.setFarmer_email(farmer_email);
- 		service.insertItem(dto);
- 		
- 		return new ModelAndView("item/insert");
+ 	@RequestMapping("/item/private/insert")
+ 	@ResponseBody
+ 	public Map<String, Object> insertItem(ItemDto dto, HttpServletRequest request) {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.insertItem(dto, map, request);
+ 		return map;
  	}	
  	
  	//ajax 사진 업로드 요청처리
@@ -132,23 +131,29 @@ public class ItemController {
  	
  	//수정폼
  	@RequestMapping("/item/private/updateform")
- 	public ModelAndView updateForm(HttpServletRequest request, HttpSession session) {
- 		service.getInfo(request, session);
- 		return new ModelAndView("item/updateform");
+ 	@ResponseBody
+ 	public Map<String, Object> updateForm(HttpServletRequest request, HttpSession session) {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.getInfo(request, session, map);
+ 		return map;
  	}
 
  	//수정반영 요청처리
- 	@RequestMapping(value = "/item/update", method = RequestMethod.POST)
- 	public ModelAndView authUpdate(HttpServletRequest request) {
- 		service.updateItem(request);
- 		return new ModelAndView("item/update");
+ 	@RequestMapping(value = "/item/private/update", method = RequestMethod.POST)
+ 	@ResponseBody
+ 	public Map<String, Object> UpdateItem(HttpServletRequest request) {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.updateItem(request, map);
+ 		return map;
  	}
  	
  	//삭제하기
  	@RequestMapping("/item/private/delete")
- 	public String delete(@RequestParam int item_idx, HttpServletRequest request) {
- 		service.deleteItem(item_idx, request);
- 		return "redirect:/item/private/list_admin.do";
+ 	@ResponseBody
+ 	public Map<String, Object> delete(HttpServletRequest request) {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.deleteItem(request, map);
+ 		return map;
  	}	
  	
  	// 구매 요청 처리

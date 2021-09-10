@@ -253,13 +253,10 @@ public class ItemServiceImpl implements ItemService {
 		pagedata.put("startPageNum", startPageNum);
 		
 		map.put("pagingData", pagedata);
-		
-		
-
 	}
 	
 	@Override
-	public void getList(HttpServletRequest request) {
+	public void getList(HttpServletRequest request, Map<String, Object> map) {
 		//한 페이지에 몇개씩 표시할 것인지
 		final int PAGE_ROW_COUNT=10;
 		//하단 페이지를 몇개씩 표시할 것인지
@@ -315,6 +312,7 @@ public class ItemServiceImpl implements ItemService {
 		}
 		//글 목록 얻어오기 
 		List<ItemDto> list=itemDao.getListItem(dto);
+
 		//전체글의 갯수
 		int totalRow=itemDao.getCount(dto);
 		
@@ -330,44 +328,66 @@ public class ItemServiceImpl implements ItemService {
 		if(endPageNum > totalPageCount){
 			endPageNum=totalPageCount; //보정해 준다.
 		}
-		//view page 에서 필요한 값을 request 에 담아준다. 
-		request.setAttribute("pageNum", pageNum);
-		request.setAttribute("startPageNum", startPageNum);
-		request.setAttribute("endPageNum", endPageNum);
-		request.setAttribute("condition", condition);
-		request.setAttribute("keyword", keyword);
-		request.setAttribute("encodedK", encodedK);
-		request.setAttribute("totalPageCount", totalPageCount);
-		request.setAttribute("list", list);
-		request.setAttribute("totalRow", totalRow);
 		
+		//view page 에서 필요한 값을 map에 담아줌. 
+		map.put("pageNum", pageNum);
+		map.put("startPageNum", startPageNum);
+		map.put("endPageNum", endPageNum);
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		map.put("encodedK", encodedK);
+		map.put("totalPageCount", totalPageCount);
+		map.put("list", list);
+		map.put("totalRow", totalRow);
+
 	}
 			
 	@Override
-	public void updateItem(HttpServletRequest request) {
+	public void updateItem(HttpServletRequest request, Map<String, Object> map) {
 		
 		ItemDto itemDto = new ItemDto();
+		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
+		String farmer_email = (String)request.getParameter("email");
 		
 		itemDto.setItem_image((String)request.getParameter("item_image"));
-		itemDto.setItem_idx(Integer.parseInt(request.getParameter("item_idx")));
+		itemDto.setItem_idx(item_idx);
 		itemDto.setItem_title((String)request.getParameter("item_title"));
 		itemDto.setItem_content((String)request.getParameter("item_content"));
 		itemDto.setItem_price(Integer.parseInt(request.getParameter("item_price")));
 		itemDto.setItem_stock(Integer.parseInt(request.getParameter("item_stock")));
+		itemDto.setFarmer_email(farmer_email);
+		
+		String item_farmer_email = itemDao.getData3(item_idx).getFarmer_email();
+		
+		if(item_farmer_email.equals(farmer_email)) {
+			throw new NotDeleteException("상품 추가를 실패하였습니다.");
+		}
 		
 		itemDao.update(itemDto);
+		map.put("isSuccess", true);
 	}
 
 	@Override
-	public void deleteItem(int item_idx, HttpServletRequest request) {
-		itemDao.delete(item_idx); 
+	public void deleteItem(HttpServletRequest request, Map<String, Object> map) {
+		
+		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
+		String farmer_email = (String)request.getParameter("email");
+		String item_farmer_email = itemDao.getData3(item_idx).getFarmer_email();
+		
+		if(item_farmer_email.equals(farmer_email)) {
+			throw new NotDeleteException("상품 추가를 실패하였습니다.");
+		}
+		
+		itemDao.delete(item_idx);
+		map.put("isSuccess", true);
 		
 	}
 	
 	//새글저장
 	@Override
-	public void insertItem(ItemDto dto) {
-		itemDao.insertItem(dto);	
+	public void insertItem(ItemDto dto, Map<String, Object> map, HttpServletRequest request) {
+		itemDao.insertItem(dto);
+		map.put("isSuccess", true);
 	}
 
 	@Override
@@ -402,19 +422,19 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void getInfo(HttpServletRequest request, HttpSession session) {
+	public void getInfo(HttpServletRequest request, HttpSession session, Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		// 아이템 번호를 읽어온다.
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
 		ItemDto dto = itemDao.getData3(item_idx);
-		request.setAttribute("dto", dto);
+		// map에 담아줌.
+		map.put("updateForm", dto);
 		
 	}
 
 	@Override
-	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView) 
-	{
+	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView) {
 		//구입자의 이메일
 		String users_email=(String)mView.getModel().get("users_email");
 		//1. 파라미터로 전달되는 구입할 상품 번호
@@ -482,7 +502,7 @@ public class ItemServiceImpl implements ItemService {
 		String cart_users_email=cartDao.getCartEmail(cart_idx);
 		
 		// 장바구니 테이블 이메일과 세션 이메일 일치 여부
-		if(!cart_users_email.equals(users_email)) {
+		if(users_email.equals(users_email)) {
 			throw new NotDeleteException("다른 이용자의 장바구니를 삭제할 수 없습니다.");
 		}
 		

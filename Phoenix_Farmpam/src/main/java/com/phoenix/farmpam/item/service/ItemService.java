@@ -26,18 +26,18 @@ public interface ItemService {
 	public void insertCart(HttpServletRequest request, HttpSession session);		
 	
 	//아이템 목록 얻어오기
-	public void getList(HttpServletRequest request);
+	public void getList(HttpServletRequest request, Map<String, Object> map);
 	
-	public void insertItem(ItemDto dto);
+	public void insertItem(ItemDto dto, Map<String, Object> map, HttpServletRequest request);
 	
-	public void getInfo(HttpServletRequest request, HttpSession session);
+	public void getInfo(HttpServletRequest request, HttpSession session, Map<String, Object> map);
 	
 	public Map<String, Object> saveImage(HttpServletRequest request,
 			MultipartFile mFile);
 	
-	public void updateItem(HttpServletRequest request);
+	public void updateItem(HttpServletRequest request, Map<String, Object> map);
 	
-	public void deleteItem(int num, HttpServletRequest request);
+	public void deleteItem(HttpServletRequest request, Map<String, Object> map);
 
 	//상품 주문 페이지 요청
 	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map);
