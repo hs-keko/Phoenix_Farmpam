@@ -182,7 +182,7 @@
 		</choose>
 	</select>
 	
-	<select id="getShopCategory" parameterType="int" resultType="cateTopDto">
+	<select id="getShopCategory" parameterType="int" resultType="itemCategoryTopDto">
 		select b.item_category_low_name ,a.item_category_top_idx
 		from item_category_top a inner join item_category_low b
 		on a.item_category_low_idx = b.item_category_low_idx
