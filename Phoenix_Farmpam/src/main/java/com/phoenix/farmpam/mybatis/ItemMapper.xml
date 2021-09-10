@@ -201,8 +201,11 @@
 		(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref, i.farmer_email, farmer_name
 		FROM item i inner join farmer f on i.farmer_email = f.farmer_email order by item_idx desc) result1 where farmer_email like '%'||#{farmer_email}||'%' ) result2
 			<choose>
-			<when test="item_title != null">
-				WHERE item_title LIKE '%'||#{item_title}||'%' and rnum between #{startRowNum} AND #{endRowNum}
+			<when test="item_title != null and item_category_top_ref != 0">
+				WHERE item_title LIKE '%'||#{item_title}||'%' and item_category_top_ref = #{item_category_top_ref} and rnum between #{startRowNum} AND #{endRowNum}
+			</when>
+			<when test="item_category_top_ref != 0">
+				where item_category_top_ref = #{item_category_top_ref} and rnum between #{startRowNum} AND #{endRowNum}
 			</when>
 			<otherwise>
 				where rnum between #{startRowNum} AND #{endRowNum}
