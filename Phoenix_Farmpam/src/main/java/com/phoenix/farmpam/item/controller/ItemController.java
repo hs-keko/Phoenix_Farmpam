@@ -27,6 +27,17 @@ public class ItemController {
 	@Autowired
 	private ItemService service;
 	
+	
+	
+	//주문 페이지 요청
+	@RequestMapping(value = "item/private/buyform", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> buyForm(HttpServletRequest request, HttpSession session){
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.buyForm(request, session, map);
+		return map;
+	}
+	
 	//장바구니 구매수량 변경
 	@RequestMapping("item/private/cartupdate")
 	@ResponseBody
@@ -122,14 +133,14 @@ public class ItemController {
 	}	
 	
 	// 구매 요청 처리
-	@RequestMapping(value = "/item/buy", method = RequestMethod.POST)
+	@RequestMapping(value = "/item/private/buy", method = RequestMethod.POST)
 	public ModelAndView authBuy(HttpServletRequest request,
 								@ModelAttribute OrdersDto ordersDto,
 								ModelAndView mView)
 	{
 		mView.addObject("users_email",(String)request.getSession().getAttribute("email"));
 		service.buy(ordersDto, mView);
-		mView.setViewName("item/buy");
+		mView.setViewName("item/private/buy");
 		return mView;
 	}
 
