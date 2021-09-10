@@ -173,13 +173,12 @@ public class ItemController {
   	}
   	
   	//item 게시글의 item_idx 이 parameter get 방식으로 넘어온다.
- 	//detail 페이지
- 	@RequestMapping(value = "/item/detail", method = RequestMethod.GET)
- 	public ModelAndView getDetail(ModelAndView mView, @RequestParam int item_idx) {
- 		//item detail 페이지에 필요한 data를 item_idx 으로 가져와, ModelAndView 에 저장
- 		service.getDetail(mView, item_idx);
- 		mView.setViewName("item/detail");
- 		
- 		return mView;
- 	}
+   	//detail 페이지
+   	@RequestMapping(value = "/item/detail", method = RequestMethod.GET)
+   	@ResponseBody
+   	public Map<String, Object> getDetail(HttpServletRequest request) {
+   		Map<String, Object> map= new HashMap<String, Object>();
+   		service.getDetail(map, request);
+   		return map;
+   	}
  }

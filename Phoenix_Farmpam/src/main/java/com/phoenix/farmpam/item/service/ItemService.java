@@ -48,7 +48,7 @@ public interface ItemService {
 	
 	public List<ItemDto> getList2(HttpServletRequest request);
 	
-	public void getDetail(ModelAndView mView, int item_idx);
+	public void getDetail(Map<String, Object> map, HttpServletRequest request);
 	
 	// vue Shopmain 아이템리스트 가져오기
 	public void vueGetMainList(Map<String, Object> map, HttpServletRequest req);

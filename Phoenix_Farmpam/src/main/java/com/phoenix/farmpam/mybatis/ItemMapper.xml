@@ -235,6 +235,20 @@
 	</select>
 	<!--  *****************************************************************************  -->
 	
+	<select id="getHotList" parameterType="int" resultType="itemDto">
+		SELECT result1.*   
+        FROM (SELECT i.item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref, o.item_idx, o.orders_item_total
+        FROM item i left join orders o ON i.item_idx = o.item_idx) result1 
+        ORDER BY o.orders_item_total DESC) result2 
+        <![CDATA[
+      where rnum >= #{startRowNum} and rnum <= #{endRowNum}]]>
+	</select>
 	
+	<select id="closeList" parameterType="int" resultType="itemDto">
 	
+	</select>
+	
+	<select id="healthyList" parameterType="int" resultType="itemDto">
+	
+	</select>
 </mapper>

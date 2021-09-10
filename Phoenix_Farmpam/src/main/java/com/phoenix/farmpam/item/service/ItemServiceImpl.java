@@ -518,11 +518,12 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void getDetail(ModelAndView mView, int item_idx) {
+	public void getDetail(Map<String, Object> map, HttpServletRequest request) {
+		// 아이템 번호를 읽어온다.
+		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		ItemDto itemDto = itemDao.getData2(item_idx);
-
-		mView.addObject("itemDto", itemDto);
-		
+		// DB에서 아이템 정보를 얻어와서
+		map.put("itemDto", itemDto);
 	}
 
 

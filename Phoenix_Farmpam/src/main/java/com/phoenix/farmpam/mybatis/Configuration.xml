@@ -22,7 +22,7 @@
 	<mappers>
 		<mapper resource="com/phoenix/farmpam/mybatis/BoardMapper.xml"/>
 		<mapper resource="com/phoenix/farmpam/mybatis/BoardCommentsMapper.xml"/>
-		<mapper resource="com/phoenix/farmpam/mybatis/LikesMapper.xml"></mapper>
+		<mapper resource="com/phoenix/farmpam/mybatis/LikesMapper.xml"/>
 		<mapper resource="com/phoenix/farmpam/mybatis/UsersMapper.xml"/>
 		<mapper resource="com/phoenix/farmpam/mybatis/FarmerMapper.xml"/>
 		<mapper resource="com/phoenix/farmpam/mybatis/FollowMapper.xml"/>

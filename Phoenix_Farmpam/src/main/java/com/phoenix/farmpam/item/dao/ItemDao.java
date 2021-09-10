@@ -65,6 +65,15 @@ public interface ItemDao {
 	
 	// vue getShopCategory 글 갯수
 	public int getShopCategoryCount(ItemDto dto);
+	
+	// 인기 상품 4개 가져오기 
+	public List<ItemDto> getHotList(int orders_item_total); 
+	
+	// 마감 임박 상품 4개 가져오기
+	public List<ItemDto> getCloseList(int item_stock);
+	
+	// 건강을 위한 채식 상품 4개 가져오기
+	public List<ItemDto> getHealthyList(int item_category_top_idx);
 
 }
 
