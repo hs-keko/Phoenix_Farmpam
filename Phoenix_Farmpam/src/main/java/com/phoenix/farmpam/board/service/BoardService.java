@@ -1,10 +1,10 @@
+
 package com.phoenix.farmpam.board.service;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,10 +13,10 @@ import com.phoenix.farmpam.board.dto.BoardDto;
 import com.phoenix.farmpam.board.dto.LikesDto;
 
 public interface BoardService {
-
+	//게시글 좋아요 추가
 	public BoardDto likesInsert(LikesDto likesDto);
+	//게시글 좋아요 삭제
 	public BoardDto likesDelete(LikesDto likesDto);
-	
 	public void getList(HttpServletRequest request);
 	//게시글 목록을 리턴하는 메소드 
 	public List<BoardDto> getList2(HttpServletRequest request);
@@ -36,4 +36,3 @@ public interface BoardService {
 	public void updateComment(BoardCommentsDto dto);//댓글 수정
 	public void moreCommentList(HttpServletRequest request);//댓글 추가 응답
 }
-

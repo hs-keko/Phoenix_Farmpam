@@ -24,8 +24,7 @@ public interface UsersService {
 	public Map<String, Object> saveProfileImage(HttpServletRequest request,
 			MultipartFile mFile);
 	public void updateUser(UsersDto dto, HttpSession session);
-	public void deleteUser(HttpSession session, ModelAndView mView);
-	
+	public void deleteUser(HttpSession session, ModelAndView mView);	
 	// vue test
 	public boolean loginpro(UsersDto dto, HttpSession session);
 	

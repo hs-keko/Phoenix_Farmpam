@@ -16,28 +16,8 @@ public class ItemDaoImpl implements ItemDao {
 	private SqlSession session;
 	
 	@Override
-	public ItemDto getMyDetail(int item_idx) {
-		return session.selectOne("item.getMyDetail",item_idx);
-	}
-	
-	@Override
-	public int getMyCount(ItemDto dto) {
-		return session.selectOne("item.getMyShopCount",dto);
-	}
-	
-	@Override
-	public List<ItemDto> getMyList(ItemDto dto) {
-		return session.selectList("item.getMyList",dto);
-	}
-	
-	@Override
-	public List<ItemCategoryTopDto> getCategory(int item_category_top_ref) {
-		return session.selectList("item.getCategory", item_category_top_ref);
-	}
-	
-	@Override
-	public List<ItemDto> getList(ItemDto dto) {
-		return session.selectList("item.getList", dto);
+	public List<ItemDto> getListItem(ItemDto dto) {
+		return session.selectList("item.getListItem", dto);
 	}
 
 	@Override
@@ -46,8 +26,9 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public void insert(ItemDto dto) {
-		session.insert("item.insert", dto);
+	public void insertItem(ItemDto dto) {
+		session.insert("item.insertItem", dto);
+		
 	}
 
 	@Override
@@ -62,14 +43,9 @@ public class ItemDaoImpl implements ItemDao {
 		
 	}
 
-//	@Override
-//	public ItemDto getData(String farmer_email) { // 이름 중복
-//		return session.selectOne("item.getData", farmer_email);
-//	}
-
 	@Override
-	public ItemDto getData2(int num) {
-		return session.selectOne("item.getData2", num);
+	public ItemDto getData3(int num) {
+		return session.selectOne("item.getData3", num);
 	}
 
 	//상품 번호에 해당하는 상품의 가격을 리턴하는 메소드
@@ -90,9 +66,10 @@ public class ItemDaoImpl implements ItemDao {
 	public void minusStock(ItemDto itemDto) {
 		session.update("item.minusStock", itemDto);
 	}
-
-
-
+	
+	public List<ItemDto> getList(ItemDto itemDto) {
+		return session.selectList("item.getList", itemDto);
+	}
 
 	@Override
 	public void minusCount(int item_stock) {
@@ -100,11 +77,40 @@ public class ItemDaoImpl implements ItemDao {
 		
 	}
 
-//	@Override
-//	public ItemDto getData(ItemDto itemDto) {  // 이름 중복
-//		return session.selectOne("item.getData", itemDto);
-//	}
+	@Override
+	public void insert(ItemDto itemDto) {
+		session.insert("item.insert", itemDto);
+		
+	}
 
+	@Override
+	public ItemDto getData(ItemDto itemDto) {
+		return session.selectOne("item.getData", itemDto);
+	}
 
+	@Override
+	public ItemDto getData2(int item_idx) {
+		return session.selectOne("item.getData2", item_idx);
+	}
+
+	@Override
+	public List<ItemCategoryTopDto> getCategory(int item_category_top_ref) {
+		return session.selectList("item.getCategory", item_category_top_ref);
+	}
+
+	@Override
+	public List<ItemDto> getMyList(ItemDto dto) {
+		return session.selectList("item.getMyList",dto);
+	}
+
+	@Override
+	public int getMyCount(ItemDto dto) {
+		return session.selectOne("item.getMyShopCount",dto);
+	}
+
+	@Override
+	public ItemDto getMyDetail(int item_idx) {
+		return session.selectOne("item.getMyDetail",item_idx);
+	}
 	
 }

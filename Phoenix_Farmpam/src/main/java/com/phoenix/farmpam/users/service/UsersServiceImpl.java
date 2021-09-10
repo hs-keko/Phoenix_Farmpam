@@ -62,6 +62,7 @@ public class UsersServiceImpl implements UsersService {
 			//Bcrypt 클래스의 static 메소드를 이용해서 일치 여부를 얻어낸다.
 			isValid=BCrypt.checkpw(inputUsersPwd, encodedPwd);
 		}
+		
 		if(isValid) {//만일 유효한 정보이면 
 			//로그인 처리를 한다.
 			session.setAttribute("email", dto.getUsers_email());
@@ -106,6 +107,7 @@ public class UsersServiceImpl implements UsersService {
 	public void checkbox(UsersDto dto, HttpSession session) {
 		UsersDto result=dao.getData(dto.getUsers_email());
 		if(result != null) {//만일 존재하는 아이디 라면
+		System.out.println(dao.getData(dto.getUsers_email()).getUsers_chk());
 			if(dao.getData(dto.getUsers_email()).getUsers_chk().equals("0")) {
 			session.setAttribute("check", "chk_common");
 		}}

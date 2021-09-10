@@ -31,12 +31,11 @@ public class BoardServiceImpl implements BoardService{
 	private LikesDao dao;
 	
 	@Autowired
-	private BoardDao boardDao;
+	private BoardCommentsDao boardCommentsDao;
 	
 	@Autowired
-	private BoardCommentsDao boardCommentsDao;
-
-
+	private BoardDao boardDao;
+	
 	@Override
 	public BoardDto likesInsert(LikesDto likesDto) {
 		// board 테이블에 해당 게시물의 좋아요 수를 +1 하기위한 BoardDto세팅
@@ -54,7 +53,6 @@ public class BoardServiceImpl implements BoardService{
 		// DB에서 좋아요 삭제 작업을 하고 BoardDto 리턴
 		return dao.likesDelete(boardDto, likesDto);
 	}
-
 	
 	@Override
 	public void getList(HttpServletRequest request) {
@@ -360,5 +358,4 @@ public class BoardServiceImpl implements BoardService{
 		request.setAttribute("pageNum", pageNum); //댓글의 페이지 번호
 
 	}
-	
 }

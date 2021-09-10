@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
+
+	<!-- 상품 목록 -->
+	<select id="getListItem" resultType="itemDto" parameterType="itemDto">
+			SELECT *
+			FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT item_idx, item_image, item_title, item_content, item_price, item_stock, farmer_email
+				FROM item
+				WHERE farmer_email=#{farmer_email }
+				<choose>
+					<when test="item_title != null">
+						WHERE item_title LIKE '%'||#{item_title}||'%'
+					</when>
+				</choose>
+			ORDER BY item_stock) result1)
+		<![CDATA[ 
+		WHERE rnum >= #{startRowNum} AND rnum <= #{endRowNum}
+		]]>
+	</select>
+
 	<select id="getCount" parameterType="itemDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM),0)
 		FROM item
 		<choose>
-			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
-				WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
-			</when>
-			<when test="item_category_top_idx != 0">
-				WHERE item_category_top_idx = #{item_category_top_idx}
-			</when>
-			<when test="item_category_top_ref != 0"> 
-				WHERE item_category_top_ref = #{item_category_top_ref}
+			<when test="item_title != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%'
 			</when>
 		</choose>
 	</select>
 	
-	<select id="getData" parameterType="itemDto"> <!-- 이름 중복 -->
-		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
-		FROM item
-		WHERE farmer_email=#{farmer_email }
-	</select>
-	
-	<select id="getData2" parameterType="int" resultType="itemDto">  <!-- 이름 중복 -->
+	<select id="getData3" parameterType="int" resultType="itemDto">
 		SELECT farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image
 		FROM item
 		WHERE item_idx=#{item_idx }
 	</select>
 	
-	<insert id="insert" parameterType="itemDto">
+	<insert id="insertItem" parameterType="itemDto">
 		INSERT INTO item
 		(item_idx, farmer_email, item_title, item_price, item_stock, item_content, item_image)
 		VALUES(item_seq.NEXTVAL, #{farmer_email}, #{item_title}, #{item_price}, #{item_stock}, #{item_content}, #{item_image})
@@ -87,44 +96,32 @@
 	</sql>
 	
 	<select id="getList" parameterType="itemDto" resultType="itemDto">
-		select result2.* from 
-		(select result1.* , rownum as rnum from 
-		(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref FROM item 
-			<choose>		
-				<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
-					WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
-				</when>
-				<when test="item_category_top_idx != 0">
-					WHERE item_category_top_idx = #{item_category_top_idx}
-				</when>
-				<when test="item_category_top_ref != 0"> 
-					WHERE item_category_top_ref = #{item_category_top_ref}
-				</when>
-			</choose>
- 	) result1 
- 	<include refid="searchCondition"/>
- 	order by item_idx desc) result2  WHERE rnum between #{startRowNum} AND #{endRowNum}
-	</select>
+        select result2.* from 
+        (select result1.* , rownum as rnum from 
+        (SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref FROM item 
+            <choose>
+                <when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+                    WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+                </when>
+                <when test="item_category_top_idx != 0">
+                    WHERE item_category_top_idx = #{item_category_top_idx}
+                </when>
+                <when test="item_category_top_ref != 0"> 
+                    WHERE item_category_top_ref = #{item_category_top_ref}
+                </when>
+            </choose>
+     ) result1 
+     <include refid="searchCondition"/>
+     order by item_idx desc) result2  WHERE rnum between #{startRowNum} AND #{endRowNum}
+    </select>
 	
 	<update id="minusCount" parameterType="int">
 		UPDATE item
 		SET item_stock=item_stock-1
 		where item_idx=#{item_idx}
 	</update>
-
-
-<!--
-	ID 중복 : 에러방지를 위해 입력하는 데이터가 많은 쿼리문을 주석처리함. 
-	<insert id="insert" parameterType="itemDto">    
-		INSERT INTO item 
-		(item_idx, item_title, item_price, item_stock, item_content, item_image, farmer_email, 
-					item_category_top_idx, item_category_top_name, item_category_low_idx, item_category_low_name)
-		VALUES(item_seq.NEXTVAL, #{item_title}, #{item_price}, #{item_stock}, #item_content}, #{item_image}, #{farmer_email}, 
-					#{item_category_top_idx}, #{item_category_top_name}, #{item_category_low_idx}, #{item_category_low_name})			
-	</insert>
--->
 	
-	<select id="getDetailData" parameterType="int" resultType="itemDto">  <!-- 이름 중복 수정 -->
+	<select id="getData" parameterType="int" resultType="itemDto"> 
 		SELECT result1.*
 		FROM item
 			(SELECT item_idx,item_title, item_price,item_stock,item_content, item_image, farmer_email,
@@ -134,7 +131,7 @@
 		WHERE item_idx=#{item_idx}
 	</select>
 	
-	<select id="getDetailData2" parameterType="itemDto" resultType="itemDto">  <!-- 이름 중복 수정 -->
+	<select id="getData2" parameterType="itemDto" resultType="itemDto">
 		SELECT result1.*
 		FROM
 			(SELECT item_idx, item_title, item_price,item_stock, item_content, item_image, farmer_email,
@@ -144,53 +141,6 @@
 			<include refid="searchCondition"/>
 			) result1
 		WHERE item_idx=#{item_idx}	
-	</select>
-	
-	<!-- vue -->
-	<select id="getCategory" parameterType="int" resultType="cateTopDto">
-		select b.item_category_low_name ,a.item_category_top_idx
-		from item_category_top a inner join item_category_low b
-		on a.item_category_low_idx = b.item_category_low_idx
-		where item_category_top_ref = #{item_category_top_ref}
-	</select>
-	
-	<select id="getMyDetail" parameterType="int" resultType="itemDto">
-		SELECT i.farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image, farmer_name
-		FROM item i inner join farmer f on i.farmer_email = f.farmer_email
-		WHERE item_idx=#{item_idx}
-	</select>
-	
-	<select id="getMyList" parameterType="itemDto" resultType="itemDto">
-		SELECT result2.* from
-		(SELECT result1.*, rownum as rnum FROM
-		(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref, i.farmer_email, farmer_name
-		FROM item i inner join farmer f on i.farmer_email = f.farmer_email order by item_idx desc) result1 where farmer_email like '%'||#{farmer_email}||'%' ) result2
-			<choose>
-			<when test="item_title != null">
-				WHERE item_title LIKE '%'||#{item_title}||'%' and rnum between #{startRowNum} AND #{endRowNum}
-			</when>
-			<otherwise>
-				where rnum between #{startRowNum} AND #{endRowNum}
-			</otherwise>
-			</choose>
-		</select>
-	
-		<select id="getMyShopCount" parameterType="itemDto" resultType="int">
-		SELECT NVL(MAX(ROWNUM),0)
-		FROM item where farmer_email like '%'||#{farmer_email}||'%'
-		<choose>
-			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
-				and item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
-			</when>
-			<when test="item_category_top_ref != 0"> 
-				and item_category_top_ref = #{item_category_top_ref}
-			</when>
-		</choose>
-		<choose>
-			<when test="item_title != null">
-			and item_title LIKE '%'||#{item_title}||'%'
-			</when>
-		</choose>
 	</select>
 	
 </mapper>

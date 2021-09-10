@@ -1,7 +1,7 @@
 package com.phoenix.farmpam.users.controller;
 
-import java.util.HashMap;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +34,7 @@ public class UsersController {
 		mView.setViewName("users/delete");
 		return mView;
 	}
-		
+
 	//개인정보 수정반영 요청처리 메소드
 	@RequestMapping(value = "/users/private/update", method=RequestMethod.POST)
 	public String update(UsersDto dto, HttpSession session) {
@@ -125,7 +124,7 @@ public class UsersController {
 		mView.setViewName("users/login");
 		return mView;
 	}
-	
+
 	//vue 로그인 요청
 	@RequestMapping("/users/vue/login")
 	@ResponseBody
@@ -158,7 +157,7 @@ public class UsersController {
 		mView.setViewName("users/signup");
 		return mView;	
 	}
-	
+
 	// vue 회원가입 요청처리
 	@RequestMapping(value="/users/vue/signup", method = RequestMethod.POST)
 	@ResponseBody
