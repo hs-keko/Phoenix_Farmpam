@@ -57,8 +57,14 @@ public interface ItemDao {
 	// vue MyShop 글 갯수
 	public int getMyCount(ItemDto dto);
 	
-	// vue Detail 아이템 정보
+	// vue GoodsDetail 아이템 정보
 	public ItemDto getMyDetail(int item_idx);
+	
+	// vue getShopCategory 리스트
+	public  List<ItemDto> getShopCategoryList(ItemDto dto);
+	
+	// vue getShopCategory 글 갯수
+	public int getShopCategoryCount(ItemDto dto);
 
 }
 

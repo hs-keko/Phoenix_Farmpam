@@ -146,6 +146,7 @@ public class ItemServiceImpl implements ItemService {
 		// 아이템 번호를 읽어온다.
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
+		System.out.println(item_idx);
 		ItemDto dto = itemDao.getMyDetail(item_idx);
 		map.put("goodsData",dto);
 	}
@@ -225,11 +226,11 @@ public class ItemServiceImpl implements ItemService {
 		}
 		
 		//글 목록 얻어오기 
-		List<ItemDto> list=itemDao.getList(dto);
+		List<ItemDto> list=itemDao.getShopCategoryList(dto);
 		map.put("goodsList", list);
 		
 		//전체글의 갯수
-		int totalRow=itemDao.getCount(dto);
+		int totalRow=itemDao.getShopCategoryCount(dto);
 		
 		//하단 시작 페이지 번호 
 		int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;

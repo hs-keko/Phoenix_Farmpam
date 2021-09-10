@@ -93,14 +93,16 @@ public class ItemDaoImpl implements ItemDao {
 		return session.selectOne("item.getData2", item_idx);
 	}
 
+	
+	// vue 
 	@Override
 	public List<ItemCategoryTopDto> getCategory(int item_category_top_ref) {
-		return session.selectList("item.getCategory", item_category_top_ref);
+		return session.selectList("item.getShopCategory", item_category_top_ref);
 	}
 
 	@Override
 	public List<ItemDto> getMyList(ItemDto dto) {
-		return session.selectList("item.getMyList",dto);
+		return session.selectList("item.getMyShopList",dto);
 	}
 
 	@Override
@@ -112,5 +114,17 @@ public class ItemDaoImpl implements ItemDao {
 	public ItemDto getMyDetail(int item_idx) {
 		return session.selectOne("item.getMyDetail",item_idx);
 	}
+	
+	@Override
+	public int getShopCategoryCount(ItemDto dto) {
+		return session.selectOne("item.getShopCategoryCount",dto);
+	}
+	
+	@Override
+	public List<ItemDto> getShopCategoryList(ItemDto dto) {
+		return session.selectList("item.getShopCategoryList",dto);
+	}
+	
+	
 	
 }

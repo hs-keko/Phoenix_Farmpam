@@ -143,4 +143,101 @@
 		WHERE item_idx=#{item_idx}	
 	</select>
 	
+	
+	
+	<!--  *****************************************************************************   -->
+	<!--  vue  -->
+	
+		<select id="getShopCategoryList" parameterType="itemDto" resultType="itemDto">
+        select result2.* from 
+        (select result1.* , rownum as rnum from 
+        (SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref FROM item 
+            <choose>
+                <when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+                    WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+                </when>
+                <when test="item_category_top_idx != 0">
+                    WHERE item_category_top_idx = #{item_category_top_idx}
+                </when>
+                <when test="item_category_top_ref != 0"> 
+                    WHERE item_category_top_ref = #{item_category_top_ref}
+                </when>
+            </choose>
+     ) result1 
+     <include refid="searchCondition"/>
+     order by item_idx desc) result2  WHERE rnum between #{startRowNum} AND #{endRowNum}
+    </select>
+    
+	
+	<select id="getShopCategoryCount" parameterType="itemDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM item
+		<choose>
+			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+				WHERE item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_idx != 0">
+				WHERE item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_ref != 0"> 
+				WHERE item_category_top_ref = #{item_category_top_ref}
+			</when>
+		</choose>
+	</select>
+	
+	<select id="getShopCategory" parameterType="int" resultType="cateTopDto">
+		select b.item_category_low_name ,a.item_category_top_idx
+		from item_category_top a inner join item_category_low b
+		on a.item_category_low_idx = b.item_category_low_idx
+		where item_category_top_ref = #{item_category_top_ref}
+	</select>
+	
+	<select id="getMyShopDetail" parameterType="int" resultType="itemDto">
+		SELECT i.farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image, farmer_name
+		FROM item i inner join farmer f on i.farmer_email = f.farmer_email
+		WHERE item_idx=#{item_idx}
+	</select>
+	
+	<select id="getMyShopList" parameterType="itemDto" resultType="itemDto">
+		SELECT result2.* from
+		(SELECT result1.*, rownum as rnum FROM
+		(SELECT item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref, i.farmer_email, farmer_name
+		FROM item i inner join farmer f on i.farmer_email = f.farmer_email order by item_idx desc) result1 where farmer_email like '%'||#{farmer_email}||'%' ) result2
+			<choose>
+			<when test="item_title != null">
+				WHERE item_title LIKE '%'||#{item_title}||'%' and rnum between #{startRowNum} AND #{endRowNum}
+			</when>
+			<otherwise>
+				where rnum between #{startRowNum} AND #{endRowNum}
+			</otherwise>
+			</choose>
+		</select>
+	
+		<select id="getMyShopCount" parameterType="itemDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM item where farmer_email like '%'||#{farmer_email}||'%'
+		<choose>
+			<when test="item_category_top_ref != 0 and item_category_top_idx != 0"> 
+				and item_category_top_ref = #{item_category_top_ref} and item_category_top_idx = #{item_category_top_idx}
+			</when>
+			<when test="item_category_top_ref != 0"> 
+				and item_category_top_ref = #{item_category_top_ref}
+			</when>
+		</choose>
+		<choose>
+			<when test="item_title != null">
+			and item_title LIKE '%'||#{item_title}||'%'
+			</when>
+		</choose>
+	</select>
+	
+	<select id="getMyDetail" parameterType="int" resultType="itemDto">
+		SELECT i.farmer_email, item_idx, item_title, item_price, item_stock, item_category_top_idx, item_content, item_image, farmer_name
+		FROM item i inner join farmer f on i.farmer_email = f.farmer_email
+		WHERE item_idx=#{item_idx}
+	</select>
+	<!--  *****************************************************************************  -->
+	
+	
+	
 </mapper>
