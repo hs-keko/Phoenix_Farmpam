@@ -297,6 +297,7 @@ public class ItemServiceImpl implements ItemService {
 		
 		//세션을 받아준다.
 		String farmer_email = request.getParameter("email");
+		System.out.println(farmer_email);
 		ItemDto dto = new ItemDto();
 		dto.setFarmer_email(farmer_email);
 			
