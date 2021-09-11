@@ -103,19 +103,12 @@ public class ItemController {
  		return map;
  	}
  	
- 	//새글 저장 폼
- 	@RequestMapping("/item/private/insertform")
- 	@ResponseBody
- 	public Map<String, Object> insertForm() {
- 		Map<String, Object> map=new HashMap<String, Object>();
- 		return map;
- 	}
- 	
  	//새글 저장 요청 처리 
  	@RequestMapping("/item/private/insert")
  	@ResponseBody
  	public Map<String, Object> insertItem(ItemDto dto, HttpServletRequest request) {
  		Map<String, Object> map=new HashMap<String, Object>();
+ 		System.out.println("아이템 저장 컨트롤러");
  		service.insertItem(dto, map, request);
  		return map;
  	}	
@@ -186,5 +179,14 @@ public class ItemController {
  		mView.setViewName("item/detail");
  		
  		return mView;
+ 	}
+ 	
+ 	// vue Category_low 가져오기
+ 	@RequestMapping("/vue/categorylow")
+ 	@ResponseBody
+ 	public Map<String, Object> getCategory(HttpServletRequest req){
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		service.vueGetCategory(map, req);
+ 		return map;
  	}
  }
