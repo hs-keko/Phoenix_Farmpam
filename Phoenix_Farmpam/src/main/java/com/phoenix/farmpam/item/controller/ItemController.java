@@ -166,8 +166,8 @@ public class ItemController {
  		return map;
  	}
 
- 	// main 페이지 최신 상품 카테고리 리스트 
- 	@RequestMapping(value = "/vue/shopmain", method = RequestMethod.POST)
+ 	// main 페이지  3가지 카테고리 리스트 
+ 	@RequestMapping("/vue/shopmain")
  	@ResponseBody
  	public Map<String,Object> getNewList(HttpServletRequest request) {
  		Map<String, Object> map = new HashMap<String, Object>();
