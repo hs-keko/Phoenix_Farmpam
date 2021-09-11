@@ -26,7 +26,7 @@ public class ItemController {
 
    @Autowired
    private ItemService service;
-    
+   
    // vue MyShop 목록
    @RequestMapping("/vue/myshop/list")
    @ResponseBody
