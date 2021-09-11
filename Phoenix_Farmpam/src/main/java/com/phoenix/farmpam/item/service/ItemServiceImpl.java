@@ -254,13 +254,10 @@ public class ItemServiceImpl implements ItemService {
 		pagedata.put("startPageNum", startPageNum);
 		
 		map.put("pagingData", pagedata);
-		
-		
-
 	}
 	
 	@Override
-	public void getList(HttpServletRequest request) {
+	public void getList(HttpServletRequest request, Map<String, Object> map) {
 		//한 페이지에 몇개씩 표시할 것인지
 		final int PAGE_ROW_COUNT=10;
 		//하단 페이지를 몇개씩 표시할 것인지
@@ -299,7 +296,8 @@ public class ItemServiceImpl implements ItemService {
 		String encodedK=URLEncoder.encode(keyword);
 		
 		//세션을 받아준다.
-		String farmer_email = (String)request.getSession().getAttribute("email");
+		String farmer_email = request.getParameter("email");
+		System.out.println(farmer_email);
 		ItemDto dto = new ItemDto();
 		dto.setFarmer_email(farmer_email);
 			
@@ -316,6 +314,7 @@ public class ItemServiceImpl implements ItemService {
 		}
 		//글 목록 얻어오기 
 		List<ItemDto> list=itemDao.getListItem(dto);
+
 		//전체글의 갯수
 		int totalRow=itemDao.getCount(dto);
 		
@@ -331,44 +330,66 @@ public class ItemServiceImpl implements ItemService {
 		if(endPageNum > totalPageCount){
 			endPageNum=totalPageCount; //보정해 준다.
 		}
-		//view page 에서 필요한 값을 request 에 담아준다. 
-		request.setAttribute("pageNum", pageNum);
-		request.setAttribute("startPageNum", startPageNum);
-		request.setAttribute("endPageNum", endPageNum);
-		request.setAttribute("condition", condition);
-		request.setAttribute("keyword", keyword);
-		request.setAttribute("encodedK", encodedK);
-		request.setAttribute("totalPageCount", totalPageCount);
-		request.setAttribute("list", list);
-		request.setAttribute("totalRow", totalRow);
 		
+		//view page 에서 필요한 값을 map에 담아줌. 
+		map.put("pageNum", pageNum);
+		map.put("startPageNum", startPageNum);
+		map.put("endPageNum", endPageNum);
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		map.put("encodedK", encodedK);
+		map.put("totalPageCount", totalPageCount);
+		map.put("list", list);
+		map.put("totalRow", totalRow);
+
 	}
 			
 	@Override
-	public void updateItem(HttpServletRequest request) {
+	public void updateItem(HttpServletRequest request, Map<String, Object> map) {
 		
 		ItemDto itemDto = new ItemDto();
+		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
+		String farmer_email = request.getParameter("email");
 		
-		itemDto.setItem_image((String)request.getParameter("item_image"));
-		itemDto.setItem_idx(Integer.parseInt(request.getParameter("item_idx")));
-		itemDto.setItem_title((String)request.getParameter("item_title"));
-		itemDto.setItem_content((String)request.getParameter("item_content"));
+		itemDto.setItem_image(request.getParameter("item_image"));
+		itemDto.setItem_idx(item_idx);
+		itemDto.setItem_title(request.getParameter("item_title"));
+		itemDto.setItem_content(request.getParameter("item_content"));
 		itemDto.setItem_price(Integer.parseInt(request.getParameter("item_price")));
 		itemDto.setItem_stock(Integer.parseInt(request.getParameter("item_stock")));
+		itemDto.setFarmer_email(farmer_email);
+		
+		String item_farmer_email = itemDao.getData3(item_idx).getFarmer_email();
+		
+		if(item_farmer_email.equals(farmer_email)) {
+			throw new NotDeleteException("상품 추가를 실패하였습니다.");
+		}
 		
 		itemDao.update(itemDto);
+		map.put("updateItem", true);
 	}
 
 	@Override
-	public void deleteItem(int item_idx, HttpServletRequest request) {
-		itemDao.delete(item_idx); 
+	public void deleteItem(HttpServletRequest request, Map<String, Object> map) {
+		
+		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
+		String farmer_email = request.getParameter("email");
+		String item_farmer_email = itemDao.getData3(item_idx).getFarmer_email();
+		
+		if(item_farmer_email.equals(farmer_email)) {
+			throw new NotDeleteException("상품 추가를 실패하였습니다.");
+		}
+		
+		itemDao.delete(item_idx);
+		map.put("deleteItem", true);
 		
 	}
 	
 	//새글저장
 	@Override
-	public void insertItem(ItemDto dto) {
-		itemDao.insertItem(dto);	
+	public void insertItem(ItemDto dto, Map<String, Object> map, HttpServletRequest request) {
+		itemDao.insertItem(dto);
+		map.put("insertItem", true);
 	}
 
 	@Override
@@ -403,29 +424,35 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void getInfo(HttpServletRequest request, HttpSession session) {
+	public void getInfo(HttpServletRequest request, HttpSession session, Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		// 아이템 번호를 읽어온다.
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
 		ItemDto dto = itemDao.getData3(item_idx);
-		request.setAttribute("dto", dto);
+		// map에 담아줌.
+		map.put("updateForm", dto);
 		
 	}
 
 	@Override
-	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView) {
+	public void buy(HttpServletRequest request, Map<String, Object> map) 
+	{
 		//구입자의 이메일
-		String users_email=(String)mView.getModel().get("users_email");
+		String users_email=request.getParameter("email");
 		//1. 파라미터로 전달되는 구입할 상품 번호
-		int item_idx=ordersDto.getItem_idx();
+		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		//2. 파라미터로 전달되는 구입할 상품의 수량
-		int orders_item_total=ordersDto.getOrders_item_total();
+		int orders_item_total=Integer.parseInt(request.getParameter("orders_item_total"));
 		//3. 파라미터로 전달되는 배송지 주소
-		String orders_addr=ordersDto.getOrders_addr();
-		//4. 상품의 개당 가격을 얻어온다.
-		int item_price=itemDao.getPrice(item_idx);
-		//5. (구입 수량*상품의 가격) 만큼 계좌 잔액을 줄인다.
+		String orders_addr=request.getParameter("orders_addr");
+		//4. 파라미터로 전달되는 전화번호
+		String orders_phone=request.getParameter("orders_phone");
+		//5. 상품의 개당 가격과, 상품명, 판매자 이메일을 얻어온다.
+		int item_price=itemDao.getData3(item_idx).getItem_price();
+		String item_title=itemDao.getData3(item_idx).getItem_title();
+		String farmer_email=itemDao.getData3(item_idx).getFarmer_email();
+		//6. (구입 수량*상품의 가격) 만큼 계좌 잔액을 줄인다.
 		ItemDto itemDto=new ItemDto();
 		itemDto.setUsers_email(users_email);
 		int orders_price = item_price * orders_item_total;
@@ -435,21 +462,27 @@ public class ItemServiceImpl implements ItemService {
 		itemDto.setOrders_item_total(orders_item_total);
 		itemDao.minusStock(itemDto);
 		//7. 주문 테이블에 정보를 추가 한다.
+		OrdersDto ordersDto = new OrdersDto();
 		ordersDto.setItem_price(item_price);
 		ordersDto.setOrders_price(orders_price);
 		ordersDto.setUsers_email(users_email);
-		ordersDao.addOrders(ordersDto);
-		return mView;
+		ordersDto.setOrders_item_total(orders_item_total);
+		ordersDto.setOrders_addr(orders_addr);
+		ordersDto.setOrders_phone(orders_phone);
+		ordersDto.setItem_idx(item_idx);
+		ordersDto.setItem_title(item_title);
+		ordersDto.setFarmer_email(farmer_email);
+		map.put("isSuccess", ordersDao.addOrders(ordersDto));
 	}
 
 	//장바구니 담기
 	@Override
-	public void insertCart(HttpServletRequest request, HttpSession session) {
+	public void insertCart(HttpServletRequest request, Map<String, Object> map) {
 		//파라미터로 전송된 정보들을 가져오기
 		CartDto cartDto = new CartDto();
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
-		String users_email=(String)session.getAttribute("email");
+		String users_email=(String)request.getParameter("email");
 		// item_price 가져와서 cart_amount * item_price 값을 cart_price 에 저장
 		int item_price=itemDao.getData3(item_idx).getItem_price();
 		int cart_price = cart_amount * item_price ;
@@ -459,14 +492,14 @@ public class ItemServiceImpl implements ItemService {
 		cartDto.setCart_amount(cart_amount);
 		cartDto.setCart_price(cart_price);
 		// 장바구니 테이블에 저장
-		cartDao.insertCart(cartDto);
+		map.put("isSuccess", cartDao.insertCart(cartDto));
 	}
 
 	//장바구니 목록 불러오기
 	@Override
-	public void getCartList(HttpSession session, Map<String, Object> map) {
+	public void getCartList(HttpServletRequest request, Map<String, Object> map) {
 		//세션에서 로그인된 유저 이메일 불러오기
-		String users_email = (String)session.getAttribute("email");
+		String users_email = (String)request.getParameter("email");
 		//장바구니 상품 목록을 담을 List
 		List<CartDto> list = cartDao.getCartList(users_email);
 		//ModelAndView 객체에 list 라는 키값으로 담는다.
@@ -476,17 +509,16 @@ public class ItemServiceImpl implements ItemService {
 
 	//장바구니에서 상품 삭제
 	@Override
-	public void deleteCart(HttpServletRequest request) {
+	public void deleteCart(HttpServletRequest request, Map<String, Object> map) {
 		int cart_idx=Integer.parseInt(request.getParameter("cart_idx"));
-		String users_email=(String)request.getSession().getAttribute("email");
+		String users_email=(String)request.getParameter("email");
 		String cart_users_email=cartDao.getCartEmail(cart_idx);
 		
 		// 장바구니 테이블 이메일과 세션 이메일 일치 여부
-		if(!cart_users_email.equals(users_email)) {
+		if(users_email.equals(users_email)) {
 			throw new NotDeleteException("다른 이용자의 장바구니를 삭제할 수 없습니다.");
 		}
-		
-		cartDao.deleteCart(cart_idx);
+		map.put("isSuccess",cartDao.deleteCart(cart_idx));
 	}
 
 	//장바구니 구매수량 변경
@@ -496,7 +528,7 @@ public class ItemServiceImpl implements ItemService {
 		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
 		int item_price=cartDao.getCartData(cart_idx);
 		int cart_price = cart_amount * item_price;
-		String users_email=(String)request.getSession().getAttribute("email");
+		String users_email=(String)request.getParameter("email");
 		String cart_users_email=cartDao.getCartEmail(cart_idx);
 		
 		// 장바구니 테이블 이메일과 세션 이메일 일치 여부
@@ -509,11 +541,11 @@ public class ItemServiceImpl implements ItemService {
 		cartDto.setCart_amount(cart_amount);
 		cartDto.setCart_price(cart_price);
 		
-		cartDao.updateCart(cartDto);
 		
+		map.put("isSuccess", cartDao.updateCart(cartDto));
 		map.put("cart_amount", cart_amount);
 		map.put("cart_price", cart_price);
-		map.put("isSuccess", true);
+		
 	}
 
 	//주문 페이지 요청
@@ -582,4 +614,29 @@ public class ItemServiceImpl implements ItemService {
 		
 	}
 
+	// vue 카테고리 가져오기
+	@Override
+	public void vueGetCategory(Map<String, Object> map, HttpServletRequest req) {
+		System.out.println(req.getParameter("category_ref"));
+			int ref = 0;
+			if(req.getParameter("category_ref") != null) {
+				ref = Integer.parseInt(req.getParameter("category_ref"));	
+				List<ItemCategoryTopDto> catelist = itemDao.getCategory(ref);
+				map.put("category_low",catelist);
+			}else {
+				map.put("category_low",false);
+			}
+	}
+
+	//해당 판매자에게 들어온 주문 얻어오기
+	@Override
+	public void getSellorOrders(HttpServletRequest request, Map<String, Object> map) {
+		//판매자의 이메일 얻어오기
+		String farmer_email=request.getParameter("email");
+		//판매자에게 들어온 주문 리스트 얻어오기
+		List<OrdersDto> list=ordersDao.getSellorOrdersList(farmer_email);
+		map.put("sellorOrdersList", list);
+	}
+
 }
+

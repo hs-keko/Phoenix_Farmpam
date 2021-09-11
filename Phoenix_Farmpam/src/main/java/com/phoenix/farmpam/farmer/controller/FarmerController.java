@@ -35,7 +35,6 @@ public class FarmerController {
 		return "farmer/test_follow";
 	}
 	
-	
 	// 농장주 된 상태에서 클릭시 팔로우 해제
 	@ResponseBody
 	@RequestMapping(value = "/farmer/removeFollow")
@@ -71,21 +70,22 @@ public class FarmerController {
 
 	//회원 탈퇴 요청 처리
 	@RequestMapping("/farmer/private/delete_farmer")
-	public ModelAndView delete(HttpSession session, ModelAndView mView) {
-		
-		service.deleteUser(session, mView);
-		
-		mView.setViewName("farmer/delete_farmer");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> delete(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.deleteUser(request, map);
+
+		return map;
 	}
 	
 	//개인 정보 수정 반영 요청 처리 메소드
 	@RequestMapping(value = "/farmer/private/update_farmer", method=RequestMethod.POST)
-	public String update(FarmerDto dto, HttpSession session) {
-		
-		service.updateUser(dto, session);
+	@ResponseBody
+	public Map<String, Object> update(FarmerDto dto, HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.updateUser(dto, request, map);
 
-		return "redirect:/farmer/private/info_farmer.do";
+		return map;
 	}
 	
 	//ajax 프로필 사진 업로드 요청처리
@@ -101,39 +101,38 @@ public class FarmerController {
 	
 	//회원정보 수정폼 요청처리
 	@RequestMapping("/farmer/private/updateform_farmer")
-	public ModelAndView updateForm(ModelAndView mView, HttpSession session) {
-		service.getInfo(session, mView);
-		mView.setViewName("farmer/updateform_farmer");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> updateForm(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//비밀번호 수정요청
 	@RequestMapping("/farmer/private/pwd_update_farmer")
-	public ModelAndView pwdUpdate(FarmerDto dto,
-			ModelAndView mView, HttpSession session) {
-		
+	public Map<String, Object> pwdUpdate(FarmerDto dto, HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
 		//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
-		service.updateFarmerPwd(session, dto, mView);
+		service.updateFarmerPwd(dto, request, map);
 		
-		//view page로 forward 이동해서 작업 결과를 응답한다.
-		mView.setViewName("farmer/pwd_update_farmer");
-		return mView;
+		return map;
 	}
 	
 	//비밀번호 수정폼 요청
 	@RequestMapping("/farmer/private/pwd_updateform_farmer")
-	public String pwdUpdateForm() {
-		return "farmer/pwd_updateform_farmer";
+	@ResponseBody
+	public Map<String, Object> pwdUpdateForm() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 	
 	//회원 정보 페이지 요청
 	@RequestMapping("/farmer/private/info_farmer")
-	public ModelAndView info(HttpSession session, ModelAndView mView) {
-		
-		service.getInfo(session, mView);
-		
-		mView.setViewName("farmer/info_farmer");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> info(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//로그아웃 요청 처리
@@ -146,31 +145,12 @@ public class FarmerController {
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/farmer/loginform_farmer")
-	public String loginform() {
-		
-		return "farmer/loginform_farmer";
+	@ResponseBody
+	public Map<String, Object> loginform() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
-	
-	//로그인 요청 처리
-	@RequestMapping("/farmer/login_farmer")
-	public ModelAndView login(ModelAndView mView, FarmerDto dto,
-			@RequestParam String url, HttpSession session) {
-		/*
-		 *  서비스에서 비즈니스 로직을 처리할때 필요로  하는 객체를 컨트롤러에서 직접 전달을 해 주어야 한다.
-		 *  주로, HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView
-		 *  등등의 객체 이다. 
-		 */
-		service.loginProcess(dto, session);
-		service.checkbox(dto, session);
-		
-		String encodedUrl=URLEncoder.encode(url);
-		mView.addObject("url", url);
-		mView.addObject("encodedUrl", encodedUrl);
-		
-		mView.setViewName("farmer/login_farmer");
-		return mView;
-	}
-	
+
 	//vue 로그인 요청 처리
 	@RequestMapping("/farmer/vue/login")
 	@ResponseBody
@@ -193,13 +173,6 @@ public class FarmerController {
 		return map;
 	}
 	
-	//회원가입 요청처리
-	@RequestMapping(value="/farmer/signup_farmer", method=RequestMethod.POST)
-	public ModelAndView signup(ModelAndView mView, FarmerDto dto) {
-		service.addUser(dto);
-		mView.setViewName("farmer/signup_farmer");
-		return mView;
-	}
 	
 	//이메일 중복확인 하고 json 문자열 리턴
 	@RequestMapping("/farmer/checkfarmeremail")
@@ -210,9 +183,10 @@ public class FarmerController {
 
 	//회원가입폼 요청처리
 	@RequestMapping(value = "/farmer/signup_form_farmer", method = RequestMethod.GET)
-	public String signupForm() {
-		
-		return "farmer/signup_form_farmer";
+	@ResponseBody
+	public Map<String, Object> signupForm() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 	
 	
