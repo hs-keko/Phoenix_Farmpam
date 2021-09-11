@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.users.dto.UsersDto;
 import com.phoenix.farmpam.users.service.UsersService;
 
@@ -27,21 +28,22 @@ public class UsersController {
 	
 	//회원 탈퇴 요청
 	@RequestMapping("/users/private/delete")
-	public ModelAndView delete(HttpSession session, ModelAndView mView) {
-		
-		service.deleteUser(session, mView);
-		
-		mView.setViewName("users/delete");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> delete(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.deleteUser(request, map);
+
+		return map;
 	}
 
 	//개인정보 수정반영 요청처리 메소드
 	@RequestMapping(value = "/users/private/update", method=RequestMethod.POST)
-	public String update(UsersDto dto, HttpSession session) {
-		
-		service.updateUser(dto, session);
+	@ResponseBody
+	public Map<String, Object> update(UsersDto dto, HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.updateUser(dto, request, map);
 
-		return "redirect:/users/private/info.do";
+		return map;
 	}
 	
 	//ajax 프로필사진 업로드 요청처리
@@ -57,74 +59,57 @@ public class UsersController {
 	
 	//회원정보 수정폼 요청처리 (프로필사진)
 	@RequestMapping("/users/private/updateform")
-	public ModelAndView updateForm(ModelAndView mView, HttpSession session) {
-		service.getInfo(session, mView);
-		mView.setViewName("users/updateform");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> updateForm(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//비밀번호 수정요청
 	@RequestMapping("/users/private/pwd_update")
-	public ModelAndView pwdUpdate(UsersDto dto,
-			ModelAndView mView, HttpSession session) {
+	@ResponseBody
+	public Map<String, Object> pwdUpdate(UsersDto dto, HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
 		//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
-		service.updateUsersPwd(session, dto, mView);
+		service.updateUsersPwd(dto, request, map);
 		//view page로 forward 이동해서 작업 결과를 응답한다.
-		mView.setViewName("users/pwd_update");
-		return mView;
+		return map;
 	}
 	
 	//비밀번호 수정폼
 	@RequestMapping("/users/private/pwd_updateform")
-	public String pwdUpdateForm() {
-		return "users/pwd_updateform";
+	@ResponseBody
+	public Map<String, Object> pwdUpdateForm() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 	
+	//회원정보 폼
 	@RequestMapping("/users/private/info")
-	public ModelAndView info(HttpSession session, ModelAndView mView) {
-		
-		service.getInfo(session, mView);
-		
-		mView.setViewName("users/info");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> info(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//ID라는 키값으로 저장된 값 삭제 (로그아웃 기능)
 	@RequestMapping("/users/logout")
 	public String logout(HttpSession session) {
-		//세션에서 users_email이라는 키값으로 저장된 값 삭제
-		session.removeAttribute("email");
-		session.removeAttribute("check");
+		//세션에서 farmer_email 키값으로 저장된 값을 삭제
+		session.removeAttribute("users_email");
 		return "users/logout";
 	}
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/users/loginform")
-	public String loginform() {
-		
-		return "users/loginform";
+	@ResponseBody
+	public Map<String,Object> loginform() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 	
-	//로그인 요청 처리
-	@RequestMapping("/users/login")
-	public ModelAndView login(ModelAndView mView, UsersDto dto,
-			@RequestParam String url, HttpSession session) {
-		/*
-		 *  서비스에서 비즈니스 로직을 처리할때 필요로  하는 객체를 컨트롤러에서 직접 전달을 해 주어야 한다.
-		 *  주로, HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView
-		 *  등등의 객체 이다. 
-		 */
-		service.loginProcess(dto, session);
-		service.checkbox(dto, session);
-		
-		String encodedUrl=URLEncoder.encode(url);
-		mView.addObject("url", url);
-		mView.addObject("encodedUrl", encodedUrl);
-		
-		mView.setViewName("users/login");
-		return mView;
-	}
-
 	//vue 로그인 요청
 	@RequestMapping("/users/vue/login")
 	@ResponseBody
@@ -149,14 +134,6 @@ public class UsersController {
 	
 		return map;
 	}
-	
-	//회원가입 요청처리
-	@RequestMapping(value="/users/signup", method = RequestMethod.POST)
-	public ModelAndView signup(ModelAndView mView, UsersDto dto) {
-		service.addUser(dto);
-		mView.setViewName("users/signup");
-		return mView;	
-	}
 
 	// vue 회원가입 요청처리
 	@RequestMapping(value="/users/vue/signup", method = RequestMethod.POST)
@@ -173,8 +150,10 @@ public class UsersController {
 
 	//before창 가입하기 전 분류하기
 	@RequestMapping(value = "/users/signup_before", method = RequestMethod.GET)
-	public String signupBefore() {
-		return "users/signup_before";
+	@ResponseBody
+	public Map<String,Object> signupBefore() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 
 	//이메일 중복확인을 해서 json 문자열로 리턴해주는 메소드
@@ -187,11 +166,9 @@ public class UsersController {
 
 	//회원가입폼 요청처리
 	@RequestMapping(value = "/users/signup_form", method = RequestMethod.GET)
-	public String signupForm() {
-		return "users/signup_form";
+	@ResponseBody
+	public Map<String, Object> signupForm() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
-
-
-
-	
 }
