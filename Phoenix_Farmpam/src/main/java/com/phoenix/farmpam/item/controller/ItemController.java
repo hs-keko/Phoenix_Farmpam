@@ -166,16 +166,36 @@ public class ItemController {
  		return map;
  	}
 
-	// main 페이지 최신 상품 카테고리 리스트 
-	@RequestMapping("/vue/main")
-	@ResponseBody
-	public Map<String,Object> getNewList(HttpServletRequest request) {
-		System.out.println("NewList");
-		Map<String, Object> map = new HashMap<String, Object>();
-		service.newList(map, request);
-		return map;
-	}
+ 	// main 페이지 최신 상품 카테고리 리스트 
+ 	@RequestMapping("/vue/shop/shoppage")
+ 	@ResponseBody
+ 	public Map<String,Object> getNewList(HttpServletRequest request) {
+ 		System.out.println("newList");
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		service.getNewList(map, request);
+ 		return map;
+ 	}
+ 	
+ 	// main 페이지 품절 임박 상품 카테고리 리스트 
+ 	@RequestMapping("/vue/shop/shoppage")
+ 	@ResponseBody
+ 	public Map<String,Object> getCloseList(HttpServletRequest request) {
+ 		System.out.println("closeList");
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		service.getCloseList(map, request);
+ 		return map;
+ 	}
 	
+ 	// main 페이지 채식 상품 카테고리 리스트 
+ 	@RequestMapping("/vue/shop/shoppage")
+ 	@ResponseBody
+ 	public Map<String,Object> getVeganList(HttpServletRequest request) {
+ 		System.out.println("veganList");
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		service.getVeganList(map, request);
+ 		return map;
+ 	}
+ 	
  	// vue Category_low 가져오기
  	@RequestMapping("/vue/categorylow")
  	@ResponseBody

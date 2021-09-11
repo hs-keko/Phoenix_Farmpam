@@ -582,35 +582,31 @@ public class ItemServiceImpl implements ItemService {
 
 	//최신 신선 상품 리스트 4개 불러오기
 	@Override
-	public void newList(Map<String, Object> map, HttpServletRequest request) {
-		//보여줄 상품 목 가져오기
-		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
-		//DB에서 확인 (지울 것)
-		System.out.println(item_idx);
+	public void getNewList(Map<String, Object> map, HttpServletRequest request) {
 		//최신 신선 상품 목록을 담을 List
-		List<ItemDto> list=itemDao.getNewList(item_idx);
+		List<ItemDto> newList=itemDao.getNewList();
 		//Map 객체에 list 라는 키값으로 담는다.
-		map.put("newList", list);
+		map.put("newList", newList);
 				
 	}
 
+	//품절 임박 상품 리스트 4개 불러오기
 	@Override
 	public void getCloseList(Map<String, Object> map, HttpServletRequest request) {
-		//보여줄 상품 번호를 가져오기
-		int item_stock=Integer.parseInt(request.getParameter("item_stock"));
-		//DB에서 확인 (지울 것)
-		System.out.println(item_stock);
-		//최신 신선 상품 목록을 담을 List
-		List<ItemDto> list = itemDao.getCloseList(item_stock);
+		//품절 임박 상품 목록을 담을 List
+		List<ItemDto> closeList = itemDao.getCloseList();
 		//Map 객체에 list 라는 키값으로 담는다.
-		map.put("closeList", list);
-		
+		map.put("closeList", closeList);
 	
 	}
 
+	//채식 상품 리스트 4개 불러오기
 	@Override
 	public void getVeganList(Map<String, Object> map, HttpServletRequest request) {
-		// TODO Auto-generated method stub
+		//채식 상품 목록을 담을 List
+		List<ItemDto> veganList = itemDao.getVeganList();
+		//Map 객체에 list 라는 키값으로 담는다.
+		map.put("veganList", veganList);
 		
 	}
 

@@ -59,7 +59,7 @@ public interface ItemService {
 	public void vueGetMyShop(Map<String, Object> map, HttpServletRequest req);
 	
 	// 카테고리 최신 신선 상품 4개 가져오기 
-	public void newList(Map<String, Object> map, HttpServletRequest request);
+	public void getNewList(Map<String, Object> map, HttpServletRequest request);
 	
 	// 카테고리 마감 임박 상품 4개 가져오기
 	public void getCloseList(Map<String, Object> map, HttpServletRequest request);
