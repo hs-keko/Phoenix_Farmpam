@@ -35,7 +35,6 @@ public class FarmerController {
 		return "farmer/test_follow";
 	}
 	
-	
 	// 농장주 된 상태에서 클릭시 팔로우 해제
 	@ResponseBody
 	@RequestMapping(value = "/farmer/removeFollow")
@@ -71,12 +70,12 @@ public class FarmerController {
 
 	//회원 탈퇴 요청 처리
 	@RequestMapping("/farmer/private/delete_farmer")
-	public ModelAndView delete(HttpSession session, ModelAndView mView) {
-		
-		service.deleteUser(session, mView);
-		
-		mView.setViewName("farmer/delete_farmer");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> delete(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.deleteUser(request, map);
+
+		return map;
 	}
 	
 	//개인 정보 수정 반영 요청 처리 메소드

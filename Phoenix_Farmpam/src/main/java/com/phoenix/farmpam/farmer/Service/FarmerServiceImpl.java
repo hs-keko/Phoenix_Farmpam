@@ -179,15 +179,15 @@ public class FarmerServiceImpl implements FarmerService {
 
 
 	@Override
-	public void deleteUser(HttpSession session, ModelAndView mView) {
+	public void deleteUser(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 이메일을 얻어와서
-		String email=(String)session.getAttribute("email");
+		String email=(String)request.getParameter("email");
 		//해당 정보를 DB에서 삭제하고
 		dao.delete(email);
 		//로그아웃 처리도 한다.
-		session.removeAttribute("email");
+		request.removeAttribute("email");
 		//ModelAndView 객체에 탈퇴한 회원의 이메일을 담아준다.
-		mView.addObject("email", email);
+		map.put("email", email);
 
 	}
 	

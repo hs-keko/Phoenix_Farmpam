@@ -24,7 +24,7 @@ public interface FarmerService {
 	public Map<String, Object> saveProfileImage(HttpServletRequest request,
 			MultipartFile mFile);
 	public void updateUser(FarmerDto dto, HttpSession session);
-	public void deleteUser(HttpSession session, ModelAndView mView);
+	public void deleteUser(HttpServletRequest request, Map<String, Object> map);
 	// 팔로우 추가
 	public FarmerDto followInsert(FollowDto followDto);
 	// 팔로우 해제

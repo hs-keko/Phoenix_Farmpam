@@ -180,9 +180,9 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public void updateUser(UsersDto dto, HttpSession session) {
+	public void updateUser(UsersDto dto, HttpServletRequest request, Map<String, Object> map) {
 		// 수정할 회원의 아이디
-		String email=(String)session.getAttribute("email");
+		String email=(String)request.getParameter("email");
 		//UsersDao에 아이디를 담아준다.
 		dto.setUsers_email(email);
 		//만일 프로필 사진을 수정하지 않았다면
@@ -192,18 +192,19 @@ public class UsersServiceImpl implements UsersService {
 		}
 		//usersDao에서 수정반영한다.
 		dao.update(dto);
+		map.put("isSuccess", true);
 	}
 
 	@Override
-	public void deleteUser(HttpSession session, ModelAndView mView) {
+	public void deleteUser(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 이메일을 얻어와서
-		String email=(String)session.getAttribute("email");
+		String email=(String)request.getParameter("email");
 		//해당 정보를 DB에서 삭제하고
 		dao.delete(email);
 		//로그아웃 처리도 한다.
-		session.removeAttribute("email");
+		request.removeAttribute("email");
 		//ModelAndView 객체에 탈퇴한 회원의 이메일을 담아준다.
-		mView.addObject("email", email);
+		map.put("email", email);
 
 	}
 }

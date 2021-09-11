@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.users.dto.UsersDto;
 
 public interface UsersService {
@@ -23,8 +24,8 @@ public interface UsersService {
 	public void updateUsersPwd(HttpSession session, UsersDto dto, ModelAndView mView);
 	public Map<String, Object> saveProfileImage(HttpServletRequest request,
 			MultipartFile mFile);
-	public void updateUser(UsersDto dto, HttpSession session);
-	public void deleteUser(HttpSession session, ModelAndView mView);	
+	public void updateUser(UsersDto dto, HttpServletRequest request, Map<String, Object> map);
+	public void deleteUser(HttpServletRequest request, Map<String, Object> map);	
 	// vue test
 	public boolean loginpro(UsersDto dto, HttpSession session);
 	
