@@ -16,8 +16,9 @@ public class CartDaoImpl implements CartDao {
 
 	// 장바구니에 상품 추가
 	@Override
-	public void insertCart(CartDto cartDto) {
+	public boolean insertCart(CartDto cartDto) {
 		session.insert("cart.insertCart", cartDto);
+		return true;
 	}
 
 	// 장바구니 상품 불러오기
@@ -34,14 +35,15 @@ public class CartDaoImpl implements CartDao {
 	
 	// 장바구니에서 상품 삭제
 	@Override
-	public void deleteCart(int cart_idx) {
+	public boolean deleteCart(int cart_idx) {
 		session.delete("cart.deleteCart", cart_idx);
+		return true;
 	}
 
 	@Override
-	public void updateCart(CartDto cartDto) {
+	public boolean updateCart(CartDto cartDto) {
 		session.update("cart.updateCart", cartDto);
-		
+		return true;
 	}
 
 	@Override

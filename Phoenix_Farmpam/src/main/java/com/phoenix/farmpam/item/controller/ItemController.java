@@ -27,6 +27,15 @@ public class ItemController {
    @Autowired
    private ItemService service;
    
+   //판매자 주문 현황 목록
+   @RequestMapping("/item/private/sellorOrderManage")
+   @ResponseBody
+   public Map<String, Object> sellorOrdersManage(HttpServletRequest request){
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   service.getSellorOrders(request, map);
+	   return map;
+   } 
+
    // vue MyShop 목록
    @RequestMapping("/vue/myshop/list")
    @ResponseBody
@@ -58,7 +67,7 @@ public class ItemController {
 	}
    
    	//장바구니 구매수량 변경
- 	@RequestMapping("item/private/cartupdate")
+ 	@RequestMapping(value = "/item/private/cartupdate", method = RequestMethod.POST)
  	@ResponseBody
  	public Map<String, Object> updateCart(HttpServletRequest request){
  		Map<String, Object> map=new HashMap<String, Object>();
@@ -67,31 +76,30 @@ public class ItemController {
  	}
  	
  	//장바구니에서 상품 삭제
- 	@RequestMapping("item/private/cartdelete")
+ 	@RequestMapping(value = "/item/private/cartdelete", method = RequestMethod.POST)
  	@ResponseBody
  	public Map<String, Object> deleteCart(HttpServletRequest request){
- 		service.deleteCart(request);
  		Map<String, Object> map=new HashMap<String, Object>();
- 		// {"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다.
- 		map.put("isSuccess", true);
+ 		service.deleteCart(request, map);
  		return map;
  	}
  	
  	//장바구니 목록
  	@RequestMapping("/item/private/cart")
  	@ResponseBody
- 	public Map<String, Object> cartList(HttpSession session) {
+ 	public Map<String, Object> cartList(HttpServletRequest request) {
  		Map<String, Object> map=new HashMap<String, Object>();
- 		service.getCartList(session, map);
+ 		service.getCartList(request, map);
  		return map;
  	}
  	
  	//장바구니 담기
  	@RequestMapping(value = "/item/private/addcart", method = RequestMethod.POST)
- 	public ModelAndView addCart(HttpServletRequest request, HttpSession session, ModelAndView mView) {
- 		service.insertCart(request, session);
- 		mView.setViewName("item/addcart");
- 		return mView;
+ 	@ResponseBody
+ 	public Map<String, Object> addCart(HttpServletRequest request) {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.insertCart(request, map);
+ 		return map;
  	}
  	
  	//목록
@@ -111,7 +119,7 @@ public class ItemController {
  		System.out.println("아이템 저장 컨트롤러");
  		service.insertItem(dto, map, request);
  		return map;
- 	}	
+ 	}
  	
  	//ajax 사진 업로드 요청처리
  	@RequestMapping(value = "/item/private/ajax_image_upload",
@@ -147,18 +155,15 @@ public class ItemController {
  		Map<String, Object> map=new HashMap<String, Object>();
  		service.deleteItem(request, map);
  		return map;
- 	}	
+ 	}
  	
  	// 구매 요청 처리
- 	@RequestMapping(value = "/item/buy", method = RequestMethod.POST)
- 	public ModelAndView authBuy(HttpServletRequest request,
- 								@ModelAttribute OrdersDto ordersDto,
- 								ModelAndView mView)
- 	{
- 		mView.addObject("users_email",(String)request.getSession().getAttribute("email"));
- 		service.buy(ordersDto, mView);
- 		mView.setViewName("item/buy");
- 		return mView;
+ 	@RequestMapping(value = "/item/private/buy", method = RequestMethod.POST)
+ 	@ResponseBody
+ 	public Map<String, Object> authBuy(HttpServletRequest request) {
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.buy(request, map);
+ 		return map;
  	}
 
     
