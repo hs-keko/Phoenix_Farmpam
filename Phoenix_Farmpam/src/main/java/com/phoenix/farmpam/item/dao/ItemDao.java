@@ -67,13 +67,13 @@ public interface ItemDao {
 	public int getShopCategoryCount(ItemDto dto);
 
 	// 메인 카테고리 최신 신선 상품 아이템 정보
-	public List<ItemDto> getNewList();
+	public List<ItemDto> getNewList(ItemDto itemDto);
 	
 	// 메인 카테고리 품절 임박 상품 리스트
-	public List<ItemDto> getCloseList();
+	public List<ItemDto> getCloseList(ItemDto itemDto);
 	
 	// 메인 카테고리 건강을 위한 채식 상품 리스트
-	public List<ItemDto> getVeganList();
+	public List<ItemDto> getVeganList(ItemDto itemDto);
 
 }
 

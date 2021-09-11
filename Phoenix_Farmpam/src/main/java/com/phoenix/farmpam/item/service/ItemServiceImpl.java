@@ -582,9 +582,10 @@ public class ItemServiceImpl implements ItemService {
 
 	//최신 신선 상품 리스트 4개 불러오기
 	@Override
-	public void getNewList(Map<String, Object> map, HttpServletRequest request) {
+	public void vueGetNewList(Map<String, Object> map, HttpServletRequest request) {
+		ItemDto itemDto = new ItemDto();
 		//최신 신선 상품 목록을 담을 List
-		List<ItemDto> newList=itemDao.getNewList();
+		List<ItemDto> newList=itemDao.getNewList(itemDto);
 		//Map 객체에 list 라는 키값으로 담는다.
 		map.put("newList", newList);
 				
@@ -592,9 +593,10 @@ public class ItemServiceImpl implements ItemService {
 
 	//품절 임박 상품 리스트 4개 불러오기
 	@Override
-	public void getCloseList(Map<String, Object> map, HttpServletRequest request) {
+	public void vueGetCloseList(Map<String, Object> map, HttpServletRequest request) {
+		ItemDto itemDto = new ItemDto();
 		//품절 임박 상품 목록을 담을 List
-		List<ItemDto> closeList = itemDao.getCloseList();
+		List<ItemDto> closeList = itemDao.getCloseList(itemDto);
 		//Map 객체에 list 라는 키값으로 담는다.
 		map.put("closeList", closeList);
 	
@@ -602,9 +604,10 @@ public class ItemServiceImpl implements ItemService {
 
 	//채식 상품 리스트 4개 불러오기
 	@Override
-	public void getVeganList(Map<String, Object> map, HttpServletRequest request) {
+	public void vueGetVeganList(Map<String, Object> map, HttpServletRequest request) {
+		ItemDto itemDto = new ItemDto();
 		//채식 상품 목록을 담을 List
-		List<ItemDto> veganList = itemDao.getVeganList();
+		List<ItemDto> veganList = itemDao.getVeganList(itemDto);
 		//Map 객체에 list 라는 키값으로 담는다.
 		map.put("veganList", veganList);
 		

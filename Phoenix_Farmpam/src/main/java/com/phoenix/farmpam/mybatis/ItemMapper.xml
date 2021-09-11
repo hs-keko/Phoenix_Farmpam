@@ -245,7 +245,7 @@
 	</select>
 	<!--  *****************************************************************************  -->
 	
-	<select id="getNewList" resultType="itemDto">   	
+	<select id="getNewList" parameterType="itemDto" resultType="itemDto">   	
       select result2.* from
       (SELECT result1.*, rownum as rnum
       FROM (SELECT item_idx, item_image, item_title, item_content, item_price, item_category_top_idx, item_category_top_ref
@@ -255,7 +255,7 @@
       order by rnum ASC
 	</select>
 	
-	<select id="getCloseList" resultType="itemDto">
+	<select id="getCloseList" parameterType="itemDto" resultType="itemDto">
 		SELECT * 
 		FROM
 		   (SELECT result1.*, ROWNUM AS rnum
@@ -269,7 +269,7 @@
       	order by rnum ASC
 	</select>
 	
-	<select id="getVeganList" resultType="itemDto">
+	<select id="getVeganList" parameterType="itemDto" resultType="itemDto">
 		SELECT result2.* 
 		FROM
 		   (SELECT result1.*, ROWNUM AS rnum
