@@ -16,7 +16,6 @@
 		<typeAlias type="com.phoenix.farmpam.item.dto.ItemDto" alias="itemDto"/>
 		<typeAlias type="com.phoenix.farmpam.item.dto.OrdersDto" alias="ordersDto"/>
 		<typeAlias type="com.phoenix.farmpam.item.dto.CartDto" alias="cartDto"/>
-
 	</typeAliases>
 	<!-- 필요한 Mapper xml 등록하기  -->
 	<mappers>
