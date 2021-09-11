@@ -37,8 +37,8 @@
 	
 	<insert id="insertItem" parameterType="itemDto">
 		INSERT INTO item
-		(item_idx, farmer_email, item_title, item_price, item_stock, item_content, item_image)
-		VALUES(item_seq.NEXTVAL, #{farmer_email}, #{item_title}, #{item_price}, #{item_stock}, #{item_content}, #{item_image})
+		(item_idx, farmer_email, item_title, item_price, item_stock, item_content, item_image, item_category_top_idx, item_category_top_ref)
+		VALUES(item_seq.NEXTVAL, #{farmer_email}, #{item_title}, #{item_price}, #{item_stock}, #{item_content}, #{item_image}, #{item_category_top_idx}, #{item_category_top_ref})
 	</insert>
 	
 	<delete id="delete" parameterType="int">

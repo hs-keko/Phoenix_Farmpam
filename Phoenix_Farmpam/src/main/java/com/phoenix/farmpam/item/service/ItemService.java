@@ -61,4 +61,7 @@ public interface ItemService {
 
 	// vue MyShop 아이템리스트 가져오기
 	public void vueGetMyShop(Map<String, Object> map, HttpServletRequest req);
+	
+	// vue 아이템 카테고리 가져오기
+	public void vueGetCategory(Map<String, Object> map, HttpServletRequest req);
 }

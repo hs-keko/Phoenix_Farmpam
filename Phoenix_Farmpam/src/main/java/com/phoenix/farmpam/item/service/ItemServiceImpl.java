@@ -643,6 +643,19 @@ public class ItemServiceImpl implements ItemService {
 		
 		map.put("ordersInfo",ordersDto);
 	}
-
+	
+	// vue 카테고리 가져오기
+	@Override
+	public void vueGetCategory(Map<String, Object> map, HttpServletRequest req) {
+		System.out.println(req.getParameter("category_ref"));
+			int ref = 0;
+			if(req.getParameter("category_ref") != null) {
+				ref = Integer.parseInt(req.getParameter("category_ref"));	
+				List<ItemCategoryTopDto> catelist = itemDao.getCategory(ref);
+				map.put("category_low",catelist);
+			}else {
+				map.put("category_low",false);
+			}
+	}
 }
 
