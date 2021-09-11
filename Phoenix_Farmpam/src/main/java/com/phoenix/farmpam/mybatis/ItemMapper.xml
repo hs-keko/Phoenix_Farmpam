@@ -235,20 +235,43 @@
 	</select>
 	<!--  *****************************************************************************  -->
 	
-	<select id="getHotList" parameterType="int" resultType="itemDto">
-		SELECT result1.*   
-        FROM (SELECT i.item_idx, item_title, item_price, item_content, item_image, item_category_top_idx, item_category_top_ref, o.item_idx, o.orders_item_total
-        FROM item i left join orders o ON i.item_idx = o.item_idx) result1 
-        ORDER BY o.orders_item_total DESC) result2 
-        <![CDATA[
-      where rnum >= #{startRowNum} and rnum <= #{endRowNum}]]>
+	<select id="getNewList" parameterType="int" resultType="itemDto">   	
+      select result2.* from
+      (SELECT result1.*, rownum as rnum
+      FROM (SELECT item_idx, item_image, item_title, item_content, item_price, item_category_top_idx, item_category_top_ref
+      FROM item ORDER BY item_idx DESC) result1 
+      where item_idx= #{item_idx }
+      ) result2 <![CDATA[
+      where rnum <5 ]]>
+      order by rnum ASC
 	</select>
 	
-	<select id="closeList" parameterType="int" resultType="itemDto">
-	
+	<select id="getCloseList" parameterType="int" resultType="itemDto">
+		SELECT * 
+		FROM
+		   (SELECT result1.*, ROWNUM AS rnum
+		   FROM
+	           (SELECT item_idx, item_title, item_price, item_content, item_image, item_stock, item_category_top_idx, item_category_top_ref
+	        	FROM item
+	        	ORDER BY item_stock ASC) result1)
+	       <![CDATA[
+	      where rnum < 5
+	      ]]>
+      	order by rnum ASC
 	</select>
 	
-	<select id="healthyList" parameterType="int" resultType="itemDto">
-	
+	<select id="getHealthyList" parameterType="int" resultType="itemDto">
+		SELECT * 
+		FROM
+		   (SELECT result1.*, ROWNUM AS rnum
+		   FROM
+	           (SELECT item_idx, item_title, item_price, item_content, item_image, item_stock, item_category_top_idx, item_category_top_ref
+	        	FROM item
+	        	ORDER BY  <![CDATA[ where item_category_top_idx = 19
+	      ]]>) result1)
+	       <![CDATA[
+	      where rnum < 5
+	      ]]>
+      	order by rnum ASC
 	</select>
 </mapper>

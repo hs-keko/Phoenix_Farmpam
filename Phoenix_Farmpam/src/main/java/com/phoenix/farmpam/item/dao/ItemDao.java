@@ -61,19 +61,20 @@ public interface ItemDao {
 	public ItemDto getMyDetail(int item_idx);
 	
 	// vue getShopCategory 리스트
-	public  List<ItemDto> getShopCategoryList(ItemDto dto);
+	public List<ItemDto> getShopCategoryList(ItemDto dto);
 	
 	// vue getShopCategory 글 갯수
 	public int getShopCategoryCount(ItemDto dto);
 	
-	// 인기 상품 4개 가져오기 
-	public List<ItemDto> getHotList(int orders_item_total); 
 	
-	// 마감 임박 상품 4개 가져오기
+	// 최신 신선 상품 아이템 정보
+	public List<ItemDto> getNewList(int item_idx);
+	
+	// 메인 카테고리 마감 임박 상품 리스트
 	public List<ItemDto> getCloseList(int item_stock);
 	
-	// 건강을 위한 채식 상품 4개 가져오기
-	public List<ItemDto> getHealthyList(int item_category_top_idx);
+	// 메인 카테고리 건강을 위한 채식 상품 리스트
+	public List<ItemDto> getVeganList(int item_category_top_idx);
 
 }
 

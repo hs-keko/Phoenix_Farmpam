@@ -43,13 +43,6 @@ public interface ItemService {
 	//상품 주문 처리를 하는 메소드
 	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView);
 	
-	//상품목록 추가 응답
-	public List<ItemDto> moreItemList(HttpServletRequest request);
-	
-	public List<ItemDto> getList2(HttpServletRequest request);
-	
-	public void getDetail(Map<String, Object> map, HttpServletRequest request);
-	
 	// vue Shopmain 아이템리스트 가져오기
 	public void vueGetMainList(Map<String, Object> map, HttpServletRequest req);
 
@@ -58,4 +51,13 @@ public interface ItemService {
 
 	// vue MyShop 아이템리스트 가져오기
 	public void vueGetMyShop(Map<String, Object> map, HttpServletRequest req);
+	
+	// 카테고리 최신 신선 상품 4개 가져오기 
+	public void newList(Map<String, Object> map, HttpServletRequest request);
+	
+	// 카테고리 마감 임박 상품 4개 가져오기
+	public void getCloseList(Map<String, Object> map, HttpServletRequest request);
+	
+	// 카테고리 건강을 위한 채식 상품 4개 가져오기
+	public void getVeganList(Map<String, Object> map, HttpServletRequest request);
 }

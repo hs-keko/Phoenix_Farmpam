@@ -414,8 +414,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView) 
-	{
+	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView) {
 		//구입자의 이메일
 		String users_email=(String)mView.getModel().get("users_email");
 		//1. 파라미터로 전달되는 구입할 상품 번호
@@ -517,81 +516,6 @@ public class ItemServiceImpl implements ItemService {
 		map.put("isSuccess", true);
 	}
 
-	@Override
-	public void getDetail(Map<String, Object> map, HttpServletRequest request) {
-		// 아이템 번호를 읽어온다.
-		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
-		ItemDto itemDto = itemDao.getData2(item_idx);
-		// DB에서 아이템 정보를 얻어와서
-		map.put("itemDto", itemDto);
-	}
-
-
-	@Override
-	public List<ItemDto> getList2(HttpServletRequest request) {
-		///한 페이지에 몇개씩 표시할 것인지
-		final int PAGE_ROW_COUNT=9;
-	
-		//보여줄 페이지의 번호를 일단 1이라고 초기값 지정
-		int pageNum=1;
-		//페이지 번호가 파라미터로 전달되는지 읽어와 본다.
-		String strPageNum = request.getParameter("pageNum");
-		//만일 페이지 번호가 파라미터로 넘어 온다면
-		if(strPageNum != null){
-			//숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
-			pageNum=Integer.parseInt(strPageNum);
-		}
-	   
-		//보여줄 페이지의 시작 ROWNUM
-		int startRowNum = 1 + (pageNum-1) * PAGE_ROW_COUNT;
-		//보여줄 페이지의 끝 ROWNUM
-		int endRowNum = pageNum * PAGE_ROW_COUNT;
-	   
-		//startRowNum 과 endRowNum을 ItemDto 객체에 담고
-		ItemDto itemDto = new ItemDto();
-		itemDto.setStartRowNum(startRowNum);
-		itemDto.setEndRowNum(endRowNum);
-	   
-		//ItemDao 객체를 이용해서 상품목록을 얻어온다.
-		List<ItemDto> list = itemDao.getList(itemDto);
-		
-		
-		return list;
-	}
-
-
-	@Override
-	public List<ItemDto> moreItemList(HttpServletRequest request) { 
-		int item_category_top_idx=Integer.parseInt(request.getParameter("item_category_top_idx"));
-		
-		
-		//ajax 요청 파라미터로 넘어오는 페이지 번호를 읽어낸다
-		int pageNum=Integer.parseInt(request.getParameter("pageNum"));
-		
-		//한 페이지에 몇개씩 표시할 것인지
-		final int PAGE_ROW_COUNT=9;
-		
-		//보여줄 페이지의 시작 ROWNUM
-		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
-		//보여줄 페이지의 끝 ROWNUM   
-		int endRowNum=pageNum*PAGE_ROW_COUNT;
-		
-		ItemDto itemDto = new ItemDto();
-		itemDto.setStartRowNum(startRowNum);
-		itemDto.setEndRowNum(endRowNum);
-		
-		List<ItemDto> moreList= new ArrayList<>();
-		moreList= itemDao.getList(itemDto);
-		
-		int totalRow=itemDao.getCount(itemDto);
-		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
-		
-		moreList.set(totalRow, itemDto);
-		moreList.set(totalPageCount, itemDto);
-		
-		return moreList;
-	}
-
 	//주문 페이지 요청
 	@Override
 	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map) {
@@ -622,6 +546,40 @@ public class ItemServiceImpl implements ItemService {
 		ordersDto.setOrders_addr(orders_addr);
 		
 		map.put("ordersInfo",ordersDto);
+	}
+
+	//최신 신선 상품 리스트 4개 불러오기
+	@Override
+	public void newList(Map<String, Object> map, HttpServletRequest request) {
+		//보여줄 상품 목 가져오기
+		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
+		//DB에서 확인 (지울 것)
+		System.out.println(item_idx);
+		//최신 신선 상품 목록을 담을 List
+		List<ItemDto> list=itemDao.getNewList(item_idx);
+		//Map 객체에 list 라는 키값으로 담는다.
+		map.put("newList", list);
+				
+	}
+
+	@Override
+	public void getCloseList(Map<String, Object> map, HttpServletRequest request) {
+		//보여줄 상품 번호를 가져오기
+		int item_stock=Integer.parseInt(request.getParameter("item_stock"));
+		//DB에서 확인 (지울 것)
+		System.out.println(item_stock);
+		//최신 신선 상품 목록을 담을 List
+		List<ItemDto> list = itemDao.getCloseList(item_stock);
+		//Map 객체에 list 라는 키값으로 담는다.
+		map.put("closeList", list);
+		
+	
+	}
+
+	@Override
+	public void getVeganList(Map<String, Object> map, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

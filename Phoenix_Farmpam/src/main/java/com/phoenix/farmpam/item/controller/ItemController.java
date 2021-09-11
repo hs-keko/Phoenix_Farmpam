@@ -164,21 +164,16 @@ public class ItemController {
  	}
 
     
-    //ajax 요청에 대해 item 목록을 출력할 컨트롤러 메소드 
-  	@RequestMapping("/api/item/list")
-  	@ResponseBody 
-  	public List<ItemDto> getList2(HttpServletRequest request){
-  		
-  		return service.getList2(request);
-  	}
-  	
-  	//item 게시글의 item_idx 이 parameter get 방식으로 넘어온다.
-   	//detail 페이지
-   	@RequestMapping(value = "/item/detail", method = RequestMethod.GET)
-   	@ResponseBody
-   	public Map<String, Object> getDetail(HttpServletRequest request) {
-   		Map<String, Object> map= new HashMap<String, Object>();
-   		service.getDetail(map, request);
-   		return map;
-   	}
+	// main 페이지 최신 상품 카테고리 리스트 
+	@RequestMapping("/vue/main")
+	@ResponseBody
+	public Map<String,Object> getNewList(HttpServletRequest request) {
+		System.out.println("NewList");
+		Map<String, Object> map = new HashMap<String, Object>();
+		service.newList(map, request);
+		return map;
+	}
+	
+	
+   	
  }
