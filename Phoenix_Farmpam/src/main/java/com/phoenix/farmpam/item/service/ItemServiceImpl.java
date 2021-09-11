@@ -668,7 +668,6 @@ public class ItemServiceImpl implements ItemService {
 			}
 	}
 
-
 	//해당 판매자에게 들어온 주문 얻어오기
 	@Override
 	public void getSellorOrders(HttpServletRequest request, Map<String, Object> map) {
@@ -678,6 +677,5 @@ public class ItemServiceImpl implements ItemService {
 		List<OrdersDto> list=ordersDao.getSellorOrdersList(farmer_email);
 		map.put("sellorOrdersList", list);
 	}
-
 }
 
