@@ -93,13 +93,13 @@ public class FarmerServiceImpl implements FarmerService {
 	
 	//회원 정보를 얻어오기
 	@Override
-	public void getInfo(HttpSession session, ModelAndView mView) {
+	public void getInfo(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 아이디(이메일) 읽어오기
-		String farmer_email=(String)session.getAttribute("email");
+		String farmer_email=(String)request.getParameter("email");
 		// DB에서 회원 정보를 얻어와서
 		FarmerDto dto=dao.getData(farmer_email);
 		// ModelAndView에 담아주기
-		mView.addObject("dto", dto);
+		map.put("dto", dto);
 	}
 
 	@Override
@@ -215,9 +215,9 @@ public class FarmerServiceImpl implements FarmerService {
 
 
 	@Override
-	public void updateUser(FarmerDto dto, HttpSession session) {
+	public void updateUser(FarmerDto dto, HttpServletRequest request, Map<String, Object> map) {
 		// 수정할 회원의 아이디
-		String email=(String)session.getAttribute("email");
+		String email=(String)request.getAttribute("email");
 		//UsersDao에 아이디를 담아준다.
 		dto.setFarmer_email(email);
 		//만일 프로필 사진을 수정하지 않았다면
@@ -227,6 +227,7 @@ public class FarmerServiceImpl implements FarmerService {
 		}
 		//usersDao에서 수정반영한다.
 		dao.update(dto);
+		map.put("updateFarmer", true);
 	}
 
 		

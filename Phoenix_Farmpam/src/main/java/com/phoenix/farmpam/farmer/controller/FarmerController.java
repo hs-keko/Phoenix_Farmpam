@@ -80,11 +80,12 @@ public class FarmerController {
 	
 	//개인 정보 수정 반영 요청 처리 메소드
 	@RequestMapping(value = "/farmer/private/update_farmer", method=RequestMethod.POST)
-	public String update(FarmerDto dto, HttpSession session) {
-		
-		service.updateUser(dto, session);
+	@ResponseBody
+	public Map<String, Object> update(FarmerDto dto, HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.updateUser(dto, request, map);
 
-		return "redirect:/farmer/private/info_farmer.do";
+		return map;
 	}
 	
 	//ajax 프로필 사진 업로드 요청처리
@@ -100,10 +101,11 @@ public class FarmerController {
 	
 	//회원정보 수정폼 요청처리
 	@RequestMapping("/farmer/private/updateform_farmer")
-	public ModelAndView updateForm(ModelAndView mView, HttpSession session) {
-		service.getInfo(session, mView);
-		mView.setViewName("farmer/updateform_farmer");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> updateForm(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//비밀번호 수정요청
@@ -121,18 +123,19 @@ public class FarmerController {
 	
 	//비밀번호 수정폼 요청
 	@RequestMapping("/farmer/private/pwd_updateform_farmer")
-	public String pwdUpdateForm() {
-		return "farmer/pwd_updateform_farmer";
+	@ResponseBody
+	public Map<String, Object> pwdUpdateForm() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 	
 	//회원 정보 페이지 요청
 	@RequestMapping("/farmer/private/info_farmer")
-	public ModelAndView info(HttpSession session, ModelAndView mView) {
-		
-		service.getInfo(session, mView);
-		
-		mView.setViewName("farmer/info_farmer");
-		return mView;
+	@ResponseBody
+	public Map<String, Object> info(HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		service.getInfo(request, map);
+		return map;
 	}
 	
 	//로그아웃 요청 처리
@@ -149,27 +152,7 @@ public class FarmerController {
 		
 		return "farmer/loginform_farmer";
 	}
-	
-	//로그인 요청 처리
-	@RequestMapping("/farmer/login_farmer")
-	public ModelAndView login(ModelAndView mView, FarmerDto dto,
-			@RequestParam String url, HttpSession session) {
-		/*
-		 *  서비스에서 비즈니스 로직을 처리할때 필요로  하는 객체를 컨트롤러에서 직접 전달을 해 주어야 한다.
-		 *  주로, HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView
-		 *  등등의 객체 이다. 
-		 */
-		service.loginProcess(dto, session);
-		service.checkbox(dto, session);
-		
-		String encodedUrl=URLEncoder.encode(url);
-		mView.addObject("url", url);
-		mView.addObject("encodedUrl", encodedUrl);
-		
-		mView.setViewName("farmer/login_farmer");
-		return mView;
-	}
-	
+
 	//vue 로그인 요청 처리
 	@RequestMapping("/farmer/vue/login")
 	@ResponseBody
@@ -192,13 +175,6 @@ public class FarmerController {
 		return map;
 	}
 	
-	//회원가입 요청처리
-	@RequestMapping(value="/farmer/signup_farmer", method=RequestMethod.POST)
-	public ModelAndView signup(ModelAndView mView, FarmerDto dto) {
-		service.addUser(dto);
-		mView.setViewName("farmer/signup_farmer");
-		return mView;
-	}
 	
 	//이메일 중복확인 하고 json 문자열 리턴
 	@RequestMapping("/farmer/checkfarmeremail")
