@@ -13,17 +13,20 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.dto.OrdersDto;
 
 public interface ItemService {
+	//해당 판매자에게 들어온 주문 얻어오기
+	public void getSellorOrders(HttpServletRequest request, Map<String, Object> map);
+	
 	//장바구니 구매수량 변경
 	public void updateCart(HttpServletRequest request, Map<String, Object> map);
 	
 	//장바구니에서 상품 삭제
-	public void deleteCart(HttpServletRequest request);
+	public void deleteCart(HttpServletRequest request, Map<String, Object> map);
 	
 	//장바구니 목록 불러오기
-	public void getCartList(HttpSession session, Map<String, Object> map);
+	public void getCartList(HttpServletRequest request, Map<String, Object> map);
 	
 	//장바구니 담기
-	public void insertCart(HttpServletRequest request, HttpSession session);		
+	public void insertCart(HttpServletRequest request, Map<String, Object> map);		
 	
 	//아이템 목록 얻어오기
 	public void getList(HttpServletRequest request, Map<String, Object> map);
@@ -44,7 +47,7 @@ public interface ItemService {
 	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map);
 
 	//상품 주문 처리를 하는 메소드
-	public ModelAndView buy(OrdersDto ordersDto, ModelAndView mView);
+	public void buy(HttpServletRequest request, Map<String, Object> map);
 	
 	//상품목록 추가 응답
 	public List<ItemDto> moreItemList(HttpServletRequest request);

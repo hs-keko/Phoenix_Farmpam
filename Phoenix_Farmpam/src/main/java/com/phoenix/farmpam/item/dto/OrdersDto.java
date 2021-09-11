@@ -16,12 +16,13 @@ public class OrdersDto {
 	private String item_image; // 상품 이미지
 	private String orders_name; // 구매자 이름
 	private String orders_phone; // 구매자 전화번호
+	private String farmer_email; // 판매자 이메일
 	
 	public OrdersDto() {}
 
 	public OrdersDto(int orders_idx, String users_email, int orders_price, String orders_check, String orders_regdate,
 			int orders_detail_idx, int item_idx, int item_price, int orders_item_total, String orders_addr,
-			String item_title, String item_image, String orders_name, String orders_phone) {
+			String item_title, String item_image, String orders_name, String orders_phone, String farmer_email) {
 		super();
 		this.orders_idx = orders_idx;
 		this.users_email = users_email;
@@ -37,6 +38,7 @@ public class OrdersDto {
 		this.item_image = item_image;
 		this.orders_name = orders_name;
 		this.orders_phone = orders_phone;
+		this.farmer_email = farmer_email;
 	}
 
 	public int getOrders_idx() {
@@ -150,4 +152,14 @@ public class OrdersDto {
 	public void setOrders_phone(String orders_phone) {
 		this.orders_phone = orders_phone;
 	}
+
+	public String getFarmer_email() {
+		return farmer_email;
+	}
+
+	public void setFarmer_email(String farmer_email) {
+		this.farmer_email = farmer_email;
+	}
+
+	
 }
