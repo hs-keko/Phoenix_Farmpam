@@ -34,7 +34,7 @@ public class ItemController {
 	   Map<String, Object> map = new HashMap<String, Object>();
 	   service.getSellorOrders(request, map);
 	   return map;
-   }
+   } 
     
    // vue MyShop 목록
    @RequestMapping("/vue/myshop/list")
