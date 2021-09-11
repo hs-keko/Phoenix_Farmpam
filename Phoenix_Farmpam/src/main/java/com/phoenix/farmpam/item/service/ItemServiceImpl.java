@@ -295,7 +295,7 @@ public class ItemServiceImpl implements ItemService {
 		String encodedK=URLEncoder.encode(keyword);
 		
 		//세션을 받아준다.
-		String farmer_email = (String)request.getSession().getAttribute("email");
+		String farmer_email = request.getParameter("email");
 		ItemDto dto = new ItemDto();
 		dto.setFarmer_email(farmer_email);
 			
@@ -347,12 +347,12 @@ public class ItemServiceImpl implements ItemService {
 		
 		ItemDto itemDto = new ItemDto();
 		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
-		String farmer_email = (String)request.getParameter("email");
+		String farmer_email = request.getParameter("email");
 		
-		itemDto.setItem_image((String)request.getParameter("item_image"));
+		itemDto.setItem_image(request.getParameter("item_image"));
 		itemDto.setItem_idx(item_idx);
-		itemDto.setItem_title((String)request.getParameter("item_title"));
-		itemDto.setItem_content((String)request.getParameter("item_content"));
+		itemDto.setItem_title(request.getParameter("item_title"));
+		itemDto.setItem_content(request.getParameter("item_content"));
 		itemDto.setItem_price(Integer.parseInt(request.getParameter("item_price")));
 		itemDto.setItem_stock(Integer.parseInt(request.getParameter("item_stock")));
 		itemDto.setFarmer_email(farmer_email);
@@ -364,14 +364,14 @@ public class ItemServiceImpl implements ItemService {
 		}
 		
 		itemDao.update(itemDto);
-		map.put("isSuccess", true);
+		map.put("updateItem", true);
 	}
 
 	@Override
 	public void deleteItem(HttpServletRequest request, Map<String, Object> map) {
 		
 		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
-		String farmer_email = (String)request.getParameter("email");
+		String farmer_email = request.getParameter("email");
 		String item_farmer_email = itemDao.getData3(item_idx).getFarmer_email();
 		
 		if(item_farmer_email.equals(farmer_email)) {
@@ -379,7 +379,7 @@ public class ItemServiceImpl implements ItemService {
 		}
 		
 		itemDao.delete(item_idx);
-		map.put("isSuccess", true);
+		map.put("deleteItem", true);
 		
 	}
 	
@@ -387,7 +387,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void insertItem(ItemDto dto, Map<String, Object> map, HttpServletRequest request) {
 		itemDao.insertItem(dto);
-		map.put("isSuccess", true);
+		map.put("insertItem", true);
 	}
 
 	@Override

@@ -95,7 +95,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public void getInfo(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 이메일을 읽어온다.
-		String users_email=(String)request.getParameter("email");
+		String users_email=request.getParameter("email");
 		// DB에서 회원 정보를 얻어와서
 		UsersDto dto = dao.getData(users_email);
 		// ModelAndView 객체에 담아준다.
@@ -114,9 +114,9 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public void updateUsersPwd(HttpSession session, UsersDto dto, ModelAndView mView) {
+	public void updateUsersPwd(UsersDto dto, HttpServletRequest request, Map<String, Object> map) {
 		// 세션 영역에서 로그인된 아이디 읽어오기
-		String email=(String)session.getAttribute("email");
+		String email=request.getParameter("email");
 		//DB에 저장된 회원정보 얻어오기
 		UsersDto resultDto=dao.getData(email);
 		//DB에 저장된 암호화된 비밀번호
@@ -137,13 +137,9 @@ public class UsersServiceImpl implements UsersService {
 			dto.setUsers_email(email);
 			//dao를 이용하여 db에 수정반영한다.
 			dao.updateUsersPwd(dto);
-			//로그아웃 처리
-			session.removeAttribute("email");
 		}
 		//작업의 성공여부를 ModelAndView 객체에 담는다 (HttpServletRequest에 담긴다)
-		mView.addObject("isSuccess", isValid);
-		//로그인된 이메도 담아준다
-		mView.addObject("email", email);
+		map.put("updateUsersPwd", true);
 	}
 
 	@Override
@@ -182,7 +178,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public void updateUser(UsersDto dto, HttpServletRequest request, Map<String, Object> map) {
 		// 수정할 회원의 아이디
-		String email=(String)request.getParameter("email");
+		String email=request.getParameter("email");
 		//UsersDao에 아이디를 담아준다.
 		dto.setUsers_email(email);
 		//만일 프로필 사진을 수정하지 않았다면
@@ -192,17 +188,15 @@ public class UsersServiceImpl implements UsersService {
 		}
 		//usersDao에서 수정반영한다.
 		dao.update(dto);
-		map.put("isSuccess", true);
+		map.put("updateUser", true);
 	}
 
 	@Override
 	public void deleteUser(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 이메일을 얻어와서
-		String email=(String)request.getParameter("email");
+		String email=request.getParameter("email");
 		//해당 정보를 DB에서 삭제하고
 		dao.delete(email);
-		//로그아웃 처리도 한다.
-		request.removeAttribute("email");
 		//ModelAndView 객체에 탈퇴한 회원의 이메일을 담아준다.
 		map.put("email", email);
 

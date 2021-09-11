@@ -67,18 +67,19 @@ public class UsersController {
 	}
 	
 	//비밀번호 수정요청
-		@RequestMapping("/users/private/pwd_update")
-		public ModelAndView pwdUpdate(UsersDto dto,
-				ModelAndView mView, HttpSession session) {
-			//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
-			service.updateUsersPwd(session, dto, mView);
-			//view page로 forward 이동해서 작업 결과를 응답한다.
-			mView.setViewName("users/pwd_update");
-			return mView;
-		}
+	@RequestMapping("/users/private/pwd_update")
+	@ResponseBody
+	public Map<String, Object> pwdUpdate(UsersDto dto, HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
+		service.updateUsersPwd(dto, request, map);
+		//view page로 forward 이동해서 작업 결과를 응답한다.
+		return map;
+	}
 	
 	//비밀번호 수정폼
 	@RequestMapping("/users/private/pwd_updateform")
+	@ResponseBody
 	public Map<String, Object> pwdUpdateForm() {
 		Map<String, Object> map=new HashMap<String, Object>();
 		return map;
@@ -103,9 +104,10 @@ public class UsersController {
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/users/loginform")
-	public String loginform() {
-		
-		return "users/loginform";
+	@ResponseBody
+	public Map<String,Object> loginform() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 	
 	//vue 로그인 요청
@@ -164,6 +166,7 @@ public class UsersController {
 
 	//회원가입폼 요청처리
 	@RequestMapping(value = "/users/signup_form", method = RequestMethod.GET)
+	@ResponseBody
 	public Map<String, Object> signupForm() {
 		Map<String, Object> map=new HashMap<String, Object>();
 		return map;

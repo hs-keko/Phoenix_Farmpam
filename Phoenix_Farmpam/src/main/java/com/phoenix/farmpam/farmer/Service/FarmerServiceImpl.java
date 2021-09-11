@@ -95,7 +95,7 @@ public class FarmerServiceImpl implements FarmerService {
 	@Override
 	public void getInfo(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 아이디(이메일) 읽어오기
-		String farmer_email=(String)request.getParameter("email");
+		String farmer_email=request.getParameter("email");
 		// DB에서 회원 정보를 얻어와서
 		FarmerDto dto=dao.getData(farmer_email);
 		// ModelAndView에 담아주기
@@ -113,9 +113,9 @@ public class FarmerServiceImpl implements FarmerService {
 	}
 
 	@Override
-	public void updateFarmerPwd(HttpSession session, FarmerDto dto, ModelAndView mView) {
+	public void updateFarmerPwd(FarmerDto dto, HttpServletRequest request, Map<String, Object> map) {
 			// 세션 영역에서 로그인된 아이디 읽어오기
-			String email=(String)session.getAttribute("email");
+			String email=request.getParameter("email");
 			//DB에 저장된 회원정보 얻어오기
 			FarmerDto resultDto=dao.getData(email);
 			//DB에 저장된 암호화된 비밀번호
@@ -137,12 +137,10 @@ public class FarmerServiceImpl implements FarmerService {
 				//dao를 이용하여 db에 수정반영한다.
 				dao.updateFarmerPwd(dto);
 				//로그아웃 처리
-				session.removeAttribute("email");
 			}
 			//작업의 성공여부를 ModelAndView 객체에 담는다 (HttpServletRequest에 담긴다)
-			mView.addObject("isSuccess", isValid);
+			map.put("updateFarmerPwd", true);
 			//로그인된 이메도 담아준다
-			mView.addObject("email", email);
 		}
 
 	@Override
@@ -181,11 +179,11 @@ public class FarmerServiceImpl implements FarmerService {
 	@Override
 	public void deleteUser(HttpServletRequest request, Map<String, Object> map) {
 		// 로그인된 이메일을 얻어와서
-		String email=(String)request.getParameter("email");
+		String email=request.getParameter("email");
 		//해당 정보를 DB에서 삭제하고
 		dao.delete(email);
 		//로그아웃 처리도 한다.
-		request.removeAttribute("email");
+
 		//ModelAndView 객체에 탈퇴한 회원의 이메일을 담아준다.
 		map.put("email", email);
 
@@ -217,7 +215,7 @@ public class FarmerServiceImpl implements FarmerService {
 	@Override
 	public void updateUser(FarmerDto dto, HttpServletRequest request, Map<String, Object> map) {
 		// 수정할 회원의 아이디
-		String email=(String)request.getAttribute("email");
+		String email=request.getParameter("email");
 		//UsersDao에 아이디를 담아준다.
 		dto.setFarmer_email(email);
 		//만일 프로필 사진을 수정하지 않았다면

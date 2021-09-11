@@ -110,15 +110,12 @@ public class FarmerController {
 	
 	//비밀번호 수정요청
 	@RequestMapping("/farmer/private/pwd_update_farmer")
-	public ModelAndView pwdUpdate(FarmerDto dto,
-			ModelAndView mView, HttpSession session) {
-		
+	public Map<String, Object> pwdUpdate(FarmerDto dto, HttpServletRequest request) {
+		Map<String, Object> map=new HashMap<String, Object>();
 		//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
-		service.updateFarmerPwd(session, dto, mView);
+		service.updateFarmerPwd(dto, request, map);
 		
-		//view page로 forward 이동해서 작업 결과를 응답한다.
-		mView.setViewName("farmer/pwd_update_farmer");
-		return mView;
+		return map;
 	}
 	
 	//비밀번호 수정폼 요청
@@ -148,9 +145,10 @@ public class FarmerController {
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/farmer/loginform_farmer")
-	public String loginform() {
-		
-		return "farmer/loginform_farmer";
+	@ResponseBody
+	public Map<String, Object> loginform() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 
 	//vue 로그인 요청 처리
@@ -185,9 +183,10 @@ public class FarmerController {
 
 	//회원가입폼 요청처리
 	@RequestMapping(value = "/farmer/signup_form_farmer", method = RequestMethod.GET)
-	public String signupForm() {
-		
-		return "farmer/signup_form_farmer";
+	@ResponseBody
+	public Map<String, Object> signupForm() {
+		Map<String, Object> map=new HashMap<String, Object>();
+		return map;
 	}
 	
 	

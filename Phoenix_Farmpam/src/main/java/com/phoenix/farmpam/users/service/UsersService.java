@@ -21,7 +21,7 @@ public interface UsersService {
 	public void getInfo(HttpServletRequest request, Map<String, Object> map);
 	//chk박스 선택에 따라 session에 setatrribute해서 chk 정보 담기
 	public void checkbox(UsersDto dto, HttpSession session);
-	public void updateUsersPwd(HttpSession session, UsersDto dto, ModelAndView mView);
+	public void updateUsersPwd(UsersDto dto, HttpServletRequest request, Map<String, Object> map);
 	public Map<String, Object> saveProfileImage(HttpServletRequest request,
 			MultipartFile mFile);
 	public void updateUser(UsersDto dto, HttpServletRequest request, Map<String, Object> map);

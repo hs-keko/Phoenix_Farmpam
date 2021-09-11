@@ -20,7 +20,7 @@ public interface FarmerService {
 	public void getInfo(HttpServletRequest request, Map<String, Object> map);
 	//chk박스 선택에 따라 session에 setatrribute해서 chk 정보 담기
 	public void checkbox(FarmerDto dto, HttpSession session);
-	public void updateFarmerPwd(HttpSession session, FarmerDto dto, ModelAndView mView);
+	public void updateFarmerPwd(FarmerDto dto, HttpServletRequest request, Map<String, Object> map);
 	public Map<String, Object> saveProfileImage(HttpServletRequest request,
 			MultipartFile mFile);
 	public void updateUser(FarmerDto dto, HttpServletRequest request, Map<String, Object> map);
