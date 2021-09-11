@@ -85,9 +85,6 @@ public class ItemServiceImpl implements ItemService {
 		//CafeDto 객체에 startRowNum 과 endRowNum 을 담는다.
 		dto.setStartRowNum(startRowNum);
 		dto.setEndRowNum(endRowNum);
-		System.out.println(dto.getStartRowNum());
-		System.out.println(dto.getEndRowNum());
-		
 		
 		//만일 검색 키워드가 넘어온다면 
 		if(!keyword.equals("")){
@@ -203,8 +200,6 @@ public class ItemServiceImpl implements ItemService {
 		//CafeDto 객체에 startRowNum 과 endRowNum 을 담는다.
 		dto.setStartRowNum(startRowNum);
 		dto.setEndRowNum(endRowNum);
-		System.out.println(dto.getStartRowNum());
-		System.out.println(dto.getEndRowNum());
 		
 		
 		//만일 검색 키워드가 넘어온다면 
@@ -480,17 +475,25 @@ public class ItemServiceImpl implements ItemService {
 	public void insertCart(HttpServletRequest request, Map<String, Object> map) {
 		//파라미터로 전송된 정보들을 가져오기
 		CartDto cartDto = new CartDto();
+		System.out.println(request.getParameter("item_idx"));
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
-		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
-		String users_email=(String)request.getParameter("email");
-		// item_price 가져와서 cart_amount * item_price 값을 cart_price 에 저장
-		int item_price=itemDao.getData3(item_idx).getItem_price();
-		int cart_price = cart_amount * item_price ;
+		ItemDto Idto = itemDao.getData3(item_idx);
+		
+		if(request.getParameter("cart_amount") != null) {			
+			int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
+			cartDto.setCart_amount(cart_amount);
+			int cart_price = cart_amount * Idto.getItem_price();
+			cartDto.setCart_price(cart_price);
+		}else {
+			int cart_price = Idto.getItem_price();
+			cartDto.setCart_price(cart_price);
+			cartDto.setCart_amount(1);
+		}
+		
+		String users_email= request.getParameter("email");
 		//CartDto 에 저장
 		cartDto.setItem_idx(item_idx);
 		cartDto.setUsers_email(users_email);
-		cartDto.setCart_amount(cart_amount);
-		cartDto.setCart_price(cart_price);
 		// 장바구니 테이블에 저장
 		map.put("isSuccess", cartDao.insertCart(cartDto));
 	}
