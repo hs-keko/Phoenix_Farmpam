@@ -200,9 +200,7 @@ public class ItemController {
  	@ResponseBody
  	public Map<String,Object> getCateMoreList(HttpServletRequest request) {
  		Map<String, Object> map = new HashMap<String, Object>();
- 		service.vueMoreNewList(map, request);
- 		service.vueMoreCloseList(map, request);
- 		service.vueMoreVeganList(map, request);
+ 		service.vueMoreCateList(map, request);
  		return map;
  	}
  	
