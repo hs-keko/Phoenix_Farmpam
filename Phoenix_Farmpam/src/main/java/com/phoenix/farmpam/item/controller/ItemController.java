@@ -166,26 +166,16 @@ public class ItemController {
  		return map;
  	}
 
-    
-    //ajax 요청에 대해 item 목록을 출력할 컨트롤러 메소드 
-  	@RequestMapping("/api/item/list")
-  	@ResponseBody 
-  	public List<ItemDto> getList2(HttpServletRequest request){
-  		
-  		return service.getList2(request);
-  	}
-  	
-  	//item 게시글의 item_idx 이 parameter get 방식으로 넘어온다.
- 	//detail 페이지
- 	@RequestMapping(value = "/item/detail", method = RequestMethod.GET)
- 	public ModelAndView getDetail(ModelAndView mView, @RequestParam int item_idx) {
- 		//item detail 페이지에 필요한 data를 item_idx 으로 가져와, ModelAndView 에 저장
- 		service.getDetail(mView, item_idx);
- 		mView.setViewName("item/detail");
- 		
- 		return mView;
- 	}
- 	
+	// main 페이지 최신 상품 카테고리 리스트 
+	@RequestMapping("/vue/main")
+	@ResponseBody
+	public Map<String,Object> getNewList(HttpServletRequest request) {
+		System.out.println("NewList");
+		Map<String, Object> map = new HashMap<String, Object>();
+		service.newList(map, request);
+		return map;
+	}
+	
  	// vue Category_low 가져오기
  	@RequestMapping("/vue/categorylow")
  	@ResponseBody
@@ -194,4 +184,5 @@ public class ItemController {
  		service.vueGetCategory(map, req);
  		return map;
  	}
+
  }
