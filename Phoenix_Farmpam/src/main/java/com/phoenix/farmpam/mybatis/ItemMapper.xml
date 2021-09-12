@@ -273,7 +273,7 @@
 	        	ORDER BY item_stock ASC) result1)
 	       <![CDATA[
 	      where rnum < 5
-	      ]]>
+	      ]]> 
       	order by rnum ASC
 	</select>
 	
@@ -290,7 +290,7 @@
       	
 	</select>
 	
-	<select id="getMainCount" parameterType="string" resultType="int">
+	<select id="getCateCount" parameterType="itemDto" resultType="int">
       SELECT NVL(MAX(ROWNUM),0)
       FROM item
 	      <choose>
@@ -298,5 +298,40 @@
 	            WHERE item_title LIKE '%'||#{item_title}||'%'
 	         </when>
 	      </choose>
+   	</select>
+   	
+   	<select id="moreNewList" parameterType="itemDto" resultType="itemDto">
+	   	select result2.* from
+	      (SELECT result1.*, rownum as rnum
+		      FROM (SELECT item_idx, item_image, item_title, item_content, item_price, item_category_top_idx, item_category_top_ref
+			      FROM item ORDER BY item_idx DESC) result1 
+			      <include refid="searchCondition"/>
+		      ORDER BY rnum ASC) result2
+	     WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+   	</select>
+    
+   	<select id="moreCloseList" parameterType="itemDto" resultType="itemDto">
+   		select result2.* FROM
+		   (SELECT result1.*, ROWNUM AS rnum
+		   FROM
+	           (SELECT item_idx, item_title, item_price, item_content, item_image, item_stock, item_category_top_idx, item_category_top_ref
+	        	FROM item
+	        	ORDER BY item_stock ASC) result1)
+	        	<include refid="searchCondition"/>
+      		ORDER BY rnum ASC) result2
+      	WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+   	</select>
+   	
+   	<select id="moreVeganList" parameterType="itemDto" resultType="itemDto">
+   		SELECT result2.* 
+		FROM
+		   (SELECT result1.*, ROWNUM AS rnum
+		   FROM
+	           (SELECT item_idx, item_title, item_price, item_content, item_image, item_stock, item_category_top_idx, item_category_top_ref
+	        	FROM item
+		         	<![CDATA[ where item_category_top_idx = 19 ]]>) result1
+		         <include refid="searchCondition"/>
+      		ORDER BY rnum ASC) result2
+      	WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
    	</select>
 </mapper>
