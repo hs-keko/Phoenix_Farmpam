@@ -265,7 +265,7 @@
 	        	ORDER BY item_stock ASC) result1)
 	       <![CDATA[
 	      where rnum < 5
-	      ]]>
+	      ]]> 
       	order by rnum ASC
 	</select>
 	
