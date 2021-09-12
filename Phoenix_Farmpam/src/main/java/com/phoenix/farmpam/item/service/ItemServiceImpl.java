@@ -729,14 +729,13 @@ public class ItemServiceImpl implements ItemService {
 		      category="";
 		   }else if(category.equals("new")) {
 			   list=itemDao.moreNewList(itemdto);
-			   map.put("list", list);
 		   }else if(category.equals("close")) {
 			   list=itemDao.moreCloseList(itemdto);
-			   map.put("list", list);
 		   }else if(category.equals("vegan")) {
 			   list=itemDao.moreVeganList(itemdto);
-			   map.put("list", list);
 	   }
+		
+		map.put("list", list);
 	
 
 		//전체글의 갯수
