@@ -475,27 +475,36 @@ public class ItemServiceImpl implements ItemService {
 	public void insertCart(HttpServletRequest request, Map<String, Object> map) {
 		//파라미터로 전송된 정보들을 가져오기
 		CartDto cartDto = new CartDto();
-		System.out.println(request.getParameter("item_idx"));
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
+		String users_email= request.getParameter("email");
 		ItemDto Idto = itemDao.getData3(item_idx);
 		
-		if(request.getParameter("cart_amount") != null) {			
+		// 사용자의 장바구니에 해당 상품이 있는지 검사하여 있다면 해당 장바구니객체의 갯수에 + 1
+		cartDto.setItem_idx(item_idx);
+		cartDto.setUsers_email(users_email);
+		int itemidx = cartDao.checkCart(cartDto);
+		if(itemidx != 0) {
+			map.put("exists",true);
+		}
+		// 상품갯수가 있다면 갯수*가격  
+		else if(request.getParameter("cart_amount") != null) {			
+			System.out.println(2);
 			int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
 			cartDto.setCart_amount(cart_amount);
 			int cart_price = cart_amount * Idto.getItem_price();
 			cartDto.setCart_price(cart_price);
+
+			// 장바구니 테이블에 저장
+			map.put("isSuccess", cartDao.insertCart(cartDto));
 		}else {
+			System.out.println(3);
+			// 상품갯수가 없다면 1개만 추가
 			int cart_price = Idto.getItem_price();
 			cartDto.setCart_price(cart_price);
 			cartDto.setCart_amount(1);
+			// 장바구니 테이블에 저장
+			map.put("isSuccess", cartDao.insertCart(cartDto));
 		}
-		
-		String users_email= request.getParameter("email");
-		//CartDto 에 저장
-		cartDto.setItem_idx(item_idx);
-		cartDto.setUsers_email(users_email);
-		// 장바구니 테이블에 저장
-		map.put("isSuccess", cartDao.insertCart(cartDto));
 	}
 
 	//장바구니 목록 불러오기

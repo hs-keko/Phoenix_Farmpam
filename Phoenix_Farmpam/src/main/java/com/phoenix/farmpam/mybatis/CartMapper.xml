@@ -45,4 +45,18 @@
 		(cart_idx, item_idx, users_email, cart_amount, cart_price)
 		VALUES(cart_seq.NEXTVAL, #{item_idx}, #{users_email}, #{cart_amount}, #{cart_price})
 	</insert>
+	
+	<!-- 아이템idx와 email로 검사  -->
+	<select id="checkCart" parameterType="cartDto" resultType="int">
+		select cart_idx from cart
+		where item_idx = #{item_idx} and users_email = #{users_email}
+	</select>
+	
+	<!-- 장바구니 상품갯수 가져오기 -->
+	<select id="getAmount" parameterType="int" resultType="int">
+		SELECT cart_amount
+		FROM cart
+		WHERE cart_idx = #{cart_idx}
+	</select>
+	
 </mapper>
