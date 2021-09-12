@@ -27,6 +27,15 @@ public class ItemController {
    @Autowired
    private ItemService service;
    
+   //구매자 주문 현황 목록
+   @RequestMapping("/item/private/usersOrderManage")
+   @ResponseBody
+   public Map<String, Object> usersOrderManage(HttpServletRequest request){
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   service.getUsersOrders(request, map);
+	   return map;
+   }
+   
    //판매자 주문 현황 목록
    @RequestMapping("/item/private/sellorOrderManage")
    @ResponseBody

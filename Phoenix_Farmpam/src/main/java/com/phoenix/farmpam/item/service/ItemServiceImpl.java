@@ -680,5 +680,14 @@ public class ItemServiceImpl implements ItemService {
 		List<OrdersDto> list=ordersDao.getSellorOrdersList(farmer_email);
 		map.put("sellorOrdersList", list);
 	}
+
+	@Override
+	public void getUsersOrders(HttpServletRequest request, Map<String, Object> map) {
+		//유저의 이메일 얻어오기
+		String users_email=request.getParameter("email");
+		//유저의 주문 리스트 얻어오기
+		List<OrdersDto> list=ordersDao.getUsersOrdersList(users_email);
+		map.put("usersOrdersList", list);
+	}
 }
 

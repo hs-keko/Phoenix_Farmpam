@@ -13,6 +13,9 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.dto.OrdersDto;
 
 public interface ItemService {
+	//유저의 주문 목록
+	public void getUsersOrders(HttpServletRequest request, Map<String, Object> map);
+	
 	//해당 판매자에게 들어온 주문 얻어오기
 	public void getSellorOrders(HttpServletRequest request, Map<String, Object> map);
 	
