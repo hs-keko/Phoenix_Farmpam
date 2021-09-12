@@ -85,9 +85,6 @@ public class ItemServiceImpl implements ItemService {
 		//CafeDto 객체에 startRowNum 과 endRowNum 을 담는다.
 		dto.setStartRowNum(startRowNum);
 		dto.setEndRowNum(endRowNum);
-		System.out.println(dto.getStartRowNum());
-		System.out.println(dto.getEndRowNum());
-		
 		
 		//만일 검색 키워드가 넘어온다면 
 		if(!keyword.equals("")){
@@ -203,8 +200,6 @@ public class ItemServiceImpl implements ItemService {
 		//CafeDto 객체에 startRowNum 과 endRowNum 을 담는다.
 		dto.setStartRowNum(startRowNum);
 		dto.setEndRowNum(endRowNum);
-		System.out.println(dto.getStartRowNum());
-		System.out.println(dto.getEndRowNum());
 		
 		
 		//만일 검색 키워드가 넘어온다면 
@@ -481,18 +476,35 @@ public class ItemServiceImpl implements ItemService {
 		//파라미터로 전송된 정보들을 가져오기
 		CartDto cartDto = new CartDto();
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
-		int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
-		String users_email=(String)request.getParameter("email");
-		// item_price 가져와서 cart_amount * item_price 값을 cart_price 에 저장
-		int item_price=itemDao.getData3(item_idx).getItem_price();
-		int cart_price = cart_amount * item_price ;
-		//CartDto 에 저장
+		String users_email= request.getParameter("email");
+		ItemDto Idto = itemDao.getData3(item_idx);
+		
+		// 사용자의 장바구니에 해당 상품이 있는지 검사하여 있다면 해당 장바구니객체의 갯수에 + 1
 		cartDto.setItem_idx(item_idx);
 		cartDto.setUsers_email(users_email);
-		cartDto.setCart_amount(cart_amount);
-		cartDto.setCart_price(cart_price);
-		// 장바구니 테이블에 저장
-		map.put("isSuccess", cartDao.insertCart(cartDto));
+		int itemidx = cartDao.checkCart(cartDto);
+		if(itemidx != 0) {
+			map.put("exists",true);
+		}
+		// 상품갯수가 있다면 갯수*가격  
+		else if(request.getParameter("cart_amount") != null) {			
+			System.out.println(2);
+			int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
+			cartDto.setCart_amount(cart_amount);
+			int cart_price = cart_amount * Idto.getItem_price();
+			cartDto.setCart_price(cart_price);
+
+			// 장바구니 테이블에 저장
+			map.put("isSuccess", cartDao.insertCart(cartDto));
+		}else {
+			System.out.println(3);
+			// 상품갯수가 없다면 1개만 추가
+			int cart_price = Idto.getItem_price();
+			cartDto.setCart_price(cart_price);
+			cartDto.setCart_amount(1);
+			// 장바구니 테이블에 저장
+			map.put("isSuccess", cartDao.insertCart(cartDto));
+		}
 	}
 
 	//장바구니 목록 불러오기

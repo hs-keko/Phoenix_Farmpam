@@ -17,4 +17,8 @@ public interface CartDao {
 	public List<CartDto> getCartList(String users_email);
 	// 장바구니에 상품 추가
 	public boolean insertCart(CartDto cartDto);
+	// 장바구니에 이미있는 상품 검사
+	public int checkCart(CartDto cartDto);
+	// 장바구니의 상품갯수 가져오기
+	public int getAmount(int cart_idx);
 }

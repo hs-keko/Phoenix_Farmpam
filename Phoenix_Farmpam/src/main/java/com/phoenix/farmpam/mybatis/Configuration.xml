@@ -26,5 +26,6 @@
 		<mapper resource="com/phoenix/farmpam/mybatis/FarmerMapper.xml"/>
 		<mapper resource="com/phoenix/farmpam/mybatis/FollowMapper.xml"/>
 		<mapper resource="com/phoenix/farmpam/mybatis/ItemMapper.xml"/>
+		<mapper resource="com/phoenix/farmpam/mybatis/CartMapper.xml"/>
 	</mappers>
 </configuration>

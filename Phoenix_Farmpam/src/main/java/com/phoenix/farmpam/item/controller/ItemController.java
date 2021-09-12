@@ -94,7 +94,7 @@ public class ItemController {
  	}
  	
  	//장바구니 담기
- 	@RequestMapping(value = "/item/private/addcart", method = RequestMethod.POST)
+ 	@RequestMapping("/item/private/addcart")
  	@ResponseBody
  	public Map<String, Object> addCart(HttpServletRequest request) {
  		Map<String, Object> map=new HashMap<String, Object>();
