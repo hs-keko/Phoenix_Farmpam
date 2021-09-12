@@ -126,19 +126,25 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public List<ItemDto> getCloseList(int item_stock) {
-		return session.selectList("item.getCloseList", item_stock);
+	public List<ItemDto> getNewList(ItemDto itemDto) {
+		return session.selectList("item.getNewList", itemDto);
+	}
+	
+	@Override
+	public List<ItemDto> getCloseList(ItemDto itemDto) {
+		return session.selectList("item.getCloseList", itemDto);
 	}
 
 	@Override
-	public List<ItemDto> getVeganList(int item_category_top_idx) {
-		return session.selectList("item.getHealthyList", item_category_top_idx);
+	public List<ItemDto> getVeganList(ItemDto itemDto) {
+		return session.selectList("item.getVeganList", itemDto);
 	}
 
 	@Override
-	public List<ItemDto> getNewList(int item_idx) {
-		return session.selectList("item.getNewList", item_idx);
+	public int getMainCount(ItemDto itemDto) {
+		return session.selectOne("item.getMainCount", itemDto);
 	}
+
 	
 	
 	
