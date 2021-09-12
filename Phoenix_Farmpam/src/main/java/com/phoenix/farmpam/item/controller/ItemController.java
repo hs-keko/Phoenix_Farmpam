@@ -27,6 +27,15 @@ public class ItemController {
    @Autowired
    private ItemService service;
    
+   //구매 페이지 (form) 요청
+   @RequestMapping("/item/private/buyForm")
+   @ResponseBody
+   public Map<String, Object> buyForm(HttpServletRequest request){
+	   Map<String, Object> map = new HashMap<String, Object>();
+	   service.buyForm(request, map);
+	   return map;
+   }
+   
    //구매자 주문 현황 목록
    @RequestMapping("/item/private/usersOrderManage")
    @ResponseBody

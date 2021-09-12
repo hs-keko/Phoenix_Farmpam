@@ -47,7 +47,7 @@ public interface ItemService {
 	public void deleteItem(HttpServletRequest request, Map<String, Object> map);
 
 	//상품 주문 페이지 요청
-	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map);
+	public void buyForm(HttpServletRequest request, Map<String, Object> map);
 
 	//상품 주문 처리를 하는 메소드
 	public void buy(HttpServletRequest request, Map<String, Object> map);
