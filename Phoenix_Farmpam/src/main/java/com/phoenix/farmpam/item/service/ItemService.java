@@ -13,6 +13,9 @@ import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.item.dto.OrdersDto;
 
 public interface ItemService {
+	//유저의 주문 목록
+	public void getUsersOrders(HttpServletRequest request, Map<String, Object> map);
+	
 	//해당 판매자에게 들어온 주문 얻어오기
 	public void getSellorOrders(HttpServletRequest request, Map<String, Object> map);
 	
@@ -44,7 +47,7 @@ public interface ItemService {
 	public void deleteItem(HttpServletRequest request, Map<String, Object> map);
 
 	//상품 주문 페이지 요청
-	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map);
+	public void buyForm(HttpServletRequest request, Map<String, Object> map);
 
 	//상품 주문 처리를 하는 메소드
 	public void buy(HttpServletRequest request, Map<String, Object> map);

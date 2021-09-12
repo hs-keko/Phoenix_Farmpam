@@ -569,15 +569,19 @@ public class ItemServiceImpl implements ItemService {
 
 	//주문 페이지 요청
 	@Override
-	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map) {
+	public void buyForm(HttpServletRequest request, Map<String, Object> map) {
 		//세션에서 구매자 이메일 받아오기
-		String users_email=(String)session.getAttribute("email");
+		String users_email=request.getParameter("email");
 		//구매할 상품의 상품번호 가져오기
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		//구입 수량 가져오기
 		int orders_item_total=Integer.parseInt(request.getParameter("orders_item_total"));
+		
+		//구매할 상품의 정보를 가져오자
+		String item_title=itemDao.getData3(item_idx).getItem_title();
+		String item_image=itemDao.getData3(item_idx).getItem_image();
 		//구매할 상품의 개당 가격 가져와서
-		int item_price=itemDao.getPrice(item_idx);
+		int item_price=itemDao.getData3(item_idx).getItem_price();
 		//구매수량 * 개당가격 저장
 		int orders_price = orders_item_total * item_price;
 		
@@ -590,6 +594,8 @@ public class ItemServiceImpl implements ItemService {
 		OrdersDto ordersDto=new OrdersDto();
 		ordersDto.setUsers_email(users_email);
 		ordersDto.setItem_idx(item_idx);
+		ordersDto.setItem_title(item_title);
+		ordersDto.setItem_image(item_image);
 		ordersDto.setOrders_item_total(orders_item_total);
 		ordersDto.setOrders_price(orders_price);
 		ordersDto.setOrders_name(orders_name);
@@ -654,8 +660,17 @@ public class ItemServiceImpl implements ItemService {
 		List<OrdersDto> list=ordersDao.getSellorOrdersList(farmer_email);
 		map.put("sellorOrdersList", list);
 	}
-
+	
+	//유저의 주문 목록 얻어오기
 	@Override
+	public void getUsersOrders(HttpServletRequest request, Map<String, Object> map) {
+		//유저의 이메일 얻어오기
+		String users_email=request.getParameter("email");
+		//유저의 주문 리스트 얻어오기
+		List<OrdersDto> list=ordersDao.getUsersOrdersList(users_email);
+		map.put("usersOrdersList", list);
+	}
+
 	public void moreCateList(Map<String, Object> map, HttpServletRequest request) {
 		//카테고리 값을 받아온다
 		String category = request.getParameter("category");
@@ -748,7 +763,5 @@ public class ItemServiceImpl implements ItemService {
 		map.put("pagingData", pagedata);
 		
 	}
-
-
 }
 

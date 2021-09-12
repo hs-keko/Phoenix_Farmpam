@@ -28,4 +28,10 @@ public class OrdersDaoImpl implements OrdersDao {
 		return session.selectList("item.getSellorOrdersList", farmer_email);
 	}
 
+	@Override
+	public List<OrdersDto> getUsersOrdersList(String users_email) {
+		// TODO Auto-generated method stub
+		return session.selectList("item.getUsersOrdersList", users_email);
+	}
+
 }
