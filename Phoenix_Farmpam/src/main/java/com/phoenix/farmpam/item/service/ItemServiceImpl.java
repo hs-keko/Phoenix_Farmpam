@@ -468,6 +468,13 @@ public class ItemServiceImpl implements ItemService {
 		ordersDto.setItem_title(item_title);
 		ordersDto.setFarmer_email(farmer_email);
 		map.put("isSuccess", ordersDao.addOrders(ordersDto));
+		
+		// 장바구니에 상품이 있을경우, 구매 후에 장바구니에서 삭제하는 작업
+		if(request.getParameter("cart_idx") != null && !"null".equals(request.getParameter("cart_idx"))){
+			int cart_idx=Integer.parseInt("cart_idx");
+			cartDao.deleteCart(cart_idx);
+		}
+		
 	}
 
 	//장바구니 담기
