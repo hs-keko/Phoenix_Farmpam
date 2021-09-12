@@ -110,7 +110,6 @@ public class ItemServiceImpl implements ItemService {
 		
 		// 판매자 아이디가 넘어오면
 		if(request.getParameter("farmer_email") != null) {
-			System.out.println(request.getParameter("farmer_email"));
 			dto.setFarmer_email(request.getParameter("farmer_email"));
 		}
 		
@@ -147,7 +146,6 @@ public class ItemServiceImpl implements ItemService {
 		// 아이템 번호를 읽어온다.
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		// DB에서 아이템 정보를 얻어와서
-		System.out.println(item_idx);
 		ItemDto dto = itemDao.getMyDetail(item_idx);
 		map.put("goodsData",dto);
 	}
@@ -167,7 +165,6 @@ public class ItemServiceImpl implements ItemService {
 		String strPageNum=request.getParameter("pageNum");
 		//만일 페이지 번호가 파라미터로 넘어 온다면
 		if(strPageNum != null){
-			System.out.println(strPageNum);
 			//숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
 			pageNum=Integer.parseInt(strPageNum);
 		}
@@ -292,7 +289,6 @@ public class ItemServiceImpl implements ItemService {
 		
 		//세션을 받아준다.
 		String farmer_email = request.getParameter("email");
-		System.out.println(farmer_email);
 		ItemDto dto = new ItemDto();
 		dto.setFarmer_email(farmer_email);
 			
@@ -491,7 +487,6 @@ public class ItemServiceImpl implements ItemService {
 		int itemidx = cartDao.checkCart(cartDto);
 		if(itemidx != 0) {
 			map.put("exists",true);
-			System.out.println(request.getParameter("cart_amount"));
 			int db_amount = cartDao.getAmount(itemidx);
 			int insert_amount = Integer.parseInt(request.getParameter("cart_amount"));
 			int cart_amount = db_amount + insert_amount;
@@ -502,8 +497,7 @@ public class ItemServiceImpl implements ItemService {
 			cartDao.updateCart(cartDto);			
 		}
 		// 상품갯수가 있다면 갯수*가격  
-		else if(request.getParameter("cart_amount") != null) {			
-			System.out.println(2);
+		else if(request.getParameter("cart_amount") != null) {		
 			int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
 			cartDto.setCart_amount(cart_amount);
 			int cart_price = cart_amount * Idto.getItem_price();
@@ -512,7 +506,6 @@ public class ItemServiceImpl implements ItemService {
 			// 장바구니 테이블에 저장
 			map.put("isSuccess", cartDao.insertCart(cartDto));
 		}else {
-			System.out.println(3);
 			// 상품갯수가 없다면 1개만 추가
 			int cart_price = Idto.getItem_price();
 			cartDto.setCart_price(cart_price);
@@ -648,7 +641,6 @@ public class ItemServiceImpl implements ItemService {
 	// vue 카테고리 가져오기
 	@Override
 	public void vueGetCategory(Map<String, Object> map, HttpServletRequest req) {
-		System.out.println(req.getParameter("category_ref"));
 			int ref = 0;
 			if(req.getParameter("category_ref") != null) {
 				ref = Integer.parseInt(req.getParameter("category_ref"));	
@@ -696,7 +688,6 @@ public class ItemServiceImpl implements ItemService {
 		String strPageNum=request.getParameter("pageNum");
 		//만일 페이지 번호가 파라미터로 넘어 온다면
 		if(strPageNum != null){
-			System.out.println(strPageNum);
 			//숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
 			pageNum=Integer.parseInt(strPageNum);
 		}
