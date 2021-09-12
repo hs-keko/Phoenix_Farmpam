@@ -277,7 +277,7 @@
       	order by rnum ASC
 	</select>
 	
-	<select id="getNewCount" parameterType="string" resultType="int">
+	<select id="getMainCount" parameterType="string" resultType="int">
       SELECT NVL(MAX(ROWNUM),0)
       FROM item
 	      <choose>
