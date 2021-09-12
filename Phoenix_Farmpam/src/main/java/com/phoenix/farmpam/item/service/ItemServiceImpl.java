@@ -679,9 +679,12 @@ public class ItemServiceImpl implements ItemService {
 		map.put("usersOrdersList", list);
 	}
 
-	public void moreCateList(Map<String, Object> map, HttpServletRequest request) {
+	@Override
+	public void vueMoreCateList(Map<String, Object> map, HttpServletRequest request) {
 		//카테고리 값을 받아온다
 		String category = request.getParameter("category");
+		//만약 카테고리가 넘어오지 않는다면 
+		
 		//한 페이지에 몇개씩 표시할 것인지
 		final int PAGE_ROW_COUNT=9;
 		//하단 페이지를 몇개씩 표시할 것인지
@@ -726,20 +729,25 @@ public class ItemServiceImpl implements ItemService {
 		itemdto.setStartRowNum(startRowNum);
 		itemdto.setEndRowNum(endRowNum);
 		
-		//글 목록 얻어오기 
-		List<ItemDto> moreCateList=new ArrayList<>();
+		List<ItemDto> list= new ArrayList<>();
+		
+		//카테고리 값이 넘어오지않는다면
+		if(category==null){
+			//빈 문자열 넣어주기
+		      category="";
+		   }else if(category.equals("new")) {
+			   list=itemDao.moreNewList(itemdto);
+		   }else if(category.equals("close")) {
+			   list=itemDao.moreCloseList(itemdto);
+		   }else if(category.equals("vegan")) {
+			   list=itemDao.moreVeganList(itemdto);
+	   }
+		
+		map.put("list", list);
+	
 
 		//전체글의 갯수
-		int totalRow=0;
-		
-		//만일 검색 키워드가 넘어온다면 
-		if(!keyword.equals("")){
-			//검색 조건이 무엇이냐에 따라 분기 하기
-			if(condition.equals("item_title")){ //제목 검색인 경우
-				itemdto.setItem_title(keyword);
-			}
-		}
-		
+		int totalRow=itemDao.getCateCount(itemdto);
 		
 		//하단 시작 페이지 번호 
 		int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
@@ -754,22 +762,15 @@ public class ItemServiceImpl implements ItemService {
 			endPageNum=totalPageCount; //보정해 준다.
 		}
 		
-//		if (category.equals("new")) {
-//			 moreNewList = itemDao.getNewList(itemdto);
-//		   } else if (category.equals("close")) {
-//		      movieList =  MovieDao.getInstance().getSummerList();
-//		      totalRow=MovieDao.getInstance().getCountClassic();
-//		   } 
-		
-		
-		
 		Map<String, Integer> pagedata = new HashMap<String, Integer>();
 		pagedata.put("totalPageCount", totalPageCount);
 		pagedata.put("endPageNum", endPageNum);
 		pagedata.put("startPageNum", startPageNum);
 		
-		map.put("pagingData", pagedata);
+		map.put("pagedata", pagedata);
 		
 	}
+
+
 }
 

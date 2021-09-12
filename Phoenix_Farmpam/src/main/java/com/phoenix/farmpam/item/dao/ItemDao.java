@@ -66,7 +66,7 @@ public interface ItemDao {
 	// vue getShopCategory 글 갯수
 	public int getShopCategoryCount(ItemDto dto);
 
-	// 메인 카테고리 최신 신선 상품 아이템 정보
+	// 메인 카테고리 최신 신선 상품 리스트
 	public List<ItemDto> getNewList(ItemDto itemDto);
 	
 	// 메인 카테고리 품절 임박 상품 리스트
@@ -75,8 +75,18 @@ public interface ItemDao {
 	// 메인 카테고리 건강을 위한 채식 상품 리스트
 	public List<ItemDto> getVeganList(ItemDto itemDto);
 	
-	// 메인 카테고리 더보기 페이지 글 갯수
-	public int getMainCount(ItemDto dto);
+	// 최신 신선 상품 더보기 페이지 글 갯수
+	public int getCateCount(ItemDto dto);
 
+	// 메인 카테고리 최신 신선 상품 더보기 
+	public List<ItemDto> moreNewList(ItemDto itemDto);
+	
+	// 메인 카테고리 품절 임박 상품 더보기 
+	public List<ItemDto> moreCloseList(ItemDto itemDto);
+	
+	// 메인 카테고리 건강을 위한 채식 상품 더보기 
+	public List<ItemDto> moreVeganList(ItemDto itemDto);
 }
+
+
 

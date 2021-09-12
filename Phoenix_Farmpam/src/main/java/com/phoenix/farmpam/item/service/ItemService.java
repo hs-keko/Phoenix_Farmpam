@@ -73,7 +73,8 @@ public interface ItemService {
 	// vue 아이템 카테고리 가져오기
 	public void vueGetCategory(Map<String, Object> map, HttpServletRequest req);
 	
-	// 카테고리 최신 신선 상품 더보기 리스트
-	public void moreCateList(Map<String, Object> map, HttpServletRequest request);
+	// 카테고리  더보기 리스트
+	public void vueMoreCateList(Map<String, Object> map, HttpServletRequest request);
+	
 	
 }

@@ -141,13 +141,23 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public int getMainCount(ItemDto itemDto) {
-		return session.selectOne("item.getMainCount", itemDto);
+	public int getCateCount(ItemDto itemDto) {
+		return session.selectOne("item.getCateCount", itemDto);
 	}
 
-	
-	
-	
-	
+	@Override
+	public List<ItemDto> moreNewList(ItemDto itemDto) {
+		return session.selectList("item.moreNewList", itemDto);
+	}
+
+	@Override
+	public List<ItemDto> moreCloseList(ItemDto itemDto) {
+		return session.selectList("item.moreCloseList", itemDto);
+	}
+
+	@Override
+	public List<ItemDto> moreVeganList(ItemDto itemDto) {
+		return session.selectList("item.moreVeganList", itemDto);
+	}
 	
 }
