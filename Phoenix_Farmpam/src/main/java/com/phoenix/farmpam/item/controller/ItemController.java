@@ -58,7 +58,6 @@ public class ItemController {
    @RequestMapping("/vue/myshop/list")
    @ResponseBody
    public Map<String, Object> getAjaxMyShop(HttpServletRequest req){
-	   System.out.println("excute getAjaxMyShop");
 	   Map<String, Object> map = new HashMap<String, Object>();
 	   service.vueGetMyShop(map, req);
 	   return map;
@@ -68,7 +67,6 @@ public class ItemController {
    @RequestMapping("/vue/item/detail")
    @ResponseBody
    public Map<String, Object> getAjaxDetail(HttpServletRequest req){
-	   System.out.println("excute getAjaxDetail");
 	   Map<String, Object> map = new HashMap<String, Object>();
 	   service.vueGetInfo(map, req);
 	   return map;
@@ -78,7 +76,6 @@ public class ItemController {
 	@RequestMapping("/vue/item/list")
 	@ResponseBody
 	public Map<String,Object> getAjaxList(HttpServletRequest req) {
-		System.out.println("excute getAjaxList");
 		Map<String, Object> map = new HashMap<String, Object>();
 		service.vueGetMainList(map, req);
 		return map;
@@ -134,7 +131,6 @@ public class ItemController {
  	@ResponseBody
  	public Map<String, Object> insertItem(ItemDto dto, HttpServletRequest request) {
  		Map<String, Object> map=new HashMap<String, Object>();
- 		System.out.println("아이템 저장 컨트롤러");
  		service.insertItem(dto, map, request);
  		return map;
  	}
