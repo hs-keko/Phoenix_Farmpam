@@ -485,13 +485,21 @@ public class ItemServiceImpl implements ItemService {
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
 		String users_email= request.getParameter("email");
 		ItemDto Idto = itemDao.getData3(item_idx);
-		
 		// 사용자의 장바구니에 해당 상품이 있는지 검사하여 있다면 해당 장바구니객체의 갯수에 + 1
 		cartDto.setItem_idx(item_idx);
 		cartDto.setUsers_email(users_email);
 		int itemidx = cartDao.checkCart(cartDto);
 		if(itemidx != 0) {
 			map.put("exists",true);
+			System.out.println(request.getParameter("cart_amount"));
+			int db_amount = cartDao.getAmount(itemidx);
+			int insert_amount = Integer.parseInt(request.getParameter("cart_amount"));
+			int cart_amount = db_amount + insert_amount;
+			int cart_price = Idto.getItem_price() * cart_amount;
+			cartDto.setCart_idx(itemidx);
+			cartDto.setCart_amount(cart_amount);
+			cartDto.setCart_price(cart_price);
+			cartDao.updateCart(cartDto);			
 		}
 		// 상품갯수가 있다면 갯수*가격  
 		else if(request.getParameter("cart_amount") != null) {			
