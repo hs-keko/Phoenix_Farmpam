@@ -468,6 +468,13 @@ public class ItemServiceImpl implements ItemService {
 		ordersDto.setItem_title(item_title);
 		ordersDto.setFarmer_email(farmer_email);
 		map.put("isSuccess", ordersDao.addOrders(ordersDto));
+		
+		// 장바구니에 상품이 있을경우, 구매 후에 장바구니에서 삭제하는 작업
+		if(request.getParameter("cart_idx") != null && !"null".equals(request.getParameter("cart_idx"))){
+			int cart_idx=Integer.parseInt("cart_idx");
+			cartDao.deleteCart(cart_idx);
+		}
+		
 	}
 
 	//장바구니 담기
@@ -595,13 +602,6 @@ public class ItemServiceImpl implements ItemService {
 	//최신 신선 상품 리스트 4개 불러오기
 	@Override
 	public void vueGetNewList(Map<String, Object> map, HttpServletRequest request) {
-		//한 페이지에 몇개씩 표시할 것인지
-		final int pageRowCount=4;
-		
-		Map<String, Integer> pagedata = new HashMap<String, Integer>();
-		pagedata.put("pageRowCount", pageRowCount);
-		map.put("pagingData", pagedata);
-				
 		ItemDto itemDto = new ItemDto();
 		//최신 신선 상품 목록을 담을 List
 		List<ItemDto> newList=itemDao.getNewList(itemDto);
@@ -611,14 +611,7 @@ public class ItemServiceImpl implements ItemService {
 
 	//품절 임박 상품 리스트 4개 불러오기
 	@Override
-	public void vueGetCloseList(Map<String, Object> map, HttpServletRequest request) {
-		//한 페이지에 몇개씩 표시할 것인지
-		final int pageRowCount=4;
-		
-		Map<String, Integer> pagedata = new HashMap<String, Integer>();
-		pagedata.put("pageRowCount", pageRowCount);
-		map.put("pagingData", pagedata);
-						
+	public void vueGetCloseList(Map<String, Object> map, HttpServletRequest request) {				
 		ItemDto itemDto = new ItemDto();
 		//품절 임박 상품 목록을 담을 List
 		List<ItemDto> closeList = itemDao.getCloseList(itemDto);
@@ -629,14 +622,7 @@ public class ItemServiceImpl implements ItemService {
 
 	//채식 상품 리스트 4개 불러오기
 	@Override
-	public void vueGetVeganList(Map<String, Object> map, HttpServletRequest request) {
-		//한 페이지에 몇개씩 표시할 것인지
-		final int pageRowCount=4;
-		
-		Map<String, Integer> pagedata = new HashMap<String, Integer>();
-		pagedata.put("pageRowCount", pageRowCount);
-		map.put("pagingData", pagedata);
-				
+	public void vueGetVeganList(Map<String, Object> map, HttpServletRequest request) {		
 		ItemDto itemDto = new ItemDto();
 		//채식 상품 목록을 담을 List
 		List<ItemDto> veganList = itemDao.getVeganList(itemDto);
