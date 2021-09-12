@@ -250,8 +250,7 @@
       (SELECT result1.*, rownum as rnum
       FROM (SELECT item_idx, item_image, item_title, item_content, item_price, item_category_top_idx, item_category_top_ref
       FROM item ORDER BY item_idx DESC) result1 
-      ) result2 <![CDATA[
-      where rnum <5 ]]>
+      ) result2
       order by rnum ASC
 	</select>
 	
@@ -263,9 +262,6 @@
 	           (SELECT item_idx, item_title, item_price, item_content, item_image, item_stock, item_category_top_idx, item_category_top_ref
 	        	FROM item
 	        	ORDER BY item_stock ASC) result1)
-	       <![CDATA[
-	      where rnum < 5
-	      ]]>
       	order by rnum ASC
 	</select>
 	
@@ -277,8 +273,17 @@
 	           (SELECT item_idx, item_title, item_price, item_content, item_image, item_stock, item_category_top_idx, item_category_top_ref
 	        	FROM item
 	         <![CDATA[ where item_category_top_idx = 19 ]]>) result1
-	         ) result2 <![CDATA[ where rnum < 5 ]]>
+	         ) result2
       	order by rnum ASC
-      	
 	</select>
+	
+	<select id="getNewCount" parameterType="string" resultType="int">
+      SELECT NVL(MAX(ROWNUM),0)
+      FROM item
+	      <choose>
+	         <when test="item_title != null">
+	            WHERE item_title LIKE '%'||#{item_title}||'%'
+	         </when>
+	      </choose>
+   	</select>
 </mapper>

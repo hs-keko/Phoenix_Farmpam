@@ -74,6 +74,9 @@ public interface ItemDao {
 	
 	// 메인 카테고리 건강을 위한 채식 상품 리스트
 	public List<ItemDto> getVeganList(ItemDto itemDto);
+	
+	// 메인 카테고리 더보기 페이지 글 갯수
+	public int getMainCount(ItemDto dto);
 
 }
 
