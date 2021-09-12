@@ -468,6 +468,13 @@ public class ItemServiceImpl implements ItemService {
 		ordersDto.setItem_title(item_title);
 		ordersDto.setFarmer_email(farmer_email);
 		map.put("isSuccess", ordersDao.addOrders(ordersDto));
+		
+		// 장바구니에 상품이 있을경우, 구매 후에 장바구니에서 삭제하는 작업
+		if(request.getParameter("cart_idx") != null && !"null".equals(request.getParameter("cart_idx"))){
+			int cart_idx=Integer.parseInt("cart_idx");
+			cartDao.deleteCart(cart_idx);
+		}
+		
 	}
 
 	//장바구니 담기
@@ -475,27 +482,36 @@ public class ItemServiceImpl implements ItemService {
 	public void insertCart(HttpServletRequest request, Map<String, Object> map) {
 		//파라미터로 전송된 정보들을 가져오기
 		CartDto cartDto = new CartDto();
-		System.out.println(request.getParameter("item_idx"));
 		int item_idx=Integer.parseInt(request.getParameter("item_idx"));
+		String users_email= request.getParameter("email");
 		ItemDto Idto = itemDao.getData3(item_idx);
 		
-		if(request.getParameter("cart_amount") != null) {			
+		// 사용자의 장바구니에 해당 상품이 있는지 검사하여 있다면 해당 장바구니객체의 갯수에 + 1
+		cartDto.setItem_idx(item_idx);
+		cartDto.setUsers_email(users_email);
+		int itemidx = cartDao.checkCart(cartDto);
+		if(itemidx != 0) {
+			map.put("exists",true);
+		}
+		// 상품갯수가 있다면 갯수*가격  
+		else if(request.getParameter("cart_amount") != null) {			
+			System.out.println(2);
 			int cart_amount=Integer.parseInt(request.getParameter("cart_amount"));
 			cartDto.setCart_amount(cart_amount);
 			int cart_price = cart_amount * Idto.getItem_price();
 			cartDto.setCart_price(cart_price);
+
+			// 장바구니 테이블에 저장
+			map.put("isSuccess", cartDao.insertCart(cartDto));
 		}else {
+			System.out.println(3);
+			// 상품갯수가 없다면 1개만 추가
 			int cart_price = Idto.getItem_price();
 			cartDto.setCart_price(cart_price);
 			cartDto.setCart_amount(1);
+			// 장바구니 테이블에 저장
+			map.put("isSuccess", cartDao.insertCart(cartDto));
 		}
-		
-		String users_email= request.getParameter("email");
-		//CartDto 에 저장
-		cartDto.setItem_idx(item_idx);
-		cartDto.setUsers_email(users_email);
-		// 장바구니 테이블에 저장
-		map.put("isSuccess", cartDao.insertCart(cartDto));
 	}
 
 	//장바구니 목록 불러오기
@@ -551,80 +567,6 @@ public class ItemServiceImpl implements ItemService {
 		
 	}
 
-	@Override
-	public void getDetail(ModelAndView mView, int item_idx) {
-		ItemDto itemDto = itemDao.getData2(item_idx);
-
-		mView.addObject("itemDto", itemDto);
-		
-	}
-
-
-	@Override
-	public List<ItemDto> getList2(HttpServletRequest request) {
-		///한 페이지에 몇개씩 표시할 것인지
-		final int PAGE_ROW_COUNT=9;
-	
-		//보여줄 페이지의 번호를 일단 1이라고 초기값 지정
-		int pageNum=1;
-		//페이지 번호가 파라미터로 전달되는지 읽어와 본다.
-		String strPageNum = request.getParameter("pageNum");
-		//만일 페이지 번호가 파라미터로 넘어 온다면
-		if(strPageNum != null){
-			//숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
-			pageNum=Integer.parseInt(strPageNum);
-		}
-	   
-		//보여줄 페이지의 시작 ROWNUM
-		int startRowNum = 1 + (pageNum-1) * PAGE_ROW_COUNT;
-		//보여줄 페이지의 끝 ROWNUM
-		int endRowNum = pageNum * PAGE_ROW_COUNT;
-	   
-		//startRowNum 과 endRowNum을 ItemDto 객체에 담고
-		ItemDto itemDto = new ItemDto();
-		itemDto.setStartRowNum(startRowNum);
-		itemDto.setEndRowNum(endRowNum);
-	   
-		//ItemDao 객체를 이용해서 상품목록을 얻어온다.
-		List<ItemDto> list = itemDao.getList(itemDto);
-		
-		
-		return list;
-	}
-
-
-	@Override
-	public List<ItemDto> moreItemList(HttpServletRequest request) { 
-		int item_category_top_idx=Integer.parseInt(request.getParameter("item_category_top_idx"));
-		
-		
-		//ajax 요청 파라미터로 넘어오는 페이지 번호를 읽어낸다
-		int pageNum=Integer.parseInt(request.getParameter("pageNum"));
-		
-		//한 페이지에 몇개씩 표시할 것인지
-		final int PAGE_ROW_COUNT=9;
-		
-		//보여줄 페이지의 시작 ROWNUM
-		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
-		//보여줄 페이지의 끝 ROWNUM   
-		int endRowNum=pageNum*PAGE_ROW_COUNT;
-		
-		ItemDto itemDto = new ItemDto();
-		itemDto.setStartRowNum(startRowNum);
-		itemDto.setEndRowNum(endRowNum);
-		
-		List<ItemDto> moreList= new ArrayList<>();
-		moreList= itemDao.getList(itemDto);
-		
-		int totalRow=itemDao.getCount(itemDto);
-		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
-		
-		moreList.set(totalRow, itemDto);
-		moreList.set(totalPageCount, itemDto);
-		
-		return moreList;
-	}
-
 	//주문 페이지 요청
 	@Override
 	public void buyForm(HttpServletRequest request, HttpSession session, Map<String, Object> map) {
@@ -657,6 +599,59 @@ public class ItemServiceImpl implements ItemService {
 		map.put("ordersInfo",ordersDto);
 	}
 
+	//최신 신선 상품 리스트 4개 불러오기
+	@Override
+	public void vueGetNewList(Map<String, Object> map, HttpServletRequest request) {
+		//한 페이지에 몇개씩 표시할 것인지
+		final int pageRowCount=4;
+		
+		Map<String, Integer> pagedata = new HashMap<String, Integer>();
+		pagedata.put("pageRowCount", pageRowCount);
+		map.put("pagingData", pagedata);
+				
+		ItemDto itemDto = new ItemDto();
+		//최신 신선 상품 목록을 담을 List
+		List<ItemDto> newList=itemDao.getNewList(itemDto);
+		//Map 객체에 newList 라는 키값으로 담는다.
+		map.put("newList", newList);
+	}
+
+	//품절 임박 상품 리스트 4개 불러오기
+	@Override
+	public void vueGetCloseList(Map<String, Object> map, HttpServletRequest request) {
+		//한 페이지에 몇개씩 표시할 것인지
+		final int pageRowCount=4;
+		
+		Map<String, Integer> pagedata = new HashMap<String, Integer>();
+		pagedata.put("pageRowCount", pageRowCount);
+		map.put("pagingData", pagedata);
+						
+		ItemDto itemDto = new ItemDto();
+		//품절 임박 상품 목록을 담을 List
+		List<ItemDto> closeList = itemDao.getCloseList(itemDto);
+		//Map 객체에 list 라는 키값으로 담는다.
+		map.put("closeList", closeList);
+	
+	}
+
+	//채식 상품 리스트 4개 불러오기
+	@Override
+	public void vueGetVeganList(Map<String, Object> map, HttpServletRequest request) {
+		//한 페이지에 몇개씩 표시할 것인지
+		final int pageRowCount=4;
+		
+		Map<String, Integer> pagedata = new HashMap<String, Integer>();
+		pagedata.put("pageRowCount", pageRowCount);
+		map.put("pagingData", pagedata);
+				
+		ItemDto itemDto = new ItemDto();
+		//채식 상품 목록을 담을 List
+		List<ItemDto> veganList = itemDao.getVeganList(itemDto);
+		//Map 객체에 list 라는 키값으로 담는다.
+		map.put("veganList", veganList);
+		
+	}
+
 	// vue 카테고리 가져오기
 	@Override
 	public void vueGetCategory(Map<String, Object> map, HttpServletRequest req) {
@@ -680,7 +675,8 @@ public class ItemServiceImpl implements ItemService {
 		List<OrdersDto> list=ordersDao.getSellorOrdersList(farmer_email);
 		map.put("sellorOrdersList", list);
 	}
-
+	
+	//유저의 주문 목록 얻어오기
 	@Override
 	public void getUsersOrders(HttpServletRequest request, Map<String, Object> map) {
 		//유저의 이메일 얻어오기
@@ -688,6 +684,99 @@ public class ItemServiceImpl implements ItemService {
 		//유저의 주문 리스트 얻어오기
 		List<OrdersDto> list=ordersDao.getUsersOrdersList(users_email);
 		map.put("usersOrdersList", list);
+	}
+
+	public void moreCateList(Map<String, Object> map, HttpServletRequest request) {
+		//카테고리 값을 받아온다
+		String category = request.getParameter("category");
+		//한 페이지에 몇개씩 표시할 것인지
+		final int PAGE_ROW_COUNT=9;
+		//하단 페이지를 몇개씩 표시할 것인지
+		final int PAGE_DISPLAY_COUNT=10;
+		
+		//보여줄 페이지의 번호를 일단 1이라고 초기값 지정
+		int pageNum=1;
+		//페이지 번호가 파라미터로 전달되는지 읽어와 본다.
+		String strPageNum=request.getParameter("pageNum");
+		//만일 페이지 번호가 파라미터로 넘어 온다면
+		if(strPageNum != null){
+			System.out.println(strPageNum);
+			//숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
+			pageNum=Integer.parseInt(strPageNum);
+		}
+		
+		//보여줄 페이지의 시작 ROWNUM
+		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
+		//보여줄 페이지의 끝 ROWNUM
+		int endRowNum=pageNum*PAGE_ROW_COUNT;
+		
+		/*
+			[ 검색 키워드에 관련된 처리 ]
+			-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
+		*/
+		String keyword=request.getParameter("keyword");
+		String condition=request.getParameter("condition");
+		//만일 키워드가 넘어오지 않는다면 
+		if(keyword==null){
+			//키워드와 검색 조건에 빈 문자열을 넣어준다. 
+			//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
+			keyword="";
+			condition=""; 
+		}
+
+		//특수기호를 인코딩한 키워드를 미리 준비한다. 1
+		String encodedK=URLEncoder.encode(keyword);
+		
+		ItemDto itemdto = new ItemDto();
+			
+		//CafeDto 객체에 startRowNum 과 endRowNum 을 담는다.
+		itemdto.setStartRowNum(startRowNum);
+		itemdto.setEndRowNum(endRowNum);
+		
+		//글 목록 얻어오기 
+		List<ItemDto> moreCateList=new ArrayList<>();
+
+		//전체글의 갯수
+		int totalRow=0;
+		
+		//만일 검색 키워드가 넘어온다면 
+		if(!keyword.equals("")){
+			//검색 조건이 무엇이냐에 따라 분기 하기
+			if(condition.equals("item_title")){ //제목 검색인 경우
+				itemdto.setItem_title(keyword);
+			}
+		}
+		
+		
+		//하단 시작 페이지 번호 
+		int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
+		//하단 끝 페이지 번호
+		int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
+		
+		
+		//전체 페이지의 갯수
+		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+		//끝 페이지 번호가 전체 페이지 갯수보다 크다면 잘못된 값이다.
+		if(endPageNum > totalPageCount){
+			endPageNum=totalPageCount; //보정해 준다.
+		}
+		
+//		if (category.equals("new")) {
+//			 moreNewList = itemDao.getNewList(itemdto);
+//		   } else if (category.equals("close")) {
+//		      movieList =  MovieDao.getInstance().getSummerList();
+//		      totalRow=MovieDao.getInstance().getCountClassic();
+//		   } 
+		
+		
+		
+		Map<String, Integer> pagedata = new HashMap<String, Integer>();
+		pagedata.put("totalPageCount", totalPageCount);
+		pagedata.put("endPageNum", endPageNum);
+		pagedata.put("startPageNum", startPageNum);
+		
+		map.put("pagingData", pagedata);
+		
 	}
 }
 

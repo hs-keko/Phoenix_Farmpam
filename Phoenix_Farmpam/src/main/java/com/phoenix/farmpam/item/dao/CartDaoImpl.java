@@ -39,6 +39,24 @@ public class CartDaoImpl implements CartDao {
 		session.delete("cart.deleteCart", cart_idx);
 		return true;
 	}
+	
+	// 장바구니에 해당 아이템이 이미있는지 장바구니idx를 가져온다.
+	@Override
+	public int checkCart(CartDto cartDto) {
+		if(session.selectOne("cart.checkCart", cartDto) != null) {
+			int result = session.selectOne("cart.checkCart", cartDto);
+			System.out.println(result);
+			return result;
+		}else {
+			return 0;
+		}
+	}
+	
+	// 장바구니에 이미있는 상품의 갯수를 가져온다.
+	@Override
+	public int getAmount(int cart_idx) {
+		return session.selectOne("cart.getAmount", cart_idx);
+	}
 
 	@Override
 	public boolean updateCart(CartDto cartDto) {
