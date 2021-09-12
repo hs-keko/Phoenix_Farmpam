@@ -166,17 +166,28 @@ public class ItemController {
  		return map;
  	}
 
- 	// main 페이지  3가지 카테고리 리스트 
+ 	// vue main 페이지  3가지 카테고리 리스트 
  	@RequestMapping("/vue/shopmain")
  	@ResponseBody
- 	public Map<String,Object> getNewList(HttpServletRequest request) {
+ 	public Map<String,Object> getCateList(HttpServletRequest request) {
  		Map<String, Object> map = new HashMap<String, Object>();
- 		System.out.println("newList");
  		service.vueGetNewList(map, request);
  		service.vueGetCloseList(map, request);
  		service.vueGetVeganList(map, request);
  		return map;
  	}
+ 	
+ 	// vue main 카테고리 더보기 페이지
+ 	@RequestMapping("/vue/shopmain/list")
+ 	@ResponseBody
+ 	public Map<String,Object> getCateMoreList(HttpServletRequest request) {
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		service.vueMoreNewList(map, request);
+ 		service.vueMoreCloseList(map, request);
+ 		service.vueMoreVeganList(map, request);
+ 		return map;
+ 	}
+ 	
  	
  	// vue Category_low 가져오기
  	@RequestMapping("/vue/categorylow")

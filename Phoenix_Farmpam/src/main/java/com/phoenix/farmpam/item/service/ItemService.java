@@ -71,6 +71,12 @@ public interface ItemService {
 	public void vueGetCategory(Map<String, Object> map, HttpServletRequest req);
 	
 	// 카테고리 최신 신선 상품 더보기 리스트
-	public void moreCateList(Map<String, Object> map, HttpServletRequest request);
+	public void vueMoreNewList(Map<String, Object> map, HttpServletRequest request);
+	
+	// 카테고리 품절 임박 상품 더보기 리스트
+	public void vueMoreCloseList(Map<String, Object> map, HttpServletRequest request);
+	
+	// 카테고리 최신 신선 상품 더보기 리스트
+	public void vueMoreVeganList(Map<String, Object> map, HttpServletRequest request);
 	
 }
