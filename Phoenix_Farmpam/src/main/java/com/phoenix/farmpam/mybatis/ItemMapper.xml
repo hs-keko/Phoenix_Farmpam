@@ -315,8 +315,7 @@
 		   (SELECT result1.*, ROWNUM AS rnum
 		   FROM
 	           (SELECT item_idx, item_title, item_price, item_content, item_image, item_stock, item_category_top_idx, item_category_top_ref
-	        	FROM item
-	        	ORDER BY item_stock ASC) result1)
+	        	FROM item ORDER BY item_stock ASC) result1
 	        	<include refid="searchCondition"/>
       		ORDER BY rnum ASC) result2
       	WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
