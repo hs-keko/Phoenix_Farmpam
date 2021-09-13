@@ -342,7 +342,9 @@ public class ItemServiceImpl implements ItemService {
 		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
 		String farmer_email = request.getParameter("email");
 		
+		String image = request.getParameter("item_iamge");
 		itemDto.setItem_image(request.getParameter("item_image"));
+		
 		itemDto.setItem_idx(item_idx);
 		itemDto.setItem_title(request.getParameter("item_title"));
 		itemDto.setItem_content(request.getParameter("item_content"));
@@ -352,8 +354,9 @@ public class ItemServiceImpl implements ItemService {
 		
 		String item_farmer_email = itemDao.getData3(item_idx).getFarmer_email();
 		
-		if(item_farmer_email.equals(farmer_email)) {
-			throw new NotDeleteException("상품 추가를 실패하였습니다.");
+		if(!item_farmer_email.equals(farmer_email)) {
+			map.put("updateItem", false);
+			throw new NotDeleteException("상품 수정을 실패하였습니다.");
 		}
 		
 		itemDao.update(itemDto);
@@ -362,13 +365,13 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public void deleteItem(HttpServletRequest request, Map<String, Object> map) {
-		
 		int item_idx = Integer.parseInt(request.getParameter("item_idx"));
 		String farmer_email = request.getParameter("email");
 		String item_farmer_email = itemDao.getData3(item_idx).getFarmer_email();
 		
-		if(item_farmer_email.equals(farmer_email)) {
-			throw new NotDeleteException("상품 추가를 실패하였습니다.");
+		if(!item_farmer_email.equals(farmer_email)) {
+			map.put("deleteItem", false);
+			throw new NotDeleteException("상품 삭제를 실패하였습니다.");
 		}
 		
 		itemDao.delete(item_idx);
