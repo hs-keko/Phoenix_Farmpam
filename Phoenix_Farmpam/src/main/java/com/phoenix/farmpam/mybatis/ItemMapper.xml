@@ -4,9 +4,10 @@
 
 	<!-- 유저의 주문 목록 얻어오기 -->
 	<select id="getUsersOrdersList" parameterType="string" resultType="ordersDto">
-		SELECT *
-		FROM orders
-		WHERE users_idx=#{users_idx}
+		SELECT o.orders_idx, i.item_title, o.orders_item_total, o.orders_price, o.orders_check, i.item_profile
+		FROM orders o, item i
+		WHERE o.item_idx = i.item_idx
+		AND users_idx=#{users_idx}
 		ORDER BY orders_idx DESC
 	</select>
 
