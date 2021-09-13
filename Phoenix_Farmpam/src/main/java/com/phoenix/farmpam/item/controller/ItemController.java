@@ -27,7 +27,7 @@ public class ItemController {
    @Autowired
    private ItemService service;
    
-   //구매 페이지 (form) 요청
+   //구매요청 ( 주문order 요청 )
    @RequestMapping("/item/private/buyForm")
    @ResponseBody
    public Map<String, Object> buyForm(HttpServletRequest request){

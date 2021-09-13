@@ -671,7 +671,11 @@ public class ItemServiceImpl implements ItemService {
 		String users_email=request.getParameter("email");
 		//유저의 주문 리스트 얻어오기
 		List<OrdersDto> list=ordersDao.getUsersOrdersList(users_email);
-		map.put("usersOrdersList", list);
+		if(list != null) {
+			map.put("usersOrdersList", list);			
+		}else {
+			map.put("usersOrdersList", false);
+		}
 	}
 
 	@Override
