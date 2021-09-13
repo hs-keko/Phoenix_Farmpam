@@ -5,7 +5,7 @@
 	
 	<!-- 해당 컨텍스트에 최상위 경로 요청이 왔을때 자동으로 요청하게 하는 경로  -->
 	<welcome-file-list>
-		<welcome-file>home.do</welcome-file>
+		<welcome-file>index.do</welcome-file>
 	</welcome-file-list>
 	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
