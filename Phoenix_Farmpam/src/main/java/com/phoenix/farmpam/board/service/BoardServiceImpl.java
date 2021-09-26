@@ -21,6 +21,7 @@ import com.phoenix.farmpam.board.dao.BoardDao;
 import com.phoenix.farmpam.board.dto.BoardCommentsDto;
 import com.phoenix.farmpam.board.dto.BoardDto;
 import com.phoenix.farmpam.exception.NotDeleteException;
+import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.board.dao.LikesDao;
 import com.phoenix.farmpam.board.dto.LikesDto;
 
@@ -203,45 +204,6 @@ public class BoardServiceImpl implements BoardService{
 		return list;
 	}
 	
-	//이미지 ajax upload
-	@Override
-	public Map<String, Object> uploadAjaxImage(BoardDto dto, HttpServletRequest request) {
-		//업로드된 파일의 정보를 가지고 있는 MultipartFile 객체의 참조값을 얻어오기
-		MultipartFile image = dto.getImage();
-		//원본 파일명 -> 저장할 파일 이름 만들기위해서 사용됨
-		String orgFileName = image.getOriginalFilename();
-		//파일 크기
-		long fileSize = image.getSize();
-		
-		// webapp/upload 폴더 까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
-		String realPath = request.getServletContext().getRealPath("/upload");
-		//db 에 저장할 저장할 파일의 상세 경로
-		String filePath = realPath + File.separator;
-		//디렉토리를 만들 파일 객체 생성
-		File upload = new File(filePath);
-		if(!upload.exists()) {
-			//만약 디렉토리가 존재하지X
-			upload.mkdir();//폴더 생성
-		}
-		//저장할 파일의 이름을 구성한다. -> 우리가 직접 구성해줘야한다.
-		String saveFileName = System.currentTimeMillis() + orgFileName;
-		
-		try {
-			//upload 폴더에 파일을 저장한다.
-			image.transferTo(new File(filePath + saveFileName));
-			System.out.println();	//임시 출력
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-
-		String board_image = "/upload/" + saveFileName;
-		
-		//ajax upload 를 위한 imagePath return
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("board_image", board_image);
-		
-		return map;
-	}
 
 	@Override
 	public void insertImage(BoardDto dto, HttpServletRequest request) {
@@ -358,4 +320,41 @@ public class BoardServiceImpl implements BoardService{
 		request.setAttribute("pageNum", pageNum); //댓글의 페이지 번호
 
 	}
+
+	@Override
+	public void insertContent(BoardDto dto, Map<String, Object> map, HttpServletRequest request) {
+		boardDao.insertContent(dto);
+		map.put("insertContent", true);
+		}
+
+	@Override
+	public Map<String, Object> saveBoardImage(HttpServletRequest request, MultipartFile mFile) {
+		//원본 파일명
+		String orgFileName=mFile.getOriginalFilename();
+		//upload 폴더에 저장할 파일명을 직접구성한다.
+		// 1234123424343xxx.jpg
+		String saveFileName=System.currentTimeMillis()+orgFileName;
+		
+		// webapp/upload 폴더까지의 실제 경로 얻어내기 
+		String realPath=request.getServletContext().getRealPath("/upload");
+		// upload 폴더가 존재하지 않을경우 만들기 위한 File 객체 생성
+		File upload=new File(realPath);
+		if(!upload.exists()) {//만일 존재 하지 않으면
+			upload.mkdir(); //만들어준다.
+		}
+		try {
+			//파일을 저장할 전체 경로를 구성한다.  
+			String savePath=realPath+File.separator+saveFileName;
+			//임시폴더에 업로드된 파일을 원하는 파일을 저장할 경로에 전송한다.
+			mFile.transferTo(new File(savePath));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// json 문자열을 출력하기 위한 Map 객체 생성하고 정보 담기 
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("imagePath", "/upload/"+saveFileName);
+		
+		return map;
+	}	
 }

@@ -3,6 +3,7 @@ package com.phoenix.farmpam.board.dao;
 import java.util.List;
 
 import com.phoenix.farmpam.board.dto.BoardDto;
+import com.phoenix.farmpam.item.dto.ItemDto;
 
 public interface BoardDao {
 	//글목록
@@ -19,5 +20,7 @@ public interface BoardDao {
 	public void delete(int board_idx);
 	//글 수정
 	public void update(BoardDto dto);
+	//글 추가
+	public void insertContent(BoardDto dto);
 	
 }
