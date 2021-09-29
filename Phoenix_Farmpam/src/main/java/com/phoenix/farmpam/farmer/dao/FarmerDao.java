@@ -1,5 +1,7 @@
 package com.phoenix.farmpam.farmer.dao;
 
+import java.util.List;
+
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.farmer.dto.FollowDto;
 
@@ -20,4 +22,5 @@ public interface FarmerDao {
 	public FarmerDto followInsert(FarmerDto farmerDto, FollowDto followDto);
 	// 팔로우 해제
 	public FarmerDto followDelete(FarmerDto farmerDto, FollowDto followDto);
+	
 }

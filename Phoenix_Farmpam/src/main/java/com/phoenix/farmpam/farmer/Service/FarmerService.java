@@ -32,4 +32,5 @@ public interface FarmerService {
 	
 	// vue 처리
 	public boolean vuelogin(FarmerDto dto, HttpSession session);
+	
 }

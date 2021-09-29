@@ -1,5 +1,7 @@
 package com.phoenix.farmpam.farmer.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,7 +34,6 @@ public class FarmerDaoImpl implements FarmerDao {
 
 	@Override
 	public FarmerDto getData(String farmer_email) {
-
 		return session.selectOne("farmer.getData", farmer_email);
 	}
 
@@ -83,4 +84,5 @@ public class FarmerDaoImpl implements FarmerDao {
 		}
 		return farmerDto; 
 	}
+	
 }

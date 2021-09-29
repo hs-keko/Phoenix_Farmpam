@@ -53,7 +53,10 @@ public class BoardDaoImpl implements BoardDao{
 		
 	}
 
-	
-
+	@Override
+	public void insertContent(BoardDto dto) {
+		session.insert("board.insertContent", dto);
+		
+	}
 	
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.board.dao.LikesDao;
@@ -19,6 +20,7 @@ import com.phoenix.farmpam.board.dto.BoardCommentsDto;
 import com.phoenix.farmpam.board.dto.BoardDto;
 import com.phoenix.farmpam.board.dto.LikesDto;
 import com.phoenix.farmpam.board.service.BoardService;
+import com.phoenix.farmpam.item.dto.ItemDto;
 
 @Controller
 public class BoardController {
@@ -64,30 +66,24 @@ public class BoardController {
 		return service.likesDelete(likesDto);
 	}
 	
-	@RequestMapping("/board/list")
-	public String getList(HttpServletRequest request) {
-		service.getList(request);
-		
-		return "board/list";
-	}
-	
-	@RequestMapping("/board/insertform")
-	public ModelAndView authInsertForm(HttpServletRequest request) {
-		
-		return new ModelAndView("board/insertform");
-	}
-	
-	//새글 저장 요청 처리 
-	@RequestMapping("/board/insert")
-	public ModelAndView authInsert(BoardDto dto, HttpSession session, HttpServletRequest request) {
-		//글 작성자는 세션에서 얻어낸다. 
-		String users_email=(String)session.getAttribute("email");
-		//CafeDto 객체에 글 작성자도 담기
-		dto.setBoard_writer(users_email);
-		service.saveContent(dto);
-		
-		return new ModelAndView("board/insert");
-	}	
+ 	//새글 저장 요청 처리 
+ 	@RequestMapping("/board/insert")
+ 	@ResponseBody
+ 	public Map<String, Object> insertItem(BoardDto dto, HttpServletRequest request) {
+ 		System.out.println(dto.getBoard_image());
+ 		Map<String, Object> map=new HashMap<String, Object>();
+ 		service.insertContent(dto, map, request);
+ 		return map;
+ 	}
+ 	
+ 	//ajax 사진 업로드 요청처리
+ 	@RequestMapping(value = "/board/ajax_image_upload",
+ 			method=RequestMethod.POST)
+ 	@ResponseBody
+ 	public Map<String, Object> ajaxImageUpload(HttpServletRequest request,
+ 					@RequestParam MultipartFile image){
+ 		return service.saveBoardImage(request, image);
+ 	}
 
 	//imagePath 구성 X -> dto 로 imagePath 를 받아서 DB 에 저장하기
 	//@RequestMapping(value = "/board/ajax_insert")
