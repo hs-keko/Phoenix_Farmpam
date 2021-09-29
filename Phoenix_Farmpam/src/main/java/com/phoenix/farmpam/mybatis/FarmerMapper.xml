@@ -37,4 +37,5 @@
 		DELETE FROM farmer
 		WHERE farmer_email=#{farmer_email}
 	</delete>
+	
 </mapper>
