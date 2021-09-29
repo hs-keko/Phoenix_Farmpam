@@ -84,4 +84,10 @@
 		WHERE board_idx=#{board_idx}
 	</update>
 	
+	<select id="getMyList" parameterType="farmerDto" resultType="boardDto">
+		select result1.* from
+		(select board_idx, board_writer, board_title, board_content, board_image, board_regdate, board_likes, rownum rnum
+		from board where board_writer = #{farmer_email} order by board_idx desc) result1 
+		where rnum between 1 and 12
+	</select>
 </mapper>

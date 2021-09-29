@@ -21,6 +21,7 @@ import com.phoenix.farmpam.board.dao.BoardDao;
 import com.phoenix.farmpam.board.dto.BoardCommentsDto;
 import com.phoenix.farmpam.board.dto.BoardDto;
 import com.phoenix.farmpam.exception.NotDeleteException;
+import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.item.dto.ItemDto;
 import com.phoenix.farmpam.board.dao.LikesDao;
 import com.phoenix.farmpam.board.dto.LikesDto;
@@ -357,4 +358,11 @@ public class BoardServiceImpl implements BoardService{
 		
 		return map;
 	}	
+	
+	@Override
+	public void getMyList(HttpServletRequest req, Map<String, Object> map) {
+		FarmerDto dto = new FarmerDto();
+		dto.setFarmer_email(req.getParameter("email"));
+		map.put("list",boardDao.getMyList(dto));
+	}
 }

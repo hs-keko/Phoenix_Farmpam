@@ -40,4 +40,6 @@ public interface BoardService {
 	public void deleteComment(HttpServletRequest request);//댓글 삭제
 	public void updateComment(BoardCommentsDto dto);//댓글 수정
 	public void moreCommentList(HttpServletRequest request);//댓글 추가 응답
+	// 유저 글목록 가져오기
+	public void getMyList(HttpServletRequest req, Map<String, Object> map);
 } 
