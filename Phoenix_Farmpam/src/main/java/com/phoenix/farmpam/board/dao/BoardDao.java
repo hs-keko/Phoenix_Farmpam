@@ -3,6 +3,7 @@ package com.phoenix.farmpam.board.dao;
 import java.util.List;
 
 import com.phoenix.farmpam.board.dto.BoardDto;
+import com.phoenix.farmpam.farmer.dto.FarmerDto;
 import com.phoenix.farmpam.item.dto.ItemDto;
 
 public interface BoardDao {
@@ -22,5 +23,6 @@ public interface BoardDao {
 	public void update(BoardDto dto);
 	//글 추가
 	public void insertContent(BoardDto dto);
-	
+	// 유저 글목록
+	public List<BoardDto> getMyList(FarmerDto dto);
 }

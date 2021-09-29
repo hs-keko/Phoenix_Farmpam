@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.phoenix.farmpam.board.dto.BoardDto;
+import com.phoenix.farmpam.farmer.dto.FarmerDto;
 
 @Repository
 public class BoardDaoImpl implements BoardDao{
@@ -55,8 +56,12 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public void insertContent(BoardDto dto) {
-		session.insert("board.insertContent", dto);
-		
+		session.insert("board.insertContent", dto);	
+	}
+	
+	@Override
+	public List<BoardDto> getMyList(FarmerDto dto) {
+		return session.selectList("board.getMyList",dto);
 	}
 	
 }

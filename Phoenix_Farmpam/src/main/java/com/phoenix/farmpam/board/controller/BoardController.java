@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.phoenix.farmpam.board.dao.LikesDao;
 import com.phoenix.farmpam.board.dto.BoardCommentsDto;
 import com.phoenix.farmpam.board.dto.BoardDto;
 import com.phoenix.farmpam.board.dto.LikesDto;
 import com.phoenix.farmpam.board.service.BoardService;
-import com.phoenix.farmpam.item.dto.ItemDto;
 
 @Controller
 public class BoardController {
@@ -168,4 +166,14 @@ public class BoardController {
 		// {"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다. 
 		return map;
 	}
+	
+	// 유저 게시글 목록 요청
+	@RequestMapping("/board/mylist")
+	@ResponseBody
+	public Map<String,Object> getMyList(HttpServletRequest req){
+		Map<String, Object> map = new HashMap<String, Object>();
+		service.getMyList(req, map);
+		return map;
+	}
+	// 유저 게시글 개수
 }
