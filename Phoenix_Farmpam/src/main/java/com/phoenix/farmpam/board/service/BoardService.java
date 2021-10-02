@@ -42,4 +42,6 @@ public interface BoardService {
 	public void moreCommentList(HttpServletRequest request);//댓글 추가 응답
 	// 유저 글목록 가져오기
 	public void getMyList(HttpServletRequest req, Map<String, Object> map);
+	//index 페이지에서 보여주는 게시글 리스트
+	public void vueIndexList(Map<String, Object> map, HttpServletRequest request);
 } 

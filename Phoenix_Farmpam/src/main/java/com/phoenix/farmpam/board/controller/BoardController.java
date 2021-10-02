@@ -25,6 +25,15 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
+	// sns main 페이지   
+ 	@RequestMapping("/vue/sns")
+ 	@ResponseBody
+ 	public Map<String,Object> indexList(HttpServletRequest request) {
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		service.vueIndexList(map, request);
+ 		return map;
+ 	}
+
 	// 좋아요 테스트 페이지 요청
 	@RequestMapping(value = "/board/test_likes")
 	public String testLikes() {
