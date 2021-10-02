@@ -12,12 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.farmer.dao.FarmerDao;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
-import com.phoenix.farmpam.farmer.dto.FollowDto;
-import com.phoenix.farmpam.users.dto.UsersDto;
+import com.phoenix.farmpam.follow.dto.FollowDto;
 
 @Service
 public class FarmerServiceImpl implements FarmerService {

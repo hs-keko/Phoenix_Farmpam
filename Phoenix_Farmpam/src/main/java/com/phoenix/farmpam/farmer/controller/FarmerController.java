@@ -1,6 +1,5 @@
 package com.phoenix.farmpam.farmer.controller;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,13 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.phoenix.farmpam.farmer.Service.FarmerService;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
-import com.phoenix.farmpam.farmer.dto.FollowDto;
-import com.phoenix.farmpam.users.dto.UsersDto;
-import com.phoenix.farmpam.users.service.UsersService;
+import com.phoenix.farmpam.follow.dto.FollowDto;
 
 @Controller
 public class FarmerController {

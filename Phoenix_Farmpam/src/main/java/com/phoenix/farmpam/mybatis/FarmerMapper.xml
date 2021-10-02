@@ -38,4 +38,10 @@
 		WHERE farmer_email=#{farmer_email}
 	</delete>
 	
+	<!-- 농부의 팔로워 수 갱신 -->
+	<update id="updateFollow" parameterType="farmerDto">
+		update farmer
+		set farmer_follow = #{farmer_follow}
+	</update>
+	
 </mapper>

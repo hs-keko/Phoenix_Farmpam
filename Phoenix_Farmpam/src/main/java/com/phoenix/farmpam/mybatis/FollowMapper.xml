@@ -11,7 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(follow_idx, farmer_email, users_email)
 		VALUES(follow_seq.NEXTVAL, #{farmer_email}, #{users_email})
 	</insert>
-	<update id="followup" parameterType="FarmerDto">
+	
+	<update id="followup" parameterType="followDto">
 		UPDATE farmer
 		SET farmer_follow = farmer_follow + 1
 		WHERE farmer_email=#{farmer_email}
@@ -22,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM follow
 		WHERE farmer_email=#{farmer_email} AND users_email=#{users_email}
 	</delete>
-	<update id="followdown" parameterType="FarmerDto">
+	<update id="followdown" parameterType="followDto">
 		UPDATE farmer
 		SET farmer_follow = farmer_follow - 1
 		WHERE farmer_email=#{farmer_email}
@@ -33,6 +34,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT farmer_follow
 		FROM farmer
 		WHERE farmer_email=#{farmer_email}
+	</select>
+	
+	<!-- 농부의 팔로우 갯수 가져오기 -->
+	<select id="getFollowCount" parameterType="FarmerDto" resultType="int">
+		select count(*)
+		from follow
+		where farmer_email = #{farmer_email}
+	</select>
+	
+	<!-- 팔로우 상태 확인 -->
+	<select id="isFollow" parameterType="followDto" resultType="followDto">
+		select follow_idx
+		from follow
+		where users_email = #{users_email} and farmer_email = #{farmer_email}
 	</select>
 
 </mapper>
