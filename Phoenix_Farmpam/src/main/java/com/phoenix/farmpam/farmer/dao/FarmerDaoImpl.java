@@ -1,14 +1,11 @@
 package com.phoenix.farmpam.farmer.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.phoenix.farmpam.farmer.dao.FarmerDao;
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
-import com.phoenix.farmpam.farmer.dto.FollowDto;
+import com.phoenix.farmpam.follow.dto.FollowDto;
 
 @Repository
 public class FarmerDaoImpl implements FarmerDao {

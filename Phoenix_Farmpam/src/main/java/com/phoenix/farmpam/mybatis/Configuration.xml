@@ -12,7 +12,7 @@
 		<typeAlias type="com.phoenix.farmpam.item.dto.ItemCategoryLowDto" alias="itemCategoryLowDto"/>
 		<typeAlias type="com.phoenix.farmpam.users.dto.UsersDto" alias="usersDto"/>
 		<typeAlias type="com.phoenix.farmpam.farmer.dto.FarmerDto" alias="farmerDto"/>
-		<typeAlias type="com.phoenix.farmpam.farmer.dto.FollowDto" alias="followDto"/>
+		<typeAlias type="com.phoenix.farmpam.follow.dto.FollowDto" alias="followDto"/>
 		<typeAlias type="com.phoenix.farmpam.item.dto.ItemDto" alias="itemDto"/>
 		<typeAlias type="com.phoenix.farmpam.item.dto.OrdersDto" alias="ordersDto"/>
 		<typeAlias type="com.phoenix.farmpam.item.dto.CartDto" alias="cartDto"/>

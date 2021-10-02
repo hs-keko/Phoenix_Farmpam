@@ -1,9 +1,7 @@
 package com.phoenix.farmpam.farmer.dao;
 
-import java.util.List;
-
 import com.phoenix.farmpam.farmer.dto.FarmerDto;
-import com.phoenix.farmpam.farmer.dto.FollowDto;
+import com.phoenix.farmpam.follow.dto.FollowDto;
 
 public interface FarmerDao {
 	//인자로 전달된 이메일이 존재하는지 여부를 리턴하는 메소드
